@@ -1,32 +1,43 @@
-@constructor || @class
-@classdesc
-@constant || @const
-@constructs
-@copyright
-@default
+@constructor [<type> <name>]
+  || @class <SomeClassName>
+@classdesc <some description>
+@constant [<type> <name>]
+  || @const [<type> <name>]
+# @constructs
+@copyright <some copyright text>
+@default [<some value>]
 @deprecated
-@description || @desc
-  @example
-@throws || @exception
-@exports  || @module
-@overview || @file || @fileoverview
-  @fires
-@global
+@description <some description text>
+  || @desc
+@enum [<type>]
+# @example
+@throws ???
+  || @exception
+@exports ???
+  || @module
+@overview  <some overview text>
+  || @file  <some overview text>
+  || @fileoverview  <some overview text>
+# @fires
+@global ???
 @ignore
-@license
-@memberof
-  @namespace
-@param || @arg || @ argument
+@license <some license text>
+# @memberof
+# @namespace
+@param [<type> <name>]
+  || @arg [<type> <name>]
+  || @ argument [<type> <name>]
 @private
-@property
+@property [<type> <name>]
 @protected
 @public
 @readonly
-@requires
-@returns || @return
+@requires ??
+@returns [<type> <name>]
+  || @return [<type> <name>]
 @see
-@since
-@summary
-@this
-@type
-@version
+@since ???
+@summary <some summary text>
+@this [name]
+@type ???
+@version ???
