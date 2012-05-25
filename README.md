@@ -1,5 +1,5 @@
-jsdox
-=====
+jsdox.js
+========
 
 simplified jsdoc 3
 
