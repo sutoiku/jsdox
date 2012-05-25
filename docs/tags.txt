@@ -1,0 +1,32 @@
+@constructor || @class
+@classdesc
+@constant || @const
+@constructs
+@copyright
+@default
+@deprecated
+@description || @desc
+  @example
+@throws || @exception
+@exports  || @module
+@overview || @file || @fileoverview
+  @fires
+@global
+@ignore
+@license
+@memberof
+  @namespace
+@param || @arg || @ argument
+@private
+@property
+@protected
+@public
+@readonly
+@requires
+@returns || @return
+@see
+@since
+@summary
+@this
+@type
+@version
