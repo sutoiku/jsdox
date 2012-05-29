@@ -1,0 +1,20 @@
+{
+  "author": "Pascal Belloncle",
+  "name": "jsdox",
+  "description": "Simple JSDoc 3 generator",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/psq/jsdox.git"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "1.0.x",
+    "should": "0.6.x"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}

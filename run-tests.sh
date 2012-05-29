@@ -1,0 +1,1 @@
+jshint lib/* test/* fixtures/* --config jshint-config.json && node_modules/.bin/mocha
