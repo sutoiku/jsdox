@@ -1,6 +1,13 @@
 /**
- * @overview This is the overview
+ * Some extra text
+ * @title Some smart title goes here
+ * @overview This is the overview with some `markdown` included, how nice!
  * @copyright 2012 Blah Blah Blah
+ * @license MIT
+ * @author Joe Schmo
+ * Some more extra text
+ *
+ * some text after a blank line
 */
 
 var util = require('util');
@@ -8,12 +15,14 @@ var fs = require('fs');
 var jsp = require("../UglifyJS/uglify-js").parser;
 
 
+
 /**
   This is a test function
   with a description on multiple lines
   @param {String} file filename to parse
+  @param {Boolean} [optional] Changes behavior
 */
-function test(file) {
+function testNamed(file, optional) {
   fs.readFile(file, function (err, data) {
     if (err) {
       throw err;
@@ -28,13 +37,21 @@ function test(file) {
 }
 
 /**
-  function without name
-  @function test2
-  @returns null
+  @module test_module
+  Can I get some description please
+  
+  on more than one line, if possible.
 */
 
-var test2 = function() {
+
+/**
+  function without name
+  @function testAnonynous
+  @returns {String} the result
+*/
+
+var testAnonynous = function() {
   return null;
 };
 
-test('test.js');
+testNamed('test.js');

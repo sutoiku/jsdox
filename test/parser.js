@@ -159,7 +159,7 @@ describe('parseComment', function() {
         0,
         jsdox.parseLine);
       assert.deepEqual(result, {
-        text: 'General description here',
+        text: 'General description here\n\n',
         tags: 
           [{
             tag: 'overview',
@@ -184,7 +184,7 @@ describe('parseComment', function() {
         0,
         jsdox.parseLine);
       assert.deepEqual(result, {
-        text: 'This is a test function\nwith a description on multiple lines',
+        text: 'This is a test function\nwith a description on multiple lines\n\n',
         tags: 
           [{
             tag: 'param',
