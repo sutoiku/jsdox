@@ -4,7 +4,7 @@ var
   // should = require('should'),
   fs = require('fs'),
   // jsp = require('../../psq-uglify-js/uglify-js').parser,
-  jsp = require('../../UglifyJS/uglify-js').parser,
+  jsp = require('../../psq-uglify-js/uglify-js').parser,
   jsdox = require("../lib/jsdox");
 
 

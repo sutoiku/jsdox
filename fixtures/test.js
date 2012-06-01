@@ -54,4 +54,25 @@ var testAnonynous = function() {
   return null;
 };
 
+var multi = {
+  /**
+   * @param a the first param
+   * @param b the second param
+   * @ returns the result
+  */
+  func1: function(a, b) {
+    return 1;
+  },
+  
+  /**
+   * @param c the first param
+   * @param d the second param
+   * @ returns the other result
+  */
+  func1: function(c, d) {
+    return null;
+  }
+  
+}
+
 testNamed('test.js');
