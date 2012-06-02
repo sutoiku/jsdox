@@ -50,9 +50,18 @@ function testNamed(file, optional) {
   @returns {String} the result
 */
 
-var testAnonynous = function() {
-  return null;
-};
+var
+  testAnonynous = function() {
+    return null;
+  },
+  /**
+    second function without name
+    @returns {String} the result
+  */
+  testAnon2 = function() { // #TODO
+    return 0;
+  }
+;
 
 var multi = {
   /**
@@ -69,7 +78,7 @@ var multi = {
    * @param d the second param
    * @ returns the other result
   */
-  func1: function(c, d) {
+  func2: function(c, d) {
     return null;
   }
   
