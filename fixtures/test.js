@@ -2,7 +2,7 @@
  * Some extra text
  * @title Some smart title goes here
  * @overview This is the overview with some `markdown` included, how nice!
- * @copyright 2012 Blah Blah Blah
+ * @copyright (c) 2012 Blah Blah Blah
  * @license MIT
  * @author Joe Schmo
  * Some more extra text
@@ -82,6 +82,6 @@ var multi = {
     return null;
   }
   
-}
+};
 
 testNamed('test.js');

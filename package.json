@@ -8,6 +8,7 @@
     "url": "git://github.com/psq/jsdox.git"
   },
   "dependencies": {
+    "optimist": "~0.3.4"
   },
   "devDependencies": {
     "mocha": "1.0.x",

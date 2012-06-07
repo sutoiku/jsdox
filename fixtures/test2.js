@@ -1,8 +1,10 @@
+/*global exports:true */
+
 /**
  * Some extra text
  * @title Some smart title goes here
  * @overview This is the overview with some `markdown` included, how nice!
- * @copyright 2012 Blah Blah Blah
+ * @copyright (c) 2012 Blah Blah Blah
  * @license MIT
  * @author Joe Schmo
  * Some more extra text
@@ -29,6 +31,24 @@ exports = {
     return null;
   }
   
-}
+};
 
-testNamed('test.js');
+
+/**
+ * exported with dot notation
+ * @param {String} param the parameter
+ */
+exports.exported = function(param) {
+  return 5;
+};
+
+/**
+ * global function
+ * @param {String} param the parameter
+ */
+global = function(param) {
+  return 5;
+};
+
+
+exports.func1('test.js');
