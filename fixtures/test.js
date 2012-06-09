@@ -12,7 +12,7 @@
 
 var util = require('util');
 var fs = require('fs');
-var jsp = require("../UglifyJS/uglify-js").parser;
+var jsp = require("uglify-js").parser;
 
 
 

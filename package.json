@@ -8,7 +8,8 @@
     "url": "git://github.com/psq/jsdox.git"
   },
   "dependencies": {
-    "optimist": "~0.3.4"
+    "optimist": "~0.3.4",
+    "uglify-js": "git://github.com/psq/UglifyJS.git#master"
   },
   "devDependencies": {
     "mocha": "1.0.x",
