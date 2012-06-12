@@ -2,7 +2,7 @@ var
   util = require("util"),
   assert = require('assert'),
   should = require('should'),
-  jsdox = require("../lib/jsdox");
+  jsdox = require("../jsdox");
 
 describe('Parsers', function() {
 

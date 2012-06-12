@@ -7,7 +7,7 @@ var
   uglify = require('../../psq-uglify-js/uglify-js'),
   jsp = uglify.parser,
   ast_walker = uglify.uglify.ast_walker;
-  jsdox = require("../lib/jsdox");
+  jsdox = require("../jsdox");
 
 
 // var file = '../ui.stoic/src/library.js';
