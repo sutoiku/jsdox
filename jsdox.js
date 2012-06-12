@@ -891,6 +891,18 @@ function generateForDir(filename, destination, cb) {
   }
 }
 
+function jsdox() {
+  fs.mkdir(argv.output, function(err) {
+    generateForDir(argv._[0], argv.output, function(err) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("jsdox completed");
+      }
+    });
+  });
+}
+
 exports.isDocComment = isDocComment;
 exports.hasTag = hasTag;
 exports.parseLine = parseLine;
@@ -900,15 +912,8 @@ exports.parseFile = parseFile;
 exports.analyze = analyze;
 exports.generateMD = generateMD;
 exports.generateForDir = generateForDir;
+exports.jsdox = jsdox;
 
 if (require.main === module) {
-  (function() {
-    fs.mkdir(argv.output, function(err) {
-      generateForDir(argv._[0], argv.output, function(err) {
-        if (err) {
-          console.error(err);
-        }
-      });
-    });
-  })();
+  jsdox();
 }
