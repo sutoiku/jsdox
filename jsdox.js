@@ -899,6 +899,7 @@ exports.parseComments = parseComments;
 exports.parseFile = parseFile;
 exports.analyze = analyze;
 exports.generateMD = generateMD;
+exports.generateForDir = generateForDir;
 
 if (require.main === module) {
   (function() {
