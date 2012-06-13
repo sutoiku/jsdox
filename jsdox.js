@@ -500,6 +500,9 @@ function analyze(raw) {
     result.global_module = global;
   }
   
+  if (!raw) {
+    return null;
+  }
   for (var i = 0; i < raw.length; i++) {
     var comment = raw[i];
     for (var j = 0; j < comment.tags.length; j++) {
@@ -798,6 +801,9 @@ function generateFunctionsForModule(module, displayName) {
 //   version: '' }
 
 function generateMD(data) {
+  if (!data) {
+    return "no data to generate from";
+  }
   var out = '';
   if (data.title) {
     out += generateH1(data.title);
