@@ -840,11 +840,13 @@ function generateForDir(filename, destination, cb) {
   function oneFile(directory, file, cb) {
     var fullpath = path.join(destination, file);
     fullpath = fullpath.replace(/\.js$/, '.md');
-    console.log("Generating", fullpath);
+    if (argv.debug) {
+      console.log("Generating", fullpath);
+    }
     waiting++;
     parseFile(path.join(directory, file), function(err, result) {
       if (err) {
-        console.log('Error generating docs for file', file, err);
+        console.error('Error generating docs for file', file, err);
         waiting--;
         if (!waiting) {
           return cb(err);
@@ -863,7 +865,7 @@ function generateForDir(filename, destination, cb) {
         fs.writeFile(fullpath, output, function(err) {
           waiting--;
           if (err) {
-            console.log('Error generating docs for file', file, err);
+            console.error('Error generating docs for file', file, err);
             error = err;
           }
           if (!waiting) {
@@ -885,7 +887,7 @@ function generateForDir(filename, destination, cb) {
   } else {
     fs.readdir(filename, function(err, files) {
       if (err) {
-        console.log('Error generating docs for files', filename, err);
+        console.error('Error generating docs for files', filename, err);
         return cb(err);
       }
       files.forEach(function(file) {
