@@ -902,8 +902,8 @@ function jsdox() {
     generateForDir(argv._[0], argv.output, function(err) {
       if (err) {
         console.error(err);
-      } else {
-        console.log("jsdox completed");
+      // } else {
+      //   console.log("jsdox completed");
       }
     });
   });
