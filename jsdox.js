@@ -885,16 +885,20 @@ function generateForDir(filename, destination, cb) {
   if (filename.match(/\.js$/)) {
     oneFile(path.dirname(filename), path.basename(filename), cb);
   } else {
-    fs.readdir(filename, function(err, files) {
-      if (err) {
-        console.error('Error generating docs for files', filename, err);
-        return cb(err);
+    fs.stat(filename, function (err, s) {
+      if (!err && s.isDirectory()) {
+        fs.readdir(filename, function(err, files) {
+          if (err) {
+            console.error('Error generating docs for files', filename, err);
+            return cb(err);
+          }
+          files.forEach(function(file) {
+            if (file.match(/\.js$/)) {
+              oneFile(filename, file, cb);
+            }
+          });
+        });
       }
-      files.forEach(function(file) {
-        if (file.match(/\.js$/)) {
-          oneFile(filename, file, cb);
-        }
-      });
     });
   }
 }
