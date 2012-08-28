@@ -1,0 +1,16 @@
+fontName = "Monaco"
+fontSize = 12
+
+myExtraExcludes = "log,vendor,tmp,node_modules"
+excludeInFileChooser  = "{$excludeInFileChooser,$myExtraExcludes}" 
+excludeInFolderSearch = "{$excludeInFolderSearch,$myExtraExcludes}" 
+excludeInBrowser      = "{$excludeInBrowser,log,vendor,tmp,node_modules}" 
+
+showInvisibles = true
+softTabs = true
+tabSize = 2
+wrapColumn = 120
+showWrapColumn = true
+
+projectDirectory = "$CWD"
+windowTitle = "$TM_DISPLAYNAME — ${CWD/^.*\///} ($TM_SCM_BRANCH)"
