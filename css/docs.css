@@ -319,3 +319,20 @@ body .one .bsa_it_p {
     width: 1168px; /* 2px less to account for left/right borders being removed when in fixed mode */
   }
 }
+
+.navbar .brand {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 64px;
+  font-weight: normal;
+/*  font-family: 'Philosopher', sans-serif;*/
+/*  font-family: 'Comfortaa', cursive;*/
+/*  font-family: 'Kranky', cursive;}*/
+}
+
+body .container p:first-child{
+  margin-top: 60px;
+}
+
+.navbar-inner {
+  padding-bottom: 20px;
+}
