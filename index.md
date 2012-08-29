@@ -15,6 +15,7 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 <li><a href="#api">API</a></li>
 <li><a href="#tags">Tags</a></li>
 <li><a href="#examples">Examples</a></li>
+<li><a href="#resources">Resources</a></li>
 <li><a href="#license">License</a></li>
 </ul>
 </div>
@@ -26,10 +27,7 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 $ npm install -g jsdox
 {% endhighlight %}
 
-
-Relies on (for now) patched version of the UglifyJS parser to get the full javascript AST including comments.
-
-
+jsdox currently relies on (at least for now) a patched version of the UglifyJS parser to get the full javascript AST including comments.
 
 # Run<a name="run">&nbsp;</a>
 Runs on a single file and outputs the markdown files into the "output" folder
@@ -68,6 +66,11 @@ jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is
 # Examples<a name="examples">&nbsp;</a>
 
 TBD
+
+# Resources<a name="resources">&nbsp;</a>
+* Githup [repo](https://github.com/psq/jsdox)
+* Issue [tracker](https://github.com/psq/jsdox/issues)
+* Contribute by creating [pull requests](https://github.com/psq/jsdox/pulls)!
 
 # License<a name="license">&nbsp;</a>
 

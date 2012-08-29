@@ -40,22 +40,25 @@
    </div>
   </div>
 
-  <div class="container">
-    {% assign newc = content %}
-        
+  <div class="container">        
     {{ content | replace: '</h1>','</h1></div>' |  | replace: '<h1>','<div class="page-header"><h1>' }}
-
     
-
     <footer class="footer">
-      <p class="pull-right"><a href="#">Back to top</a></p>
-      <p>&copy; {{ site.author.name }} 2012 
-        with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
-        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
-      </p>
+      <div class="container">
+        <div class="row">
+          <div class="span9">
+            <p>&copy; {{ site.author.name }} 2012 
+              with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+              and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+            </p>
+          </div>
+          <div class="span3">
+            <p class="pull-right"><a href="#">Back to top</a></p>
+          </div>
+        </div>
+      </div>
     </footer>
-
-  </div><!-- /container -->
+  </div>
 
 </body>
 </html>
