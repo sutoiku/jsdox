@@ -2,10 +2,10 @@
 layout: layout
 title: Jekyll Base
 ---
-
-Simplified jsdoc 3
-
-Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments
+<div class="hero-unit">
+<p>Simplified jsdoc 3</p>
+<p>Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments.</p>
+</div>
 
 <header class="jumbotron subhead" id="overview">
 <div class="subnav">
