@@ -330,7 +330,7 @@ body .one .bsa_it_p {
 }
 
 body .container p:first-child{
-/*  margin-top: 60px;*/
+  margin-top: 60px;
 }
 
 .hero-unit {
@@ -339,4 +339,20 @@ body .container p:first-child{
 
 .navbar-inner {
   padding-bottom: 20px;
+}
+
+.navbar h2.navbar-text {
+  color: #9C0001;
+  font-weight: normal;
+  padding-top: 19px;
+}
+
+@media (max-width: 980px) {
+
+  .navbar .brand {
+    font-size: 48px;
+  }
+  .navbar-inner {
+    padding-bottom: 80px;
+  }
 }
