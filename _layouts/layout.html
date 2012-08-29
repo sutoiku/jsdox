@@ -38,9 +38,9 @@
   </div>
 
   <div class="container">
-    {% assign newc = content | replace: '<h1>','<div class="page-header"><h1>'  %}
+
+    {% content | replace: '<h1>','<div class="page-header"><h1>' | replace: '</h1>','<h1></div>' %}
     
-    {{ newc | replace: '</h1>','<h1></div>'}}
 
     <footer class="footer">
       <p class="pull-right"><a href="#">Back to top</a></p>
