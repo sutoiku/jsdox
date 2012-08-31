@@ -1,15 +1,20 @@
-jsdox.js
-========
+# jsdox.js
 
 simplified jsdoc 3
 
 Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments
 
-License
-=======
+# Resources
+* [jsdox](http://jsdox.org) Documentation 
+* Github [repo](https://github.com/psq/jsdox)
+* Issue [tracker](https://github.com/psq/jsdox/issues)
+* Contribute by creating [pull requests](https://github.com/psq/jsdox/pulls)!
+
+# License
+
 jsdox.js is freely distributable under the terms of the MIT license.
 
-Copyright (c) 2012 Pascal Belloncle
+Copyright (c) 2012 Sutoiku
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
