@@ -63,6 +63,32 @@ with other extensions will be ignored
 # Tags<a name="tags">&nbsp;</a>
 jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
 
+### @title
+* @title Some smart title goes here
+
+### @overview
+* @overview This is the overview with some `markdown` included, how nice!
+
+### @copyright
+* @copyright (c) 2012 Blah Blah Blah
+
+### @license
+* @license MIT
+
+
+* @author Joe Schmo
+@param {Boolean} [optional] Changes behavior
+@module test_module
+@function testAnonynous
+@returns {String} the result
+@return {String} the result
+* @class  Object
+* @member {Sheet}  datasheet     The object's 'Data' sheet
+* @method create
+
+
+
+
 # Examples<a name="examples">&nbsp;</a>
 
 TBD
@@ -76,7 +102,7 @@ TBD
 
 jsdox.js is freely distributable under the terms of the MIT license.
 
-Copyright (c) 2012 Pascal Belloncle
+Copyright (c) 2012 Sutoiku
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
