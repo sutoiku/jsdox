@@ -63,68 +63,68 @@ with other extensions will be ignored
 # Tags<a name="tags">&nbsp;</a>
 jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
 
-### @author
+### @author  *text*
 Blah blah blah
 {% highlight bash %}
 @author Joe Schmo
 {% endhighlight %}
 
-### @class
+### @class *name*
 Blah blah blah
 {% highlight bash %}
 @class  Object
 {% endhighlight %}
 
-### @copyright
+### @copyright *text*
 Blah blah blah
 {% highlight bash %}
 @copyright (c) 2012 Blah Blah Blah
 {% endhighlight %}
 
-### @function
+### @function *name*
 Blah blah blah
 {% highlight bash %}
 @function testAnonynous
 {% endhighlight %}
 
-### @license
-Blah blah blah
+### @license *text*
+Specify the 
 {% highlight bash %}
 @license MIT
 {% endhighlight %}
 
-### @member
+### @member *name*
 Blah blah blah
 {% highlight bash %}
 @member {Sheet}  datasheet     The object's 'Data' sheet
 {% endhighlight %}
 
-### @method
+### @method *name*
 Blah blah blah
 {% highlight bash %}
 @method create
 {% endhighlight %}
 
-### @module
+### @module *name*
 Blah blah blah
 {% highlight bash %}
 @module test_module
 {% endhighlight %}
 
-### @overview
+### @overview *text*
 Blah blah blah
 {% highlight bash %}
 @overview This is the overview with some `markdown` included, how nice!
 {% endhighlight %}
 
-### @param
+### @param *name*
 Blah blah blah
 {% highlight bash %}
 @param {Boolean} [optional] Changes behavior
 {% endhighlight %}
 
-### @returns
-Blah blah blah
+### @returns [*{type}*] *text*
+In functions or methods, specify what gets returned and the type of the value returned.
 {% highlight bash %}
 @returns {String} the result
 {% endhighlight %}
@@ -132,8 +132,8 @@ Blah blah blah
 ### @return
 See @returns
 
-### @title
-Blah blah blah
+### @title *text*
+Will be used as the title of the generated page
 {% highlight bash %}
 @title Some smart title goes here
 {% endhighlight %}
