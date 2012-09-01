@@ -63,31 +63,80 @@ with other extensions will be ignored
 # Tags<a name="tags">&nbsp;</a>
 jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
 
-### @title
-* @title Some smart title goes here
+### @author
+Blah blah blah
+{% highlight bash %}
+@author Joe Schmo
+{% endhighlight %}
 
-### @overview
-* @overview This is the overview with some `markdown` included, how nice!
+### @class
+Blah blah blah
+{% highlight bash %}
+@class  Object
+{% endhighlight %}
 
 ### @copyright
-* @copyright (c) 2012 Blah Blah Blah
+Blah blah blah
+{% highlight bash %}
+@copyright (c) 2012 Blah Blah Blah
+{% endhighlight %}
+
+### @function
+Blah blah blah
+{% highlight bash %}
+@function testAnonynous
+{% endhighlight %}
 
 ### @license
-* @license MIT
+Blah blah blah
+{% highlight bash %}
+@license MIT
+{% endhighlight %}
 
+### @member
+Blah blah blah
+{% highlight bash %}
+@member {Sheet}  datasheet     The object's 'Data' sheet
+{% endhighlight %}
 
-* @author Joe Schmo
-@param {Boolean} [optional] Changes behavior
+### @method
+Blah blah blah
+{% highlight bash %}
+@method create
+{% endhighlight %}
+
+### @module
+Blah blah blah
+{% highlight bash %}
 @module test_module
-@function testAnonynous
+{% endhighlight %}
+
+### @overview
+Blah blah blah
+{% highlight bash %}
+@overview This is the overview with some `markdown` included, how nice!
+{% endhighlight %}
+
+### @param
+Blah blah blah
+{% highlight bash %}
+@param {Boolean} [optional] Changes behavior
+{% endhighlight %}
+
+### @returns
+Blah blah blah
+{% highlight bash %}
 @returns {String} the result
-@return {String} the result
-* @class  Object
-* @member {Sheet}  datasheet     The object's 'Data' sheet
-* @method create
+{% endhighlight %}
 
+### @return
+See @returns
 
-
+### @title
+Blah blah blah
+{% highlight bash %}
+@title Some smart title goes here
+{% endhighlight %}
 
 # Examples<a name="examples">&nbsp;</a>
 
