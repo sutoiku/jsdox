@@ -64,25 +64,25 @@ with other extensions will be ignored
 jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
 
 ### @author  *text*
-Blah blah blah
+Specifies the author name, contact information, etc...
 {% highlight bash %}
 @author Joe Schmo
 {% endhighlight %}
 
 ### @class *name*
-Blah blah blah
+Documents the classname (usually above the contructor function), subsequent @methods will be gathered as part of this class.
 {% highlight bash %}
 @class  Object
 {% endhighlight %}
 
 ### @copyright *text*
-Blah blah blah
+Specify the copyright information with this tag.
 {% highlight bash %}
 @copyright (c) 2012 Blah Blah Blah
 {% endhighlight %}
 
 ### @function *name*
-Blah blah blah
+In the case where the function name can not be inferred by jsdox, make it explicit with this tag.
 {% highlight bash %}
 @function testAnonynous
 {% endhighlight %}
@@ -93,32 +93,32 @@ Specify the
 @license MIT
 {% endhighlight %}
 
-### @member *name*
-Blah blah blah
+### @member [*type*] *name* [*description*]
+For a class, defines an object property, with its optional type and a description of what it is used for.
 {% highlight bash %}
 @member {Sheet}  datasheet     The object's 'Data' sheet
 {% endhighlight %}
 
 ### @method *name*
-Blah blah blah
+Specify the method name with this tag.
 {% highlight bash %}
 @method create
 {% endhighlight %}
 
 ### @module *name*
-Blah blah blah
+All functions, classes or methods after @module will be grouped under this module.
 {% highlight bash %}
 @module test_module
 {% endhighlight %}
 
 ### @overview *text*
-Blah blah blah
+Goes into the short description (the overview) at the top of the page under the title.
 {% highlight bash %}
 @overview This is the overview with some `markdown` included, how nice!
 {% endhighlight %}
 
-### @param *name*
-Blah blah blah
+### @param [*type*] *name* [*description*]
+Documents a function or method parameter, with an optional type and optional description
 {% highlight bash %}
 @param {Boolean} [optional] Changes behavior
 {% endhighlight %}
