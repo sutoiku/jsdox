@@ -14,7 +14,7 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/psq/jsdox.git"
+    "url": "git://github.com/sutoiku/jsdox.git"
   },
   "main": "./jsdox.js",
   "files": [
@@ -38,5 +38,7 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "homepage": "http://jdsox.org",
+  "bugs": "https://github.com/sutoiku/jsdox/issues"    
 }
