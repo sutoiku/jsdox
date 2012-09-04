@@ -146,7 +146,7 @@ Sample output of running jsdox on https://github.com/psq/jsdox/tree/master/fixtu
 jsdox fixtures --output sample_output
 {% endhighlight %}
 
-* [test1](https://github.com/psq/jsdox/blob/master/sample_output/test1.md)
+* [test](https://github.com/psq/jsdox/blob/master/sample_output/test.md)
 * [test2](https://github.com/psq/jsdox/blob/master/sample_output/test2.md)
 * [test3](https://github.com/psq/jsdox/blob/master/sample_output/test3.md)
 
