@@ -22,7 +22,6 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 </header>
 
 # Install<a name="install">&nbsp;</a>
-*not setup yet*
 {% highlight bash %}
 $ npm install -g jsdox
 {% endhighlight %}
