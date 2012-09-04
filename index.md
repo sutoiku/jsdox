@@ -140,7 +140,15 @@ Will be used as the title of the generated page
 
 # Examples<a name="examples">&nbsp;</a>
 
-TBD
+Sample output of running jsdox on https://github.com/psq/jsdox/tree/master/fixtures files.
+
+{% highlight bash %}
+jsdox fixtures --output sample_output
+{% endhighlight %}
+
+* [test1](https://github.com/psq/jsdox/blob/master/sample_output/test1.md)
+* [test2](https://github.com/psq/jsdox/blob/master/sample_output/test2.md)
+* [test3](https://github.com/psq/jsdox/blob/master/sample_output/test3.md)
 
 # Resources<a name="resources">&nbsp;</a>
 * Githup [repo](https://github.com/psq/jsdox)
