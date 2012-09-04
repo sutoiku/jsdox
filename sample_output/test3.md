@@ -39,6 +39,6 @@ Create a record
 
 Object.remove()
 ---------------
-Create a record
+Remove a record
 
 

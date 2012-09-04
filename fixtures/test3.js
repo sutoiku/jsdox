@@ -38,7 +38,7 @@
  };
 
  /**
-  * Create a record
+  * Remove a record
   * @method
   */
 
