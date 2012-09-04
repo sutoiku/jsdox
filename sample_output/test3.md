@@ -12,8 +12,6 @@ Some more extra text
 some text after a blank line
 
 
-module Global
-=============
 class Object
 ------------
 **Members**

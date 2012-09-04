@@ -827,7 +827,7 @@ function generateMD(data) {
   }
   
   for (var i = 0; i < data.modules.length; i++) {
-    out += generateFunctionsForModule(data.modules[i], true /*(data.modules.length > 1)*/);
+    out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
   }
   
   return out;

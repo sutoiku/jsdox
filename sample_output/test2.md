@@ -12,8 +12,6 @@ Some more extra text
 some text after a blank line
 
 
-module Global
-=============
 func1(a, b)
 -----------
 @ returns the result
