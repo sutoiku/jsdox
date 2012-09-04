@@ -1,13 +1,32 @@
 {
-  "author": "Pascal Belloncle",
+  "author": {
+    "name": "Pascal Belloncle",
+    "url": "http://jdsox.org"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
   "name": "jsdox",
-  "description": "Simple JSDoc 3 generator",
+  "description": "Simple JSDoc 3 to Markdown generator",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/psq/jsdox.git"
   },
   "main": "./jsdox.js",
+  "files": [
+    "bin/jsdox",
+    "jsdox.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "preferGlobal": true,
+  "bin": {
+    "jsdox": "./bin/jsdox"
+  },
   "dependencies": {
     "optimist": "~0.3.4",
     "uglify-js": "git://github.com/psq/UglifyJS.git#master"
