@@ -1,6 +1,6 @@
 # jsdox.js
 
-simplified jsdoc 3
+jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
 
 Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments
 
