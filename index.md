@@ -139,20 +139,20 @@ Will be used as the title of the generated page
 
 # Examples<a name="examples">&nbsp;</a>
 
-Sample output of running jsdox on https://github.com/psq/jsdox/tree/master/fixtures files.
+Sample output of running jsdox on https://github.com/sutoiku/jsdox/tree/master/fixtures files.
 
 {% highlight bash %}
 jsdox fixtures --output sample_output
 {% endhighlight %}
 
-* [test](https://github.com/psq/jsdox/blob/master/sample_output/test.md)
-* [test2](https://github.com/psq/jsdox/blob/master/sample_output/test2.md)
-* [test3](https://github.com/psq/jsdox/blob/master/sample_output/test3.md)
+* [test](https://github.com/sutoiku/jsdox/blob/master/sample_output/test.md)
+* [test2](https://github.com/sutoiku/jsdox/blob/master/sample_output/test2.md)
+* [test3](https://github.com/sutoiku/jsdox/blob/master/sample_output/test3.md)
 
 # Resources<a name="resources">&nbsp;</a>
-* Githup [repo](https://github.com/psq/jsdox)
-* Issue [tracker](https://github.com/psq/jsdox/issues)
-* Contribute by creating [pull requests](https://github.com/psq/jsdox/pulls)!
+* Githup [repo](https://github.com/sutoiku/jsdox)
+* Issue [tracker](https://github.com/sutoiku/jsdox/issues)
+* Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 
 # License<a name="license">&nbsp;</a>
 
