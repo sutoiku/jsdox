@@ -6,9 +6,9 @@ Relies on (for now) patched version of the UglifyJS parser to get the full AST i
 
 # Resources
 * [jsdox](http://jsdox.org) Documentation 
-* Github [repo](https://github.com/psq/jsdox)
-* Issue [tracker](https://github.com/psq/jsdox/issues)
-* Contribute by creating [pull requests](https://github.com/psq/jsdox/pulls)!
+* Github [repo](https://github.com/sutoiku/jsdox)
+* Issue [tracker](https://github.com/sutoiku/jsdox/issues)
+* Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 
 # License
 
