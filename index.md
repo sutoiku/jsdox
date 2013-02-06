@@ -154,6 +154,10 @@ jsdox fixtures --output sample_output
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
 * Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 
+# Author and Maintainers
+* Pascal Belloncle (Original author) [site](http://www.stoic.com)
+* Marc Trudel [site](http://www.wizcorp.jp)
+
 # License<a name="license">&nbsp;</a>
 
 jsdox.js is freely distributable under the terms of the MIT license.
