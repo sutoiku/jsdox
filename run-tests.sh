@@ -1,1 +1,8 @@
-jshint lib/* test/* fixtures/* --config jshint-config.json && node_modules/.bin/mocha
+#!/bin/bash
+
+jshint --config jshint-config.json \
+    jsdox.js \
+    bin/* \
+    test/* \
+    fixtures/* \
+&& node_modules/.bin/mocha;

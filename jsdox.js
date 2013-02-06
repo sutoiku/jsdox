@@ -19,9 +19,7 @@ var
   util = require('util'),
   fs = require('fs'),
   path = require('path'),
-  argv = require('optimist')
-      .default('output', 'output')
-      .argv;
+  argv = require('optimist')['default']('output', 'output').argv,
   uglify = require('uglify-js'),
   jsp = uglify.parser,
   ast_walker = uglify.uglify.ast_walker;
@@ -192,7 +190,7 @@ function parseComment(text, lineNo, parse) {
       var parsed = parse(lines[i], lineNo + i);
       if (typeof parsed === 'string') {
         if (result.text.length === 0) {
-         result.text = parsed; 
+         result.text = parsed;
         } else {
           result.text += '\n' + parsed;
         }
@@ -220,7 +218,7 @@ function parseComments(ast) {
     w = ast_walker(),
     walk = w.walk,
     result = [];
-    
+
     function hasComments(args) {
       if (args.length) {
         var arg = args[args.length-1];
@@ -230,12 +228,12 @@ function parseComments(ast) {
       }
       return null;
     }
-    
+
     // function: { '0': null,
     //   '1': [],
     //   '2': [ [ 'return', [ 'num', 0 ] ] ],
-    //   '3': 
-    //    { comments_before: 
+    //   '3':
+    //    { comments_before:
     //       [ { type: 'comment2',
     //           value: '*\n    second function without name\n    @returns {String} the result\n  ',
     //           line: 56,
@@ -256,7 +254,7 @@ function parseComments(ast) {
     //       pos: 612,
     //       endpos: 688,
     //       nlb: true } ] ],
-    
+
     function saveFunctionOrMethodName(name, parsed) {
       if (name) {
         var fn = commentHasTag(parsed, 'function');
@@ -277,7 +275,7 @@ function parseComments(ast) {
         }
       }
     }
-    
+
     function v() {
       var comments = hasComments(arguments);
       if (comments) {
@@ -307,10 +305,10 @@ function parseComments(ast) {
               }
             }
           }
-          
+
 
         }
-        
+
         for (var i = 0; i < comments.length; i++) {
           var comment = comments[i];
           if (comment.type === 'comment2') {
@@ -321,16 +319,16 @@ function parseComments(ast) {
             }
           }
         }
-        
+
         result = result.concat(resultAfter);
       }
     }
-    
+
     function stat() {
       var fname = '';
       var resultAfter = [];
       var vv = arguments[0];
-      
+
       if ((vv.length >= 3) && vv[0] === 'assign' && vv[3] && vv[3].length > 0 && vv[3][0] === 'function') {
         // [ 'name', 'global' ]
         // [ 'dot', [ 'name', 'exports' ], 'exported' ]
@@ -340,7 +338,7 @@ function parseComments(ast) {
           fname = vv[2][2];
         }
       }
-      
+
       var comments = hasComments(arguments);
       if (comments) {
         for (var i = 0; i < comments.length; i++) {
@@ -357,7 +355,7 @@ function parseComments(ast) {
         }
       }
     }
-    
+
     function defun() {
       var comments = hasComments(arguments);
       if (comments) {
@@ -375,7 +373,7 @@ function parseComments(ast) {
         }
       }
     }
-        
+
     function obj() {
       if (arguments[0] && arguments[0].length) {
         for (var i = 0; i < arguments[0].length; i++) {
@@ -405,7 +403,7 @@ function parseComments(ast) {
         }
       }
     }
-  
+
   w.with_walkers({
       "var": v,
       "stat": stat,
@@ -419,6 +417,9 @@ function parseComments(ast) {
 
 function parseFile(file, cb) {
   fs.readFile(file, function (err, data) {
+
+    var result;
+
     if (err) {
       return cb(err);
     }
@@ -427,8 +428,8 @@ function parseFile(file, cb) {
       if (argv.debug) {
         console.log(util.inspect(ast, false, 20));
       }
-      
-      var result = parseComments(ast);
+
+      result = parseComments(ast);
     } catch(e) {
       // console.log(e);
       return cb(e);
@@ -438,7 +439,7 @@ function parseFile(file, cb) {
 }
 
 // [ { text: '',
-//   tags: 
+//   tags:
 //    [ { tag: 'overview',
 //        tagValue: 'This is the overview',
 //        value: 'This is the overview' },
@@ -446,7 +447,7 @@ function parseFile(file, cb) {
 //        tagValue: '2012 Blah Blah Blah',
 //        value: '2012 Blah Blah Blah' } ] },
 // { text: 'This is a test function\nwith a description on multiple lines',
-//   tags: 
+//   tags:
 //    [ { tag: 'param',
 //        tagValue: '{String} file filename to parse',
 //        type: 'String',
@@ -454,12 +455,12 @@ function parseFile(file, cb) {
 //        value: 'filename to parse' } ] },
 // { text: '',
 //   generated: true,
-//   tags: 
+//   tags:
 //    [ { tag: 'function',
 //        tagValue: 'test',
 //        name: 'test' } ] },
 // { text: 'function without name',
-//   tags: 
+//   tags:
 //    [ { tag: 'function',
 //        tagValue: 'test2',
 //        name: 'test2' },
@@ -488,9 +489,9 @@ function analyze(raw) {
   },
   current_module = null,
   current_class = null,
-  current_function = null;
+  current_function = null,
   current_method = null;
-  
+
   function initGlobalModule() {
     var global = {};
     global.name = 'Global';
@@ -499,7 +500,7 @@ function analyze(raw) {
     result.modules.push(global);
     result.global_module = global;
   }
-  
+
   if (!raw) {
     return null;
   }
@@ -663,7 +664,7 @@ function generateURL(text, url, nl) {
 }
 
 function generateText(text, nl) {
-  return text.replace(/\n/g, '\n') + (nl ? '\n\n' : '');
+  return (text ? text.replace(/\n/g, '\n') : '\n') + (nl ? '\n\n' : '');
 }
 
 function generateStrong(text, nl) {
@@ -720,7 +721,7 @@ function generateFunctionsForModule(module, displayName) {
   if (module.description) {
     out += generateText(module.description);
   }
-  
+
   for (var i = 0; i < module.functions.length; i++) {
     var fn = module.functions[i];
     var proto = '';
@@ -729,7 +730,7 @@ function generateFunctionsForModule(module, displayName) {
     }
     generateFunction(proto, fn);
   }
-  
+
   for (i = 0; i < module.classes.length; i++) {
     var klass = module.classes[i];
     var classname = '';
@@ -740,7 +741,7 @@ function generateFunctionsForModule(module, displayName) {
     out += generateH2('class ' + classname);
     if (klass.members.length) {
       out += generateStrong('Members', true);
-      for (j = 0; j < klass.members.length; j++) {
+      for (var j = 0; j < klass.members.length; j++) {
         var member = klass.members[j];
         out += generateStrong(member.name);
         if (member.type) {
@@ -751,17 +752,17 @@ function generateFunctionsForModule(module, displayName) {
     }
     if (klass.methods.length) {
       out += generateStrong('Methods', true);
-      for (j = 0; j < klass.methods.length; j++) {
-        var method = klass.methods[j];
+      for (var k = 0; k < klass.methods.length; k++) {
+        var method = klass.methods[k];
         generateFunction(classname + '.', method);
       }
     }
-    
+
   }
   return out;
 }
 
-// { functions: 
+// { functions:
 //    [ { name: 'testNamed',
 //        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
 //        returns: '',
@@ -775,9 +776,9 @@ function generateFunctionsForModule(module, displayName) {
 //        type: 'String' } ],
 //   methods: [],
 //   classes: [],
-//   modules: 
+//   modules:
 //    [ { name: 'test_module',
-//        functions: 
+//        functions:
 //         [ { name: 'testAnonynous',
 //             params: [],
 //             returns: 'the result',
@@ -786,7 +787,7 @@ function generateFunctionsForModule(module, displayName) {
 //             type: 'String' } ],
 //        classes: [],
 //        description: '' } ],
-//   global_functions: 
+//   global_functions:
 //    [ { name: 'testNamed',
 //        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
 //        returns: '',
@@ -808,35 +809,35 @@ function generateMD(data) {
   if (data.title) {
     out += generateH1(data.title);
   }
-  
+
   if (data.copyright) {
     out += generateEm(/*'©' +*/ data.copyright, true);
   }
-  
+
   if (data.author) {
     // out += 'Author: ' + generateStrong(data.author, true);
     out += generateStrong('Author:') + ' ' + generateText(data.author, true);
   }
-  
+
   if (data.overview) {
     out += generateStrong('Overview:') +' ' + generateText(data.overview, true);
   }
-  
+
   if (data.description) {
     out += generateText(data.description, true);
   }
-  
+
   for (var i = 0; i < data.modules.length; i++) {
     out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
   }
-  
+
   return out;
 }
 
 function generateForDir(filename, destination, cb) {
   var waiting = 0;
   var error = null;
-  
+
   function oneFile(directory, file, cb) {
     var fullpath = path.join(destination, file);
     fullpath = fullpath.replace(/\.js$/, '.md');

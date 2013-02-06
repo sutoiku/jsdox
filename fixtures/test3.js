@@ -18,8 +18,8 @@
  * @member {Sheet}  fieldsNumber  The object's number of fields
  * @member {Sheet}  fields        The names of the object's fields
  */
- 
- 
+
+
  /**
   * Create a record
   * @method create
@@ -32,7 +32,7 @@
      return new exports.Record(values, this);
    }
    catch (error) {
-     library.log('Error in crud.create() function: ' + error);
+     console.log('Error in crud.create() function: ' + error);
      throw error;
    }
  };
