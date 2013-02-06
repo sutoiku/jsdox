@@ -21,7 +21,7 @@ exports = {
   func1: function(a, b) {
     return 1;
   },
-  
+
   /**
    * @param c the first param
    * @param d the second param
@@ -30,7 +30,7 @@ exports = {
   func2: function(c, d) {
     return null;
   }
-  
+
 };
 
 
@@ -46,7 +46,7 @@ exports.exported = function(param) {
  * global function
  * @param {String} param the parameter
  */
-global = function(param) {
+var globalFunction = function(param) {
   return 5;
 };
 

@@ -37,8 +37,8 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "*"
+    "node": ">=0.8.4"
   },
   "homepage": "http://jdsox.org",
-  "bugs": "https://github.com/sutoiku/jsdox/issues"    
+  "bugs": "https://github.com/sutoiku/jsdox/issues"
 }
