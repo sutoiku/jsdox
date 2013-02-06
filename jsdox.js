@@ -664,7 +664,7 @@ function generateURL(text, url, nl) {
 }
 
 function generateText(text, nl) {
-  return text.replace(/\n/g, '\n') + (nl ? '\n\n' : '');
+  return (text ? text.replace(/\n/g, '\n') : '\n') + (nl ? '\n\n' : '');
 }
 
 function generateStrong(text, nl) {
