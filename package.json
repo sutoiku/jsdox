@@ -3,6 +3,11 @@
     "name": "Pascal Belloncle",
     "url": "http://jdsox.org"
   },
+  "maintainers": [{
+    "name": "Marc Trudel",
+    "email": "mtrudel@wizcorp.jp",
+    "web": "http://www.wizcorp.jp"
+  }],
   "licenses": [
     {
       "type": "MIT",
