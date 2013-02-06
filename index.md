@@ -162,7 +162,7 @@ jsdox fixtures --output sample_output
 
 jsdox.js is freely distributable under the terms of the MIT license.
 
-Copyright (c) 2012 Sutoiku
+Copyright (c) 2012-2013 Sutoiku
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
