@@ -185,7 +185,8 @@ function parseComment(text, lineNo, parse) {
       text: "",
       tags: []
     };
-    var lines = text.split('\n');
+    // var lines = text.split('\n');
+    var lines = getDocParts(text);
     for (var i = 0; i < lines.length; i++) {
       var parsed = parse(lines[i], lineNo + i);
       if (typeof parsed === 'string') {
@@ -202,6 +203,66 @@ function parseComment(text, lineNo, parse) {
   } else {
     return null;
   }
+}
+
+
+/**
+ * This function looks to the given text in order to separate it into
+ *  several parts, corresponding to the parts of a JSDox comment
+ *  If the given text can't be parsed, this function will simply
+ *  separate it into lines.
+ * 
+ * @author Stouf
+ * @function getDocParts
+ * @param {string} text The comment to parse
+ * @return {array of string} The several parts of the given comment
+ */
+function getDocParts(text) {
+    
+    // Adds the null character at the end of the string in order to
+    // specifiy its end
+    text += "\0";
+    
+    var extractorExp = null;
+    var extractedContent = null;
+    var result = [];
+    
+    // Let's extract the description, supposed to be the first part of
+    // the comment block
+    extractorExp = /\*([^]+?)\*\s@/i;
+    extractedContent = extractorExp.exec(text);
+    if (extractedContent !== null) {
+        // Let's delete new lines, spaces and "*" characters
+        extractedContent[1] =
+            extractedContent[1].replace(/\s+\*\s+/gi, " ");
+        result.push(extractedContent[1]);
+    }
+
+    // Let's now extract each tagged part
+    extractorExp = /\*\s(@[^]+?)(\*\s@|\0)/gi;
+    
+    // For every matched part ...
+    while (extractedContent = extractorExp.exec(text)) {
+        // Let's delete new lines, spaces and "*" characters
+        extractedContent[1] =
+            extractedContent[1].replace(/\s+\*\s+/gi, " ");
+        
+        result.push(extractedContent[1]);
+        
+        // Replace the position of the RegExp object before the begining
+        // of the next tag
+        extractorExp.lastIndex -= 3;
+    }
+    
+    // In case of failure of the parsing
+    if (result.length === 0) {
+        result = text.split("\n");
+    }
+    
+    extractorExp = null;
+    extractedContent = null;
+    
+    return result;
 }
 
 function commentHasTag(comment, tag) {
