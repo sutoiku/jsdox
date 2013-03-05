@@ -1,3 +1,51 @@
+### Notes
+
+This is a forked repository, from https://github.com/sutoiku/jsdox
+
+This repository has been forked in order to add a multi-lines support.
+
+With this current version, your @param, @return, .... tags can support a multi-lines descriptions support, for those
+who do not want to write long lines in their source files.
+With the original repository, the process won't crash, but your generated document description parts will be cut when
+the parser encounters a '\n' character.
+*One constraint: your functions or classes descriptions must be ABOVE your tags, unless they will ignored during the
+documentation generation process.*
+
+I didn't publish this module on NPM as I hope the original author will accept my pull request and integrate it into his
+published npm package.
+
+For now, you can install this module by cloning this repository into your 'node_modules' directory. Also, you can
+integrate it into your package.json as follow:
+```javascript
+{
+  "name": "test",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "git clone git@github.com:stouf/jsdox.git node_modules/jsdox/"
+  },
+  "dependencies": {
+    "socket.io": "*"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD"
+}
+```
+
+Adding the git-clone command into the 'postinstall' script will clone this repository when you'll run 'npm install' for
+your project.
+
+**Once the original author will have accepted my pull request, I will NOT delete this repository, but it will NOT be
+maintained anymore.
+I'll notifiy that the pull request has been accepted when it will be. When that'll so, please, use the original
+repository or its associated npm package.**
+
+
+
+
 # jsdox.js
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
