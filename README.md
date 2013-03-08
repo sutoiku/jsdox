@@ -24,7 +24,8 @@ integrate it into your package.json as follow:
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "git clone git@github.com:stouf/jsdox.git node_modules/jsdox/"
+    "postinstall": "./bin/jsdox_install",
+    "postupdate": "./bin/jsdox_install update"
   },
   "dependencies": {
     "socket.io": "*"
@@ -36,7 +37,30 @@ integrate it into your package.json as follow:
 ```
 
 Adding the git-clone command into the 'postinstall' script will clone this repository when you'll run 'npm install' for
-your project.
+your project. Same for the update process.
+
+The bin/jsdox_install bash script will look like:
+```bash
+#!/usr/bin/env bash
+
+# This script clones a custom JSDox repo in order to integrate it into the
+# npm process
+# Run it without argument for installing, and with 'update' as first argument
+# in order to update the cloned repo
+
+
+if [[ $1 = "update" ]]
+then
+    # Let's update the repo
+    git --work-tree=`pwd`/node_modules/jsdox pull origin master
+else
+    # Clone the repo only if it doesn't exist yet
+    if [[ ! -e node_modules/jsdox ]]
+    then
+        git clone git@github.com:stouf/jsdox.git node_modules/jsdox
+    fi
+fi
+```
 
 **Once the original author will have accepted my pull request, I will NOT delete this repository, but it will NOT be
 maintained anymore.
