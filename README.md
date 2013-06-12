@@ -1,21 +1,12 @@
 ### Notes
 
-This is a forked repository, from https://github.com/sutoiku/jsdox
+This repository is a fork from https://github.com/sutoiku/jsdox
 
-This repository has been forked in order to add a multi-lines support.
+The original repository works perfectly, except the fact that it doesn't allow the text following your tags (@param,
+@return, etc...) to be written on multiple lines. Thus, I've forked this repository in order to implement this feature.
 
-With this current version, your @param, @return, .... tags can support a multi-lines descriptions support, for those
-who do not want to write long lines in their source files.
-With the original repository, the process won't crash, but your generated document description parts will be cut when
-the parser encounters a '\n' character.
-*One constraint: your functions or classes descriptions must be ABOVE your tags, unless they will ignored during the
-documentation generation process.*
+You can install this project into your node.js project using the famous lovely package.json file and npm as follow:
 
-I didn't publish this module on NPM as I hope the original author will accept my pull request and integrate it into his
-published npm package.
-
-For now, you can install this module by cloning this repository into your 'node_modules' directory. Also, you can
-integrate it into your package.json as follow:
 ```javascript
 {
   "name": "test",
@@ -23,12 +14,10 @@ integrate it into your package.json as follow:
   "description": "ERROR: No README.md file found!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./bin/jsdox_install",
-    "postupdate": "./bin/jsdox_install update"
-  },
+    "test": "echo \"Error: no test specified\" && exit 1"
   "dependencies": {
-    "socket.io": "*"
+    "socket.io": "*",
+    "jsdox": "git@github.com:stouf/jsdox.git"
   },
   "repository": "",
   "author": "",
@@ -36,36 +25,12 @@ integrate it into your package.json as follow:
 }
 ```
 
-Adding the git-clone command into the 'postinstall' script will clone this repository when you'll run 'npm install' for
-your project. Same for the update process.
+Then, simply run your **npm install** and / or **npm update** like you use to do ;-)
 
-The bin/jsdox_install bash script will look like:
-```bash
-#!/usr/bin/env bash
-
-# This script clones a custom JSDox repo in order to integrate it into the
-# npm process
-# Run it without argument for installing, and with 'update' as first argument
-# in order to update the cloned repo
-
-
-if [[ $1 = "update" ]]
-then
-    # Let's update the repo
-    git --work-tree=`pwd`/node_modules/jsdox pull origin master
-else
-    # Clone the repo only if it doesn't exist yet
-    if [[ ! -e node_modules/jsdox ]]
-    then
-        git clone git@github.com:stouf/jsdox.git node_modules/jsdox
-    fi
-fi
-```
-
-**Once the original author will have accepted my pull request, I will NOT delete this repository, but it will NOT be
-maintained anymore.
-I'll notifiy that the pull request has been accepted when it will be. When that'll so, please, use the original
-repository or its associated npm package.**
+**Once the author of the original repository will have accepted my pull request, I will NOT delete this repository,
+but it will NOT be maintained anymore.
+I'll notifiy that the pull request will have been accepted when it will be the case. When that'll so, please,
+use the original repository or its associated npm package.**
 
 
 
