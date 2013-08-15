@@ -1,7 +1,7 @@
 {
   "author": {
     "name": "Pascal Belloncle",
-    "url": "http://jdsox.org"
+    "url": "http://jsdox.org"
   },
   "maintainers": [{
     "name": "Marc Trudel",
@@ -44,6 +44,6 @@
   "engines": {
     "node": ">=0.8.4"
   },
-  "homepage": "http://jdsox.org",
+  "homepage": "http://jsdox.org",
   "bugs": "https://github.com/sutoiku/jsdox/issues"
 }
