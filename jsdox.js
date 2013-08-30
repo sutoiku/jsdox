@@ -546,7 +546,8 @@ function analyze(raw) {
     copyright: "",
     license: "",
     author: "",
-    version: ""
+    version: "",
+    see: ""
   },
   current_module = null,
   current_class = null,
@@ -611,6 +612,7 @@ function analyze(raw) {
           fn.params = [];
           fn.returns = '';
           fn.version = '';
+          fn.see = '';
           fn.description = comment.text;
           current_function = fn;
           current_method = null;
@@ -631,6 +633,7 @@ function analyze(raw) {
             method.params = [];
             method.returns = '';
             method.version = '';
+            method.see = '';
             method.description = comment.text;
             current_function = null;
             current_method = method;
@@ -677,6 +680,20 @@ function analyze(raw) {
             result.global_module.classes.push(klass);
           }
           current_class = klass;
+          break;
+        case 'see':
+          if (current_function) {
+            current_function.see = tag.name;
+          }
+          else if (current_method) {
+            current_method.see = tag.name;
+          }
+          else if (current_module) {
+            current_module.see = tag.name;
+          }
+          else if (current_class) {
+            current_class.see = tag.name;
+          }
           break;
       }
     }
@@ -740,6 +757,10 @@ function filterMD(text) {
   return text.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
 }
 
+function makeRef(see) {
+  return '#' + see.toLowerCase().replace(/\s/g, '-').replace('.', '');
+}
+
 function generateFunctionsForModule(module, displayName) {
   function generateFunction(prefix, fn) {
     var proto = prefix;
@@ -773,6 +794,10 @@ function generateFunctionsForModule(module, displayName) {
       }
       out += generateText(fn.returns, true);
     }
+    if (fn.see) {
+      out += generateEm("See Also", true);
+      out += generateURL(fn.see, makeRef(fn.see), true);
+    }
   }
 
   var out = '';
@@ -781,6 +806,10 @@ function generateFunctionsForModule(module, displayName) {
   }
   if (module.description) {
     out += generateText(module.description);
+  }
+  if (module.see) {
+    out += generateEm("See Also", true);
+    out += generateURL(module.see, makeRef(module.see), true);
   }
 
   for (var i = 0; i < module.functions.length; i++) {
@@ -817,6 +846,10 @@ function generateFunctionsForModule(module, displayName) {
         var method = klass.methods[k];
         generateFunction(classname + '.', method);
       }
+    }
+    if (klass.see) {
+      out += generateEm("See Also", true);
+      out += generateURL(klass.see, makeRef(klass.see), true);
     }
 
   }
@@ -863,6 +896,7 @@ function generateFunctionsForModule(module, displayName) {
 //   version: '' }
 
 function generateMD(data) {
+
   if (!data) {
     return "no data to generate from";
   }
@@ -889,7 +923,7 @@ function generateMD(data) {
   }
 
   for (var i = 0; i < data.modules.length; i++) {
-    out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
+    out += generateFunctionsForModule(data.modules[i], true);
   }
 
   return out;
