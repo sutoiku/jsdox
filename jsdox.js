@@ -25,7 +25,7 @@ var
   ast_walker = uglify.uglify.ast_walker;
 
 var TAGS = {
-  "constructor": parseTypeName,
+  "constructor": parseNothing,
   "author": parseName,
   "class": parseName,
   "classdesc": parseText,
@@ -147,7 +147,7 @@ function hasTag(text) {
   if (tagIndex === -1) {
     return null;
   }
-  return text.substr(tagIndex+1).split(' ')[0];
+  return stripSpaces(text.substr(tagIndex+1).split(' ')[0]);
 }
 
 function stripStarsAndSpaces(text) {
@@ -552,7 +552,8 @@ function analyze(raw) {
   current_module = null,
   current_class = null,
   current_function = null,
-  current_method = null;
+  current_method = null,
+  current_constructor = null;
 
   function initGlobalModule() {
     var global = {};
@@ -604,6 +605,8 @@ function analyze(raw) {
             current_function.params.push(tag);
           } else if (current_method) {
             current_method.params.push(tag);
+          } else if (current_constructor) {
+            current_constructor.params.push(tag);
           }
           break;
         case 'function':
@@ -616,6 +619,7 @@ function analyze(raw) {
           fn.description = comment.text;
           current_function = fn;
           current_method = null;
+          current_constructor = null;
           if (current_module) {
             current_module.functions.push(fn);
           } else {
@@ -637,6 +641,7 @@ function analyze(raw) {
             method.description = comment.text;
             current_function = null;
             current_method = method;
+            current_constructor = null;
             current_class.methods.push(method);
           }
           break;
@@ -671,6 +676,9 @@ function analyze(raw) {
           klass.members = [];
           klass.description = comment.text;
           result.classes.push(klass);
+          current_function = null;
+          current_method = null;
+          current_constructor = null;
           if (current_module) {
             current_module.classes.push(klass);
           } else {
@@ -680,6 +688,19 @@ function analyze(raw) {
             result.global_module.classes.push(klass);
           }
           current_class = klass;
+          break;
+        case 'constructor':
+          if (current_class) {
+            var konstructor = {};
+            konstructor.name = tag.name;
+            konstructor.params = [];
+            konstructor.returns = '';
+            konstructor.version = '';
+            konstructor.see = '';
+            konstructor.description = comment.text;
+            current_class.konstructor = konstructor;
+            current_constructor = konstructor;
+          }
           break;
         case 'see':
           if (current_function) {
@@ -693,6 +714,9 @@ function analyze(raw) {
           }
           else if (current_class) {
             current_class.see = tag.name;
+          }
+          else if (current_constructor) {
+            current_constructor.see = tag.name;
           }
           break;
       }
@@ -762,7 +786,7 @@ function makeRef(see) {
 }
 
 function generateFunctionsForModule(module, displayName) {
-  function generateFunction(prefix, fn) {
+  function generateFunction(prefix, fn, skipProto) {
     var proto = prefix;
     proto += fn.name + '(';
     for (var j = 0; j < fn.params.length; j++) {
@@ -772,7 +796,9 @@ function generateFunctionsForModule(module, displayName) {
       }
     }
     proto += ')';
-    out += generateH2(proto);
+    if (!skipProto) {
+      out += generateH2(proto);
+    }
     if (fn.description) {
       out += generateText(fn.description, true);
     }
@@ -829,6 +855,9 @@ function generateFunctionsForModule(module, displayName) {
     }
     classname += klass.name;
     out += generateH2('class ' + classname);
+    if (klass.konstructor) {
+      generateFunction('', klass.konstructor, true);
+    }
     if (klass.members.length) {
       out += generateStrong('Members', true);
       for (var j = 0; j < klass.members.length; j++) {
