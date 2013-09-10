@@ -1,3 +1,40 @@
+### Notes
+
+This repository is a fork from https://github.com/sutoiku/jsdox
+
+The original repository works perfectly, except the fact that it doesn't allow the text following your tags (@param,
+@return, etc...) to be written on multiple lines. Thus, I've forked this repository in order to implement this feature.
+
+You can install this project into your node.js project using the famous lovely package.json file and npm as follow:
+
+```javascript
+{
+  "name": "test",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "socket.io": "*",
+    "jsdox": "git@github.com:stouf/jsdox.git"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD"
+}
+```
+
+Then, simply run your **npm install** and / or **npm update** like you use to do ;-)
+
+**Once the author of the original repository will have accepted my pull request, I will NOT delete this repository,
+but it will NOT be maintained anymore.
+I'll notifiy that the pull request will have been accepted when it will be the case. When that'll so, please,
+use the original repository or its associated npm package.**
+
+
+
+
 # jsdox.js
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
