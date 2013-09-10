@@ -25,7 +25,7 @@ var
   ast_walker = uglify.uglify.ast_walker;
 
 var TAGS = {
-  "constructor": parseTypeName,
+  "constructor": parseNothing,
   "author": parseName,
   "class": parseName,
   "classdesc": parseText,
@@ -147,7 +147,7 @@ function hasTag(text) {
   if (tagIndex === -1) {
     return null;
   }
-  return text.substr(tagIndex+1).split(' ')[0];
+  return stripSpaces(text.substr(tagIndex+1).split(' ')[0]);
 }
 
 function stripStarsAndSpaces(text) {
@@ -546,12 +546,14 @@ function analyze(raw) {
     copyright: "",
     license: "",
     author: "",
-    version: ""
+    version: "",
+    see: ""
   },
   current_module = null,
   current_class = null,
   current_function = null,
-  current_method = null;
+  current_method = null,
+  current_constructor = null;
 
   function initGlobalModule() {
     var global = {};
@@ -603,6 +605,8 @@ function analyze(raw) {
             current_function.params.push(tag);
           } else if (current_method) {
             current_method.params.push(tag);
+          } else if (current_constructor) {
+            current_constructor.params.push(tag);
           }
           break;
         case 'function':
@@ -611,9 +615,11 @@ function analyze(raw) {
           fn.params = [];
           fn.returns = '';
           fn.version = '';
+          fn.see = '';
           fn.description = comment.text;
           current_function = fn;
           current_method = null;
+          current_constructor = null;
           if (current_module) {
             current_module.functions.push(fn);
           } else {
@@ -631,9 +637,11 @@ function analyze(raw) {
             method.params = [];
             method.returns = '';
             method.version = '';
+            method.see = '';
             method.description = comment.text;
             current_function = null;
             current_method = method;
+            current_constructor = null;
             current_class.methods.push(method);
           }
           break;
@@ -668,6 +676,9 @@ function analyze(raw) {
           klass.members = [];
           klass.description = comment.text;
           result.classes.push(klass);
+          current_function = null;
+          current_method = null;
+          current_constructor = null;
           if (current_module) {
             current_module.classes.push(klass);
           } else {
@@ -677,6 +688,36 @@ function analyze(raw) {
             result.global_module.classes.push(klass);
           }
           current_class = klass;
+          break;
+        case 'constructor':
+          if (current_class) {
+            var konstructor = {};
+            konstructor.name = tag.name;
+            konstructor.params = [];
+            konstructor.returns = '';
+            konstructor.version = '';
+            konstructor.see = '';
+            konstructor.description = comment.text;
+            current_class.konstructor = konstructor;
+            current_constructor = konstructor;
+          }
+          break;
+        case 'see':
+          if (current_function) {
+            current_function.see = tag.name;
+          }
+          else if (current_method) {
+            current_method.see = tag.name;
+          }
+          else if (current_module) {
+            current_module.see = tag.name;
+          }
+          else if (current_class) {
+            current_class.see = tag.name;
+          }
+          else if (current_constructor) {
+            current_constructor.see = tag.name;
+          }
           break;
       }
     }
@@ -740,8 +781,12 @@ function filterMD(text) {
   return text.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
 }
 
+function makeRef(see) {
+  return '#' + see.toLowerCase().replace(/\s/g, '-').replace('.', '');
+}
+
 function generateFunctionsForModule(module, displayName) {
-  function generateFunction(prefix, fn) {
+  function generateFunction(prefix, fn, skipProto) {
     var proto = prefix;
     proto += fn.name + '(';
     for (var j = 0; j < fn.params.length; j++) {
@@ -751,7 +796,9 @@ function generateFunctionsForModule(module, displayName) {
       }
     }
     proto += ')';
-    out += generateH2(proto);
+    if (!skipProto) {
+      out += generateH2(proto);
+    }
     if (fn.description) {
       out += generateText(fn.description, true);
     }
@@ -773,6 +820,10 @@ function generateFunctionsForModule(module, displayName) {
       }
       out += generateText(fn.returns, true);
     }
+    if (fn.see) {
+      out += generateEm("See Also", true);
+      out += generateURL(fn.see, makeRef(fn.see), true);
+    }
   }
 
   var out = '';
@@ -781,6 +832,10 @@ function generateFunctionsForModule(module, displayName) {
   }
   if (module.description) {
     out += generateText(module.description);
+  }
+  if (module.see) {
+    out += generateEm("See Also", true);
+    out += generateURL(module.see, makeRef(module.see), true);
   }
 
   for (var i = 0; i < module.functions.length; i++) {
@@ -800,6 +855,9 @@ function generateFunctionsForModule(module, displayName) {
     }
     classname += klass.name;
     out += generateH2('class ' + classname);
+    if (klass.konstructor) {
+      generateFunction('', klass.konstructor, true);
+    }
     if (klass.members.length) {
       out += generateStrong('Members', true);
       for (var j = 0; j < klass.members.length; j++) {
@@ -817,6 +875,10 @@ function generateFunctionsForModule(module, displayName) {
         var method = klass.methods[k];
         generateFunction(classname + '.', method);
       }
+    }
+    if (klass.see) {
+      out += generateEm("See Also", true);
+      out += generateURL(klass.see, makeRef(klass.see), true);
     }
 
   }
@@ -863,6 +925,7 @@ function generateFunctionsForModule(module, displayName) {
 //   version: '' }
 
 function generateMD(data) {
+
   if (!data) {
     return "no data to generate from";
   }
@@ -889,7 +952,7 @@ function generateMD(data) {
   }
 
   for (var i = 0; i < data.modules.length; i++) {
-    out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
+    out += generateFunctionsForModule(data.modules[i], true);
   }
 
   return out;
