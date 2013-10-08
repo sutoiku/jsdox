@@ -19,7 +19,17 @@ var
   util = require('util'),
   fs = require('fs'),
   path = require('path'),
-  argv = require('optimist')['default']('output', 'output').argv,
+  argv = require('optimist')
+    .options('output', {
+     alias: 'out',
+     default:'output'
+   })
+   .boolean('A')
+   .options('A',{
+     alias: 'All',
+   })
+   .argv,
+  
   uglify = require('uglify-js'),
   jsp = uglify.parser,
   ast_walker = uglify.uglify.ast_walker;
@@ -551,6 +561,7 @@ function analyze(raw) {
           fn.returns = '';
           fn.version = '';
           fn.description = comment.text;
+          fn.internal =  isInternal(fn.name);
           current_function = fn;
           current_method = null;
           if (current_module) {
@@ -571,6 +582,7 @@ function analyze(raw) {
             method.returns = '';
             method.version = '';
             method.description = comment.text;
+            method.internal =  isInternal(method.name);
             current_function = null;
             current_method = method;
             current_class.methods.push(method);
@@ -621,6 +633,13 @@ function analyze(raw) {
     }
   }
   return result;
+}
+
+function isInternal(name){
+  if (name.lastIndexOf('_', 0) === 0){
+    return true;
+  } 
+  return false;      
 }
 
 function generateH1(text) {
@@ -681,36 +700,38 @@ function filterMD(text) {
 
 function generateFunctionsForModule(module, displayName) {
   function generateFunction(prefix, fn) {
-    var proto = prefix;
-    proto += fn.name + '(';
-    for (var j = 0; j < fn.params.length; j++) {
-      proto += filterMD(fn.params[j].name);
-      if (j !== fn.params.length-1) {
-        proto += ', ';
-      }
-    }
-    proto += ')';
-    out += generateH2(proto);
-    if (fn.description) {
-      out += generateText(fn.description, true);
-    }
-    if (fn.params.length) {
-      out += generateStrong('Parameters', true);
-      for (var k = 0; k < fn.params.length; k++) {
-        var param = fn.params[k];
-        out += generateStrong(param.name);
-        if (param.type) {
-          out += ':  ' + generateEm(param.type);
+    if (! fn.internal || argv.A) {
+      var proto = prefix;
+      proto += fn.name + '(';
+      for (var j = 0; j < fn.params.length; j++) {
+        proto += filterMD(fn.params[j].name);
+        if (j !== fn.params.length-1) {
+          proto += ', ';
         }
-        out += ',  ' + generateText(param.value, true);
       }
-    }
-    if (fn.returns) {
-      out += generateStrong("Returns", true);
-      if (fn.type) {
-        out += generateEm(fn.type) + ',  ';
+      proto += ')';
+      out += generateH2(proto);
+      if (fn.description) {
+        out += generateText(fn.description, true);
       }
-      out += generateText(fn.returns, true);
+      if (fn.params.length) {
+        out += generateStrong('Parameters', true);
+        for (var k = 0; k < fn.params.length; k++) {
+          var param = fn.params[k];
+          out += generateStrong(param.name);
+          if (param.type) {
+            out += ':  ' + generateEm(param.type);
+          }
+          out += ',  ' + generateText(param.value, true);
+        }
+      }
+      if (fn.returns) {
+        out += generateStrong("Returns", true);
+        if (fn.type) {
+          out += generateEm(fn.type) + ',  ';
+        }
+        out += generateText(fn.returns, true);
+      }
     }
   }
 
