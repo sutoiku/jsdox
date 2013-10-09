@@ -1,0 +1,6 @@
+{
+	"input": "./fixtures",
+	"output": "sample_output",
+	"All": false,
+	"debug": false
+}
