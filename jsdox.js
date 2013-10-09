@@ -24,13 +24,26 @@ var
      alias: 'out',
      default:'output'
    })
-   .boolean('A')
+   .options('config',{
+     alias: 'c'
+   })
+   .options('version',{
+     alias: 'v'
+   })
+   .options('help',{
+	   alias: 'h'
+   })
+   .boolean('A', 'd')
    .options('A',{
      alias: 'All',
+   })
+   .options('d',{
+     alias: 'debug'
    })
    .argv,
   
   uglify = require('uglify-js'),
+  packageJson = require('./package.json');
   jsp = uglify.parser,
   ast_walker = uglify.uglify.ast_walker;
 
@@ -700,7 +713,7 @@ function filterMD(text) {
 
 function generateFunctionsForModule(module, displayName) {
   function generateFunction(prefix, fn) {
-    if (! fn.internal || argv.A) {
+    if (! fn.internal || argv.All) {
       var proto = prefix;
       proto += fn.name + '(';
       for (var j = 0; j < fn.params.length; j++) {
@@ -925,16 +938,79 @@ function generateForDir(filename, destination, cb) {
   }
 }
 
-function jsdox() {
-  fs.mkdir(argv.output, function(err) {
-    generateForDir(argv._[0], argv.output, function(err) {
-      if (err) {
-        console.error(err);
-      // } else {
-      //   console.log("jsdox completed");
+function loadConfigFile(file, callback){
+  //check to see if file exists
+  fs.exists(file, function(exists) {
+    if (exists) {
+      try {
+      	config = require(file); 
+      } catch(err) {
+	      console.error('Error loading config file: ', err);
+	      process.exit();
       }
-    });
-  });
+      for(var key in config){
+      	if (key !== 'input'){
+	      argv[key] = config[key]; 	
+      	} else {
+	      argv._[0] = config[key]; 	
+      	}
+      }
+      callback();
+    } else {
+      console.error('Error loading config file: ', file);
+      process.exit();
+    }
+  }); 
+}
+
+function printHelp(){
+  console.log('Usage:\tjsdox [options] <file | directory>');
+  console.log('\tjsdox --All --output docs folder\n');
+  console.log('Options:');
+  console.log('  -c, --config \t<file>\t Configuration JSON file.');
+  console.log('  -A, --All\t\t Generates documentation for all available elements including internal methods.');
+  console.log('  -d, --debug\t\t Prints debugging information to the console.');
+  console.log('  -H, --help\t\t Prints this message and quits.');
+  console.log('  -v, --version\t\t Prints the current version and quits.');
+  process.exit();
+}
+
+function printVersion(){
+  console.log('Version: ' + packageJson.version);
+  process.exit();
+}
+
+function jsdox() {
+  //Handle options
+  if(argv.help){	
+	 printHelp(); 
+  }
+  
+  if(argv.version){
+	 printVersion(); 
+  }
+  
+  if(argv.config){
+	loadConfigFile(argv.config, main);  
+  } else {
+	main(); 
+  }
+
+  function main(){
+    if(typeof argv._[0] !== 'undefined'){
+      fs.mkdir(argv.output, function(err) {
+        generateForDir(argv._[0], argv.output, function(err) {
+          if (err) {
+            console.error(err);
+          // } else {
+          //   console.log("jsdox completed");
+          }
+        });
+      });
+    } else {
+      console.error('Error missing input file or directory.')
+    }
+  }
 }
 
 exports.isDocComment = isDocComment;
