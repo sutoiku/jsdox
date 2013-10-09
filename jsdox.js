@@ -31,7 +31,7 @@ var
      alias: 'v'
    })
    .options('help',{
-	   alias: 'h'
+     alias: 'h'
    })
    .boolean('A', 'd')
    .options('A',{
@@ -43,7 +43,7 @@ var
    .argv,
   
   uglify = require('uglify-js'),
-  packageJson = require('./package.json');
+  packageJson = require('./package.json'),
   jsp = uglify.parser,
   ast_walker = uglify.uglify.ast_walker;
 
@@ -939,21 +939,23 @@ function generateForDir(filename, destination, cb) {
 }
 
 function loadConfigFile(file, callback){
+  var config;
+
   //check to see if file exists
   fs.exists(file, function(exists) {
     if (exists) {
       try {
-      	config = require(file); 
+        config = require(file); 
       } catch(err) {
-	      console.error('Error loading config file: ', err);
-	      process.exit();
+        console.error('Error loading config file: ', err);
+        process.exit();
       }
       for(var key in config){
-      	if (key !== 'input'){
-	      argv[key] = config[key]; 	
-      	} else {
-	      argv._[0] = config[key]; 	
-      	}
+        if (key !== 'input'){
+        argv[key] = config[key];   
+        } else {
+        argv._[0] = config[key];   
+        }
       }
       callback();
     } else {
@@ -982,18 +984,18 @@ function printVersion(){
 
 function jsdox() {
   //Handle options
-  if(argv.help){	
-	 printHelp(); 
+  if(argv.help){  
+   printHelp(); 
   }
   
   if(argv.version){
-	 printVersion(); 
+   printVersion(); 
   }
   
   if(argv.config){
-	loadConfigFile(argv.config, main);  
+  loadConfigFile(argv.config, main);  
   } else {
-	main(); 
+  main(); 
   }
 
   function main(){
@@ -1008,7 +1010,7 @@ function jsdox() {
         });
       });
     } else {
-      console.error('Error missing input file or directory.')
+      console.error('Error missing input file or directory.');
     }
   }
 }
