@@ -810,17 +810,13 @@ function generateMD(data) {
     out += generateH1(data.title);
   }
 
-  if (data.copyright) {
-    out += generateEm(/*'©' +*/ data.copyright, true);
-  }
-
   if (data.author) {
     // out += 'Author: ' + generateStrong(data.author, true);
     out += generateStrong('Author:') + ' ' + generateText(data.author, true);
   }
 
   if (data.overview) {
-    out += generateStrong('Overview:') +' ' + generateText(data.overview, true);
+    out += /*generateStrong('Overview:') +' ' +*/ generateText(data.overview, true);
   }
 
   if (data.description) {
@@ -829,6 +825,18 @@ function generateMD(data) {
 
   for (var i = 0; i < data.modules.length; i++) {
     out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
+  }
+
+  //out+='\n\n';
+
+  out += generateLine();
+
+  if (data.copyright) {
+    //out += generateEm(/*'©' +*/ data.copyright, true);
+  }
+
+  if (data.license) {
+    out += generateStrong('License:') +' ' + generateEm(data.license, true);
   }
 
   return out;
