@@ -836,6 +836,7 @@ function generateMD(data) {
 
 function generateForDir(filename, destination, cb) {
   var waiting = 0;
+  var touched = 0;
   var error = null;
 
   function oneFile(directory, file, cb) {
@@ -895,11 +896,12 @@ function generateForDir(filename, destination, cb) {
           }
           files.forEach(function(file) {
             if (file.match(/\.js$/)) {
-              oneFile(filename, file, cb);
+              oneFile(filename, file, cb), touched++;
             }
           });
+          if(!touched) cb();
         });
-      }
+      } else cb();
     });
   }
 }
