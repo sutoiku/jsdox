@@ -1,3 +1,5 @@
+/*jshint -W079*/
+
 var
   util = require("util"),
   assert = require('assert'),

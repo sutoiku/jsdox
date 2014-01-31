@@ -22,7 +22,7 @@ var
   argv = require('optimist')
     .options('output', {
      alias: 'out',
-     default:'output'
+     "default":'output'
    })
    .options('config',{
      alias: 'c'
@@ -35,7 +35,7 @@ var
    })
    .boolean('A', 'd')
    .options('A',{
-     alias: 'All',
+     alias: 'All'
    })
    .options('d',{
      alias: 'debug'
@@ -933,9 +933,13 @@ function generateForDir(filename, destination, cb) {
               oneFile(filename, file, cb), touched++;
             }
           });
-          if(!touched) cb();
+          if(!touched) {
+            cb();
+          }
         });
-      } else cb();
+      } else {
+        cb();
+      }
     });
   }
 }
