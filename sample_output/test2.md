@@ -34,21 +34,14 @@ func2(c, d)
 
 **d**,  the second param
 
-exported(param)
----------------
+exported(param, param)
+----------------------
 exported with dot notation
 
 
 **Parameters**
 
 **param**:  *String*,  the parameter
-
-global(param)
--------------
-global function
-
-
-**Parameters**
 
 **param**:  *String*,  the parameter
 
