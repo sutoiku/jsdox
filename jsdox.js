@@ -868,7 +868,7 @@ function generateMD(data) {
   return out;
 }
 
-function generateForDir(filename, destination, cb) {
+function generateForDir(filename, destination, cb, fileCb) {
   var waiting = 0;
   var touched = 0;
   var error = null;
@@ -896,8 +896,11 @@ function generateForDir(filename, destination, cb) {
         console.log(file, util.inspect(analyze(result), false, 20));
       }
 
-      var output = generateMD(analyze(result));
+      var data = analyze(result),
+          output = generateMD(data);
+
       if (output) {
+        fileCb && fileCb(file, data);
         fs.writeFile(fullpath, output, function(err) {
           waiting--;
           if (err) {
