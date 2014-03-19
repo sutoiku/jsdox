@@ -983,6 +983,7 @@ function printHelp(){
   console.log('  -d, --debug\t\t Prints debugging information to the console.');
   console.log('  -H, --help\t\t Prints this message and quits.');
   console.log('  -v, --version\t\t Prints the current version and quits.');
+  console.log('  -out, --output\t\t Output directory.');
   process.exit();
 }
 
