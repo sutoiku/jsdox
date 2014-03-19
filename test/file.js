@@ -23,7 +23,7 @@ describe('parse file', function() {
 
       var result = jsdox.parseComments(ast);
       console.log('RESULT', util.inspect(result, false, 20, true));
-      result.length.should.equal(7);
+      result.length.should.equal(8);
 
       result[0].tags[0].tag.should.equal('title');
       result[0].tags[1].tag.should.equal('overview');
@@ -42,7 +42,7 @@ describe('parse file', function() {
       if (err) {
         return done(err);
       }
-      result.length.should.equal(7);
+      result.length.should.equal(8);
       // same as test above, shouldn't need to retest for same
       return done();
     });

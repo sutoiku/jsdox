@@ -56,7 +56,7 @@ var TAGS = {
   "const": parseTypeName,
   "copyright": parseText,
   "default": parseValue,
-  "deprecated": parseNothing,
+  "deprecated": parseText,
   "description": parseText,
   "desc": parseText,
   "enum": parseType,
@@ -560,6 +560,13 @@ function analyze(raw) {
           result.overview = tag.value;
           result.description = comment.text;
           break;
+        case 'deprecated':
+          if (current_function) {
+            current_function.deprecated = tag.value ? tag.value : true;
+          } else if (current_method) {
+            current_method.deprecated = tag.value ? tag.value : true;
+          }
+          break;
         case 'param':
           if (current_function) {
             current_function.params.push(tag);
@@ -726,6 +733,13 @@ function generateFunctionsForModule(module, displayName) {
       out += generateH2(proto);
       if (fn.description) {
         out += generateText(fn.description, true);
+      }
+      if (fn.deprecated) {
+        if (typeof fn.deprecated === 'boolean') {
+          out += generateText('**Deprecated**', true);
+        } else {
+          out += generateText('**Deprecated:** ' + fn.deprecated, true);
+        }
       }
       if (fn.params.length) {
         out += generateStrong('Parameters', true);

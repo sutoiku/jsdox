@@ -101,8 +101,8 @@ describe('parseComment', function() {
     });
 
     it('should parse Nothing tag', function() {
-      var result = jsdox.parseLine('** @deprecated  ');
-      result.tag.should.equal('deprecated');
+      var result = jsdox.parseLine('** @private  ');
+      result.tag.should.equal('private');
       should.not.exist(result.value);
       should.not.exist(result.name);
       should.not.exist(result.type);
