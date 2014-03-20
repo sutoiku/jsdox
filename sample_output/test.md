@@ -71,3 +71,10 @@ test_module.func2(c, d)
 
 **d**,  the second param
 
+test_module.testDeprecated()
+----------------------------
+This is a deprecated function.
+
+
+**Deprecated:** Because I said so
+

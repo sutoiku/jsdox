@@ -84,4 +84,11 @@ var multi = {
   
 };
 
+/**
+  This is a deprecated function.
+  @deprecated Because I said so
+*/
+function testDeprecated() {
+}
+
 testNamed('test.js');

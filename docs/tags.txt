@@ -6,7 +6,7 @@
 # @constructs
 @copyright <some copyright text>
 @default [<some value>]
-@deprecated
+@deprecated [<some description text>]
 @description <some description text>
   || @desc
 @enum [<type>]
