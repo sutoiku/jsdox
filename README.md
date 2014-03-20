@@ -16,6 +16,7 @@ Relies on (for now) patched version of the UglifyJS parser to get the full AST i
 
 # Author and Maintainers
 * Pascal Belloncle (psq, Original author)
+* Nic Jansma (nicjansma)
 * Ron Korving (ronkorving)
 * Mike MacMillan (mmacmillan)
 * Marc Trudel (stelcheck)
