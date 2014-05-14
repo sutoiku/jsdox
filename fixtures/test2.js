@@ -16,7 +16,7 @@ exports = {
   /**
    * @param a the first param
    * @param b the second param
-   * @ returns the result
+   * @returns the result
   */
   func1: function(a, b) {
     return 1;
