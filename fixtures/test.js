@@ -67,7 +67,7 @@ var multi = {
   /**
    * @param a the first param
    * @param b the second param
-   * @ returns the result
+   * @returns the result
   */
   func1: function(a, b) {
     return 1;
@@ -76,7 +76,7 @@ var multi = {
   /**
    * @param c the first param
    * @param d the second param
-   * @ returns the other result
+   * @returns the other result
   */
   func2: function(c, d) {
     return null;
