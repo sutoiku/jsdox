@@ -41,7 +41,7 @@ var
      alias: 'debug'
    })
    .argv,
-  
+
   uglify = require('uglify-js'),
   packageJson = require('./package.json'),
   jsp = uglify.parser,
@@ -658,8 +658,8 @@ function analyze(raw) {
 function isInternal(name){
   if (name.lastIndexOf('_', 0) === 0){
     return true;
-  } 
-  return false;      
+  }
+  return false;
 }
 
 function generateH1(text) {
@@ -968,16 +968,16 @@ function loadConfigFile(file, callback){
   fs.exists(file, function(exists) {
     if (exists) {
       try {
-        config = require(file); 
+        config = require(file);
       } catch(err) {
         console.error('Error loading config file: ', err);
         process.exit();
       }
       for(var key in config){
         if (key !== 'input'){
-        argv[key] = config[key];   
+        argv[key] = config[key];
         } else {
-        argv._[0] = config[key];   
+        argv._[0] = config[key];
         }
       }
       callback();
@@ -985,7 +985,7 @@ function loadConfigFile(file, callback){
       console.error('Error loading config file: ', file);
       process.exit();
     }
-  }); 
+  });
 }
 
 function printHelp(){
@@ -1008,29 +1008,31 @@ function printVersion(){
 
 function jsdox() {
   //Handle options
-  if(argv.help){  
-   printHelp(); 
+  if(argv.help){
+   printHelp();
   }
-  
+
   if(argv.version){
-   printVersion(); 
+   printVersion();
   }
-  
+
   if(argv.config){
-  loadConfigFile(argv.config, main);  
+  loadConfigFile(argv.config, main);
   } else {
-  main(); 
+  main();
   }
 
   function main(){
     if(typeof argv._[0] !== 'undefined'){
       fs.mkdir(argv.output, function(err) {
-        generateForDir(argv._[0], argv.output, function(err) {
-          if (err) {
-            console.error(err);
-          // } else {
-          //   console.log("jsdox completed");
-          }
+        argv._.forEach(function(file) {
+          generateForDir(file, argv.output, function(err) {
+            if (err) {
+              console.error(err);
+            // } else {
+            //   console.log("jsdox completed");
+            }
+          });
         });
       });
     } else {
