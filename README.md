@@ -14,9 +14,12 @@ Relies on (for now) patched version of the UglifyJS parser to get the full AST i
 * [grunt-jsdox](https://github.com/mmacmillan/grunt-jsdox) A grunt task
   to run jsdox on your project
 
-# Author and Maintainers
+# Author and contributors
 * Pascal Belloncle (psq, Original author)
+* Sam Blowes (blowsie)
+* Todd Henderson (thenderson21)
 * Nic Jansma (nicjansma)
+* Joel Kemp (mrjoelkemp)
 * Ron Korving (ronkorving)
 * Mike MacMillan (mmacmillan)
 * Marc Trudel (stelcheck)
