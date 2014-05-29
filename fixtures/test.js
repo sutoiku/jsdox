@@ -21,6 +21,8 @@ var jsp = require("uglify-js").parser;
   with a description on multiple lines
   @param {String} file filename to parse
   @param {Boolean} [optional] Changes behavior
+  @fires one_thing
+  @fires an_other
 */
 function testNamed(file, optional) {
   fs.readFile(file, function (err, data) {

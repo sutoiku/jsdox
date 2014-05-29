@@ -48,49 +48,51 @@ var
   ast_walker = uglify.uglify.ast_walker;
 
 var TAGS = {
-  "constructor": parseTypeName,
+  "arg": parseTypeName,
+  "argument": parseTypeName,
   "author": parseName,
   "class": parseName,
   "classdesc": parseText,
-  "constant": parseTypeName,
   "const": parseTypeName,
+  "constant": parseTypeName,
+  "constructor": parseTypeName,
   "copyright": parseText,
   "default": parseValue,
   "deprecated": parseText,
-  "description": parseText,
   "desc": parseText,
+  "description": parseText,
   "enum": parseType,
-  "throws": parseName,
+  "emits": parseName,
   "exception": parseName,
   "exports": parseName,
-  "module": parseName,
-  "overview": parseText,
   "file": parseText,
   "fileoverview": parseText,
+  "fires": parseName,
   "function": parseName,
-  "method": parseName,
-  "member": parseTypeName,
   "global": parseNothing,
   "ignore": parseNothing,
   "license": parseText,
+  "member": parseTypeName,
+  "method": parseName,
+  "module": parseName,
+  "overview": parseText,
   "param": parseTypeName,
-  "arg": parseTypeName,
-  "argument": parseTypeName,
   "private": parseNothing,
   "property": parseTypeName,
   "protected": parseNothing,
   "public": parseNothing,
   "readonly": parseNothing,
   "requires": parseList,
-  "returns": parseTypeText,
   "return": parseTypeText,
+  "returns": parseTypeText,
   "see": parseName,
   "since": parseText,
   "summary": parseText,
   "this": parseName,
+  "throws": parseName,
+  "title": parseText,
   "type": parseType,
-  "version": parseText,
-  "title": parseText
+  "version": parseText
 };
 
 function inspect(text) {
@@ -580,6 +582,7 @@ function analyze(raw) {
           fn.params = [];
           fn.returns = '';
           fn.version = '';
+          fn.fires = [];
           fn.description = comment.text;
           fn.internal =  isInternal(fn.name);
           current_function = fn;
@@ -601,12 +604,17 @@ function analyze(raw) {
             method.params = [];
             method.returns = '';
             method.version = '';
+            method.fires = [];
             method.description = comment.text;
             method.internal =  isInternal(method.name);
             current_function = null;
             current_method = method;
             current_class.methods.push(method);
           }
+          break;
+        case 'emits':
+        case 'fires':
+          fn.fires.push(tag.name);
           break;
         case 'member':
           if (current_class) {
@@ -758,6 +766,12 @@ function generateFunctionsForModule(module, displayName) {
           out += generateEm(fn.type) + ',  ';
         }
         out += generateText(fn.returns, true);
+      }
+      if (fn.fires.length > 0) {
+        fn.fires.forEach(function(event_name) {
+          out += generateStrong("Fires") + ": ";
+          out += generateText(event_name, true);
+        });
       }
     }
   }

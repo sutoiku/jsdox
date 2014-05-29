@@ -41,3 +41,5 @@
 @this [name]
 @type ???
 @version ???
+@emits <name>
+@fires <name>
