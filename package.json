@@ -3,11 +3,13 @@
     "name": "Pascal Belloncle",
     "url": "http://jsdox.org"
   },
-  "maintainers": [{
-    "name": "Marc Trudel",
-    "email": "mtrudel@wizcorp.jp",
-    "web": "http://www.wizcorp.jp"
-  }],
+  "maintainers": [
+    {
+      "name": "Marc Trudel",
+      "email": "mtrudel@wizcorp.jp",
+      "web": "http://www.wizcorp.jp"
+    }
+  ],
   "licenses": [
     {
       "type": "MIT",
@@ -28,13 +30,17 @@
     "LICENSE",
     "README.md"
   ],
+  "scripts": {
+    "test": "jshint --config jshint-config.json jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
+  },
   "preferGlobal": true,
   "bin": {
     "jsdox": "./bin/jsdox"
   },
   "dependencies": {
     "optimist": "~0.3.4",
-    "uglify-js": "git+https://github.com/psq/UglifyJS.git#master"
+    "uglify-js": "git+https://github.com/psq/UglifyJS.git#master",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "mocha": "1.0.x",

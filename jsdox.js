@@ -19,6 +19,7 @@ var
   util = require('util'),
   fs = require('fs'),
   path = require('path'),
+  q = require('q'),
   argv = require('optimist')
     .options('output', {
      alias: 'out',
@@ -1039,14 +1040,22 @@ function jsdox() {
   function main(){
     if(typeof argv._[0] !== 'undefined'){
       fs.mkdir(argv.output, function(err) {
-        argv._.forEach(function(file) {
+        q.all(argv._.map(function(file) {
+          var deferred = q.defer();
+
           generateForDir(file, argv.output, function(err) {
             if (err) {
               console.error(err);
-            // } else {
-            //   console.log("jsdox completed");
+              throw err;
             }
+
+            deferred.resolve();
           });
+
+          return deferred.promise;
+        }))
+        .then(function () {
+          console.log("jsdox completed");
         });
       });
     } else {
