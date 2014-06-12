@@ -5,10 +5,11 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments
 
 # Resources
-* [jsdox](http://jsdox.org) Documentation 
+* [jsdox](http://jsdox.org) Documentation
 * Github [repo](https://github.com/sutoiku/jsdox)
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
 * Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
+* Run the test suite using `npm test`
 
 # Related projects
 * [grunt-jsdox](https://github.com/mmacmillan/grunt-jsdox) A grunt task
