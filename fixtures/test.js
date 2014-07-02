@@ -1,13 +1,9 @@
 /**
  * Some extra text
- * @title Some smart title goes here
- * @overview This is the overview with some `markdown` included, how nice!
  * @copyright (c) 2012 Blah Blah Blah
  * @license MIT
  * @author Joe Schmo
- * Some more extra text
- *
- * some text after a blank line
+ * @version  1.0.1
 */
 
 var util = require('util');

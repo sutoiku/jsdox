@@ -83,7 +83,7 @@ function inspect(text) {
   analyze one file
 */
 
-function analyze(raw) {
+function analyze(ast) {
   var result = {
     functions: [],  // which module, list of params + returns
     methods: [],  // which class
@@ -113,52 +113,20 @@ function analyze(raw) {
     result.globalModule = global;
   }
 
-  if (!raw) {
+  if (!ast) {
     return null;
   }
-  raw.forEach(function (tag) {
+
+  ast.forEach(function (tag) {
     switch (tag.kind) {
-      case 'license':
-        result.license     = tag.value;
-        result.description = tag.text;
-        break;
-      case 'author':
-        result.author      = tag.name;
-        result.description = tag.text;
-        break;
-      case 'copyright':
-        result.copyright   = tag.value;
-        result.description = tag.text;
-        break;
-      case 'title':
-        result.title       = tag.value;
-        result.description = tag.text;
-        break;
-      case 'version':
-        if (currentFunction) {
-          currentFunction.version = tag.value;
-        } else {
-          result.version = tag.value;
-          result.description = tag.text;
-        }
-        break;
-      case 'overview':
-        result.overview = tag.value;
-        result.description = tag.text;
-        break;
-      case 'deprecated':
-        if (currentFunction) {
-          currentFunction.deprecated = tag.value ? tag.value : true;
-        } else if (currentMethod) {
-          currentMethod.deprecated = tag.value ? tag.value : true;
-        }
-        break;
-      case 'param':
-        if (currentFunction) {
-         currentFunction.params.push(tag);
-        } else if (currentMethod) {
-          currentMethod.params.push(tag);
-        }
+      case 'file':
+        result.license   = tag.license;
+        result.author    = tag.author;
+        result.copyright = tag.copyright;
+
+        (currentFunction || result).version = tag.version;
+        (currentFunction || result).deprecated = tag.deprecated || true;
+
         break;
       case 'function':
         var fn = {};
@@ -180,22 +148,6 @@ function analyze(raw) {
           result.globalModule.functions.push(fn);
         }
         result.functions.push(fn);
-        break;
-      /** @todo Is this even used in jsdoc's parser? **/
-      case 'method':
-        if (currentClass) {
-          var method = {};
-          method.name = tag.name;
-          method.params = tag.params || [];
-          method.returns = '';
-          method.version = '';
-          method.fires = [];
-          method.description = tag.description;
-          method.internal =  isInternal(method.name);
-          currentFunction = null;
-          currentMethod = method;
-          currentClass.methods.push(method);
-        }
         break;
       case 'emits':
       case 'fires':
@@ -386,7 +338,6 @@ function generateFunctionsForModule(module, displayName) {
 
   for (var i = 0; i < module.functions.length; i++) {
     var fn = module.functions[i];
-    console.log('FUNCTION', fn)
     var proto = '';
     if (module.name !== 'Global') {
       proto += module.name + '.';
@@ -469,20 +420,15 @@ function generateMD(data) {
     return 'no data to generate from';
   }
   var out = '';
-  if (data.title) {
-    out += generateH1(data.title);
-  }
 
   if (data.copyright) {
     out += generateEm(/*'©' +*/ data.copyright, true);
   }
 
   if (data.author) {
-    out += generateStrong('Author:') + ' ' + generateText(data.author, true);
-  }
-
-  if (data.overview) {
-    out += generateStrong('Overview:') +' ' + generateText(data.overview, true);
+    data.author.forEach(function(author) {
+      out += generateStrong('Author:') + ' ' + generateText(author, true);
+    });
   }
 
   if (data.description) {
