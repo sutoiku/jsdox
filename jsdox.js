@@ -123,6 +123,7 @@ function analyze(ast) {
         result.license   = tag.license;
         result.author    = tag.author;
         result.copyright = tag.copyright;
+        result.overview  = tag.description;
 
         (currentFunction || result).version = tag.version;
         (currentFunction || result).deprecated = tag.deprecated || true;
@@ -423,6 +424,10 @@ function generateMD(data) {
 
   if (data.copyright) {
     out += generateEm(/*'©' +*/ data.copyright, true);
+  }
+
+  if (data.overview) {
+    out += generateStrong('Overview:') + ' ' + generateText(data.overview, true);
   }
 
   if (data.author) {
