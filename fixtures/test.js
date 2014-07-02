@@ -19,10 +19,11 @@ var jsp = require("uglify-js").parser;
 /**
   This is a test function
   with a description on multiple lines
-  @param {String} file filename to parse
-  @param {Boolean} [optional] Changes behavior
-  @fires one_thing
-  @fires an_other
+  @param {String|null} file filename to parse
+                       this parsing thing is funny business
+  @param {Boolean|null} [optional] Changes behavior
+  @fires module:foo#one_thing
+  @fires module:foo#another
 */
 function testNamed(file, optional) {
   fs.readFile(file, function (err, data) {
@@ -39,10 +40,9 @@ function testNamed(file, optional) {
 }
 
 /**
-  @module test_module
   Can I get some description please
-  
   on more than one line, if possible.
+  @module foo
 */
 
 
@@ -74,7 +74,7 @@ var multi = {
   func1: function(a, b) {
     return 1;
   },
-  
+
   /**
    * @param c the first param
    * @param d the second param
@@ -83,7 +83,7 @@ var multi = {
   func2: function(c, d) {
     return null;
   }
-  
+
 };
 
 /**
