@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "optimist": "~0.3.4",
-    "uglify-js": "git+https://github.com/psq/UglifyJS.git#master",
-    "q": "^1.0.1"
+    "q": "^1.0.1",
+    "jsdoc3-parser": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "1.0.x",

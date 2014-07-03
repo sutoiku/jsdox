@@ -5,9 +5,6 @@
  * @copyright (c) 2012 Blah Blah Blah
  * @license MIT
  * @author Joe Schmo
- * Some more extra text
- *
- * some text after a blank line
  */
 
 

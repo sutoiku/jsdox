@@ -17,451 +17,36 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 var
   util = require('util'),
-  fs = require('fs'),
+  fs   = require('fs'),
   path = require('path'),
-  q = require('q'),
+  q    = require('q'),
   argv = require('optimist')
     .options('output', {
      alias: 'out',
-     "default":'output'
-   })
-   .options('config',{
+     'default':'output'
+    })
+    .options('config',{
      alias: 'c'
-   })
-   .options('version',{
+    })
+    .options('version',{
      alias: 'v'
-   })
-   .options('help',{
+    })
+    .options('help',{
      alias: 'h'
-   })
-   .boolean('A', 'd')
-   .options('A',{
+    })
+    .boolean('A', 'd')
+    .options('A',{
      alias: 'All'
-   })
-   .options('d',{
+    })
+    .options('d',{
      alias: 'debug'
-   })
-   .argv,
-
-  uglify = require('uglify-js'),
+    })
+    .argv,
   packageJson = require('./package.json'),
-  jsp = uglify.parser,
-  ast_walker = uglify.uglify.ast_walker;
-
-var TAGS = {
-  "arg": parseTypeName,
-  "argument": parseTypeName,
-  "author": parseName,
-  "class": parseName,
-  "classdesc": parseText,
-  "const": parseTypeName,
-  "constant": parseTypeName,
-  "constructor": parseTypeName,
-  "copyright": parseText,
-  "default": parseValue,
-  "deprecated": parseText,
-  "desc": parseText,
-  "description": parseText,
-  "enum": parseType,
-  "emits": parseName,
-  "exception": parseName,
-  "exports": parseName,
-  "file": parseText,
-  "fileoverview": parseText,
-  "fires": parseName,
-  "function": parseName,
-  "global": parseNothing,
-  "ignore": parseNothing,
-  "license": parseText,
-  "member": parseTypeName,
-  "method": parseName,
-  "module": parseName,
-  "overview": parseText,
-  "param": parseTypeName,
-  "private": parseNothing,
-  "property": parseTypeName,
-  "protected": parseNothing,
-  "public": parseNothing,
-  "readonly": parseNothing,
-  "requires": parseList,
-  "return": parseTypeText,
-  "returns": parseTypeText,
-  "see": parseName,
-  "since": parseText,
-  "summary": parseText,
-  "this": parseName,
-  "throws": parseName,
-  "title": parseText,
-  "type": parseType,
-  "version": parseText
-};
+  jsdocParser = require('jsdoc3-parser');
 
 function inspect(text) {
   return util.inspect(text, false, 20);
-}
-
-function parseNothing(text, tag, lineNo) {
-  if (stripSpaces(text) !== '') {
-    console.warn(lineNo + ': ' + tag.tag + ' should not have data');
-  }
-}
-
-function parseName(text, tag, lineNo) {
-  tag.name = text;
-}
-
-function parseText(text, tag, lineNo) {
-  tag.value = text;
-}
-
-function parseType(text, tag, lineNo) {
-  var trimmed = stripSpaces(text);
-  if (trimmed[0] !== '{' && trimmed[trimmed.length-1] !== '}') {
-    console.warn(lineNo + ': type format incorrect (' + trimmed + ')');
-  }
-  tag.type = trimmed.substr(1, trimmed.length-2);
-}
-
-function parseTypeName(text, tag, lineNo) {
-  var typeEndIndex = text.indexOf('}');
-  if (typeEndIndex !== -1) {
-    parseType(text.substr(0, typeEndIndex + 1), tag, lineNo);
-    text = stripSpaces(text.substr(typeEndIndex + 1));
-  }
-  var components = text.split(' ');
-  tag.name = components.shift();
-  var value = stripSpaces(components.join(' '));
-  if (value.length) {
-    tag.value = value;
-  }
-}
-
-function parseTypeText(text, tag, lineNo) {
-  var typeEndIndex = text.indexOf('}');
-  if (typeEndIndex !== -1) {
-    parseType(text.substr(0, typeEndIndex + 1), tag, lineNo);
-    text = stripSpaces(text.substr(typeEndIndex + 1));
-  }
-  tag.text = text;
-}
-
-/*
-  comma separated list
-*/
-function parseList(text, tag, lineNo) {
-  tag.value = text.split(',');
-  for (var i = 0; i < tag.value.length; i++) {
-    tag.value[i] = stripSpaces(tag.value[i]);
-  }
-}
-
-function parseValue(text, tag, lineNo) {
-  tag.value = text;
-}
-
-function isDocComment(text, lineNo) {
-  if (text.length > 2) {
-    if (text[0] === '*' && text[1] !== '*') {
-      return true;
-    }
-  }
-  return false;
-}
-
-function hasTag(text) {
-  var tagIndex = text.indexOf('@');
-  if (tagIndex === -1) {
-    return null;
-  }
-  return text.substr(tagIndex+1).split(' ')[0];
-}
-
-function stripStarsAndSpaces(text) {
-  return text.replace(/^\s+\**\s*|^\*+\s*|\s+$/g, '');
-}
-
-function stripSpaces(text) {
-  return text.replace(/^\s+|\s+$/g, '');
-}
-
-function parseLine(text, lineNo) {
-  var tag = hasTag(text);
-  if (tag) {
-    var result = {};
-    result.tag = tag;
-    result.tagValue = stripSpaces(text.substr(text.indexOf('@'+tag) + tag.length + 1));
-    if (TAGS.hasOwnProperty(tag)) {
-      TAGS[tag](result.tagValue, result);
-    } else {
-      console.warn(lineNo + ': Tag not supported: ' + tag);
-    }
-    return result;
-  } else if (text.match(/#TEST:/)) {
-    return null;
-  } else if (text.match(/#TODO:/)) {
-    return null;
-  } else {
-    return stripStarsAndSpaces(text);
-  }
-}
-
-function parseComment(text, lineNo, parse) {
-  if (isDocComment(text)) {
-    var result = {
-      text: "",
-      tags: []
-    };
-    var lines = text.split('\n');
-    for (var i = 0; i < lines.length; i++) {
-      var parsed = parse(lines[i], lineNo + i);
-      if (typeof parsed === 'string') {
-        if (result.text.length === 0) {
-         result.text = parsed;
-        } else {
-          result.text += '\n' + parsed;
-        }
-      } else if (parsed) {
-        result.tags.push(parsed);
-      }
-    }
-    return result;
-  } else {
-    return null;
-  }
-}
-
-function commentHasTag(comment, tag) {
-  for (var i = 0; i < comment.tags.length; i++) {
-    if (comment.tags[i].tag === tag) {
-      return comment.tags[i];
-    }
-  }
-  return null;
-}
-
-function parseComments(ast) {
-  var
-    w = ast_walker(),
-    walk = w.walk,
-    result = [];
-
-    function hasComments(args) {
-      if (args.length) {
-        var arg = args[args.length-1];
-        if (arg && arg.comments_before) {
-          return arg.comments_before;
-        }
-      }
-      return null;
-    }
-
-    // function: { '0': null,
-    //   '1': [],
-    //   '2': [ [ 'return', [ 'num', 0 ] ] ],
-    //   '3':
-    //    { comments_before:
-    //       [ { type: 'comment2',
-    //           value: '*\n    second function without name\n    @returns {String} the result\n  ',
-    //           line: 56,
-    //           col: 2,
-    //           pos: 1169,
-    //           endpos: 1243,
-    //           nlb: true } ] } }
-
-    // [ 'stat',
-    //   [ 'assign',
-    //     true,
-    //     [ 'dot', [ 'name', 'exports' ], 'exported' ],
-    //     [ 'function', null, [ 'param' ], [ [ 'return', [ 'num', 5 ] ] ] ] ],
-    //   comments_before: [ { type: 'comment2',
-    //       value: '*\n * exported with dot notation\n * @param {String} param the parameter\n ',
-    //       line: 36,
-    //       col: 0,
-    //       pos: 612,
-    //       endpos: 688,
-    //       nlb: true } ] ],
-
-    function saveFunctionOrMethodName(name, parsed) {
-      if (name) {
-        var fn = commentHasTag(parsed, 'function');
-        var method = commentHasTag(parsed, 'method');
-        var klass = commentHasTag(parsed, 'class');
-        if (method) {
-          if (!method.name) {
-            method.name = name;
-          }
-        } else if (fn && !fn.name) {
-          fn.name = name;
-        } else if (!klass) {
-          parsed.tags.unshift({
-            tag: "function",
-            tagValue: name,
-            name: name
-          });
-        }
-      }
-    }
-
-    function v() {
-      var comments = hasComments(arguments);
-      if (comments) {
-        var fname = '';
-        var resultAfter = [];
-        var vv = arguments[0];
-        if ((vv.length >= 3) && vv[0] === 'assign' && vv[3]) {
-          // [ 'name', 'global' ]
-          // [ 'dot', [ 'name', 'exports' ], 'exported' ]
-          if (vv[2][0] === 'name') {
-            fname = vv[2][1];
-          } else if (vv[2][0] === 'dot') {
-            fname = vv[2][2];
-          }
-        } else {
-          for (var j = 0; j < vv.length; j++) {
-            if (vv[j][1] && vv[j][1].comments_before) {
-              for (var k = 0; k < vv[j][1].comments_before.length; k++) {
-                var comment2 = vv[j][1].comments_before[k];
-                if (comment2.type === 'comment2') {
-                  var parsed2 = parseComment(comment2.value, comment2.line, parseLine);
-                  if (parsed2) {
-                    saveFunctionOrMethodName(vv[j][0], parsed2);
-                    resultAfter.push(parsed2);
-                  }
-                }
-              }
-            }
-          }
-
-
-        }
-
-        for (var i = 0; i < comments.length; i++) {
-          var comment = comments[i];
-          if (comment.type === 'comment2') {
-            var parsed = parseComment(comment.value, comment.line, parseLine);
-            if (parsed) {
-              saveFunctionOrMethodName(fname, parsed);
-              result.push(parsed);
-            }
-          }
-        }
-
-        result = result.concat(resultAfter);
-      }
-    }
-
-    function stat() {
-      var fname = '';
-      var resultAfter = [];
-      var vv = arguments[0];
-
-      if ((vv.length >= 3) && vv[0] === 'assign' && vv[3] && vv[3].length > 0 && vv[3][0] === 'function') {
-        // [ 'name', 'global' ]
-        // [ 'dot', [ 'name', 'exports' ], 'exported' ]
-        if (vv[2][0] === 'name') {
-          fname = vv[2][1];
-        } else if (vv[2][0] === 'dot') {
-          fname = vv[2][2];
-        }
-      }
-
-      var comments = hasComments(arguments);
-      if (comments) {
-        for (var i = 0; i < comments.length; i++) {
-          var comment = comments[i];
-          if (comment.type === 'comment2') {
-            var parsed = parseComment(comment.value, comment.line, parseLine);
-            if (parsed) {
-              if (i === comments.length-1) {
-                saveFunctionOrMethodName(fname, parsed);
-              }
-              result.push(parsed);
-            }
-          }
-        }
-      }
-    }
-
-    function defun() {
-      var comments = hasComments(arguments);
-      if (comments) {
-        for (var i = 0; i < comments.length; i++) {
-          var comment = comments[i];
-          if (comment.type === 'comment2') {
-            var parsed = parseComment(comment.value, comment.line, parseLine);
-            if (parsed) {
-              if (i === comments.length-1) {
-                saveFunctionOrMethodName(arguments[0], parsed);
-              }
-              result.push(parsed);
-            }
-          }
-        }
-      }
-    }
-
-    function obj() {
-      if (arguments[0] && arguments[0].length) {
-        for (var i = 0; i < arguments[0].length; i++) {
-          var comments = arguments[0][i].comments_before;
-          if (comments) {
-            for (var j = 0; j < comments.length; j++) {
-              var comment = comments[j];
-              if (comment.type === 'comment2') {
-                var parsed = parseComment(comment.value, comment.line, parseLine);
-                if (parsed) {
-                  if (arguments[0][i][1][0] === 'function') {
-                    if (j === comments.length-1) {
-                      if (!commentHasTag(parsed, 'function')) {
-                        parsed.tags.unshift({
-                          tag: "function",
-                          tagValue: arguments[0][i][0],
-                          name: arguments[0][i][0]
-                        });
-                      }
-                    }
-                  }
-                  result.push(parsed);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-  w.with_walkers({
-      "var": v,
-      "stat": stat,
-      "defun": defun,
-      "object": obj
-    }, function() {
-      return walk(ast);
-  });
-  return result;
-}
-
-function parseFile(file, cb) {
-  fs.readFile(file, function (err, data) {
-
-    var result;
-
-    if (err) {
-      return cb(err);
-    }
-    try {
-      var ast = jsp.parse(data.toString());
-      if (argv.debug) {
-        console.log(util.inspect(ast, false, 20));
-      }
-
-      result = parseComments(ast);
-    } catch(e) {
-      // console.log(e);
-      return cb(e);
-    }
-    return cb(null, result);
-  });
 }
 
 // [ { text: '',
@@ -498,177 +83,129 @@ function parseFile(file, cb) {
   analyze one file
 */
 
-function analyze(raw) {
+function analyze(ast) {
   var result = {
     functions: [],  // which module, list of params + returns
     methods: [],  // which class
     classes: [],  // which module
     modules: [],
-    global_module: null,
-    global_variables: [],
-    description: "",
-    overview: "",
-    copyright: "",
-    license: "",
-    author: "",
-    version: ""
+    globalModule: null,
+    globalVariables: [],
+    description: '',
+    overview: '',
+    copyright: '',
+    license: '',
+    author: '',
+    version: ''
   },
-  current_module = null,
-  current_class = null,
-  current_function = null,
-  current_method = null;
+  currentModule   = null,
+  currentClass    = null,
+  currentFunction = null,
+  currentMethod   = null;
 
   function initGlobalModule() {
     var global = {};
-    global.name = 'Global';
+    global.name      = 'Global';
     global.functions = [];
-    global.classes = [];
+    global.classes   = [];
+
     result.modules.push(global);
-    result.global_module = global;
+    result.globalModule = global;
   }
 
-  if (!raw) {
+  if (!ast) {
     return null;
   }
-  for (var i = 0; i < raw.length; i++) {
-    var comment = raw[i];
-    for (var j = 0; j < comment.tags.length; j++) {
-      var tag = comment.tags[j];
-      switch (tag.tag) {
-        case 'license':
-          result.license = tag.value;
-          result.description = comment.text;
+
+  ast.forEach(function (tag) {
+    switch (tag.kind) {
+      case 'file':
+        result.license   = tag.license;
+        result.author    = tag.author;
+        result.copyright = tag.copyright;
+        result.overview  = tag.description;
+
+        (currentFunction || result).version = tag.version;
+        (currentFunction || result).deprecated = tag.deprecated || true;
+
+        break;
+      case 'function':
+        if (tag.undocumented) {
           break;
-        case 'author':
-          result.author = tag.name;
-          result.description = comment.text;
-          break;
-        case 'copyright':
-          result.copyright = tag.value;
-          result.description = comment.text;
-          break;
-        case 'title':
-          result.title = tag.value;
-          result.description = comment.text;
-          break;
-        case 'version':
-          if (current_function) {
-            current_function.version = tag.value;
-          } else {
-            result.version = tag.value;
-            result.description = comment.text;
+        }
+
+        var fn = {};
+        fn.name         = tag.name;
+        fn.params       = tag.params || [];
+        fn.returns      = tag.returns || [];
+        fn.version      = '';
+        fn.fires        = tag.fires || [];
+        fn.description  = tag.description;
+        fn.internal     = isInternal(fn.name);
+        currentFunction = fn;
+        currentMethod   = null;
+        if (currentModule) {
+          currentModule.functions.push(fn);
+        } else {
+          if (!result.globalModule) {
+            initGlobalModule();
           }
-          break;
-        case 'overview':
-          result.overview = tag.value;
-          result.description = comment.text;
-          break;
-        case 'deprecated':
-          if (current_function) {
-            current_function.deprecated = tag.value ? tag.value : true;
-          } else if (current_method) {
-            current_method.deprecated = tag.value ? tag.value : true;
+          result.globalModule.functions.push(fn);
+        }
+        result.functions.push(fn);
+        break;
+      case 'emits':
+      case 'fires':
+        fn.fires.push(tag.name);
+        break;
+      case 'member':
+        if (currentClass) {
+          currentClass.members.push(tag);
+        }
+        break;
+      case 'return':
+      case 'returns':
+        if (currentFunction) {
+          currentFunction.returns = tag.text;
+          currentFunction.type = tag.type;
+        } else if (currentMethod) {
+          currentMethod.returns = tag.text;
+          currentMethod.type = tag.type;
+        }
+        break;
+      case 'module':
+        var module = {};
+        module.name = tag.name;
+        module.functions = [];
+        module.classes = [];
+        module.description = tag.description;
+        result.modules.push(module);
+        currentModule = module;
+        break;
+      case 'class':
+        var klass = {};
+        klass.name = tag.name;
+        klass.methods = [];
+        klass.members = [];
+        klass.description = tag.text;
+        result.classes.push(klass);
+        if (currentModule) {
+          currentModule.classes.push(klass);
+        } else {
+          if (!result.globalModule) {
+            initGlobalModule();
           }
-          break;
-        case 'param':
-          if (current_function) {
-            current_function.params.push(tag);
-          } else if (current_method) {
-            current_method.params.push(tag);
-          }
-          break;
-        case 'function':
-          var fn = {};
-          fn.name = tag.name;
-          fn.params = [];
-          fn.returns = '';
-          fn.version = '';
-          fn.fires = [];
-          fn.description = comment.text;
-          fn.internal =  isInternal(fn.name);
-          current_function = fn;
-          current_method = null;
-          if (current_module) {
-            current_module.functions.push(fn);
-          } else {
-            if (!result.global_module) {
-              initGlobalModule();
-            }
-            result.global_module.functions.push(fn);
-          }
-          result.functions.push(fn);
-          break;
-        case 'method':
-          if (current_class) {
-            var method = {};
-            method.name = tag.name;
-            method.params = [];
-            method.returns = '';
-            method.version = '';
-            method.fires = [];
-            method.description = comment.text;
-            method.internal =  isInternal(method.name);
-            current_function = null;
-            current_method = method;
-            current_class.methods.push(method);
-          }
-          break;
-        case 'emits':
-        case 'fires':
-          fn.fires.push(tag.name);
-          break;
-        case 'member':
-          if (current_class) {
-            current_class.members.push(tag);
-          }
-          break;
-        case 'return':
-        case 'returns':
-          if (current_function) {
-            current_function.returns = tag.text;
-            current_function.type = tag.type;
-          } else if (current_method) {
-            current_method.returns = tag.text;
-            current_method.type = tag.type;
-          }
-          break;
-        case 'module':
-          var module = {};
-          module.name = tag.name;
-          module.functions = [];
-          module.classes = [];
-          module.description = comment.text;
-          result.modules.push(module);
-          current_module = module;
-          break;
-        case 'class':
-          var klass = {};
-          klass.name = tag.name;
-          klass.methods = [];
-          klass.members = [];
-          klass.description = comment.text;
-          result.classes.push(klass);
-          if (current_module) {
-            current_module.classes.push(klass);
-          } else {
-            if (!result.global_module) {
-              initGlobalModule();
-            }
-            result.global_module.classes.push(klass);
-          }
-          current_class = klass;
-          break;
-      }
+          result.globalModule.classes.push(klass);
+        }
+        currentClass = klass;
+        break;
     }
-  }
+  });
   return result;
 }
 
 function isInternal(name){
-  if (name.lastIndexOf('_', 0) === 0){
-    return true;
-  }
-  return false;
+  return name.lastIndexOf('_', 0) === 0;
 }
 
 function generateH1(text) {
@@ -719,7 +256,24 @@ function generateStrong(text, nl) {
   return '**' + text + '**' + (nl ? '\n\n' : '');
 }
 
+/**
+ * @param  {String|Array} - text
+ * @param  {Boolean} nl   - Whether or not to add newlines to the end of each line
+ * @return {String}
+ */
 function generateEm(text, nl) {
+  if (text instanceof Array) {
+    if (text.length > 1) {
+      // Intentionally ignore newlines for multiple items
+      return text.map(function(text) {
+        return generateEm(text);
+      }).join(' | ');
+
+    } else {
+      text = text[0];
+    }
+  }
+
   return '*' + text + '*' + (nl ? '\n\n' : '');
 }
 
@@ -732,6 +286,7 @@ function generateFunctionsForModule(module, displayName) {
     if (! fn.internal || argv.All) {
       var proto = prefix;
       proto += fn.name + '(';
+      // @todo: simplify with a map and join
       for (var j = 0; j < fn.params.length; j++) {
         proto += filterMD(fn.params[j].name);
         if (j !== fn.params.length-1) {
@@ -752,26 +307,27 @@ function generateFunctionsForModule(module, displayName) {
       }
       if (fn.params.length) {
         out += generateStrong('Parameters', true);
-        for (var k = 0; k < fn.params.length; k++) {
-          var param = fn.params[k];
+        fn.params.forEach(function (param) {
           out += generateStrong(param.name);
           if (param.type) {
-            out += ':  ' + generateEm(param.type);
+            out += ':  ' + generateEm(param.type.names);
           }
-          out += ',  ' + generateText(param.value, true);
-        }
+          out += ',  ' + generateText(param.description, true);
+        });
       }
-      if (fn.returns) {
-        out += generateStrong("Returns", true);
-        if (fn.type) {
-          out += generateEm(fn.type) + ',  ';
-        }
-        out += generateText(fn.returns, true);
+      if (fn.returns.length) {
+        fn.returns.forEach(function (returns) {
+          out += generateStrong('Returns', true);
+          if (returns.type) {
+            out += generateEm(returns.type.names) + ',  ';
+          }
+          out += generateText(returns.description, true);
+        });
       }
-      if (fn.fires.length > 0) {
-        fn.fires.forEach(function(event_name) {
-          out += generateStrong("Fires") + ": ";
-          out += generateText(event_name, true);
+      if (fn.fires.length) {
+        fn.fires.forEach(function(eventName) {
+          out += generateStrong('Fires') + ': ';
+          out += generateText(eventName, true);
         });
       }
     }
@@ -782,7 +338,7 @@ function generateFunctionsForModule(module, displayName) {
     out += generateH1('module ' + module.name);
   }
   if (module.description) {
-    out += generateText(module.description);
+    out += generateText(module.description, true);
   }
 
   for (var i = 0; i < module.functions.length; i++) {
@@ -856,7 +412,7 @@ function generateFunctionsForModule(module, displayName) {
 //        returns: '',
 //        version: '',
 //        description: 'This is a test function\nwith a description on multiple lines' } ],
-//   global_variables: [],
+//   globalVariables: [],
 //   description: 'Some extra text\nSome more extra text',
 //   overview: 'This is the overview',
 //   copyright: '2012 Blah Blah Blah',
@@ -866,24 +422,22 @@ function generateFunctionsForModule(module, displayName) {
 
 function generateMD(data) {
   if (!data) {
-    return "no data to generate from";
+    return 'no data to generate from';
   }
   var out = '';
-  if (data.title) {
-    out += generateH1(data.title);
-  }
 
   if (data.copyright) {
     out += generateEm(/*'©' +*/ data.copyright, true);
   }
 
-  if (data.author) {
-    // out += 'Author: ' + generateStrong(data.author, true);
-    out += generateStrong('Author:') + ' ' + generateText(data.author, true);
+  if (data.overview) {
+    out += generateStrong('Overview:') + ' ' + generateText(data.overview, true);
   }
 
-  if (data.overview) {
-    out += generateStrong('Overview:') +' ' + generateText(data.overview, true);
+  if (data.author) {
+    data.author.forEach(function(author) {
+      out += generateStrong('Author:') + ' ' + generateText(author, true);
+    });
   }
 
   if (data.description) {
@@ -906,10 +460,10 @@ function generateForDir(filename, destination, cb, fileCb) {
     var fullpath = path.join(destination, file);
     fullpath = fullpath.replace(/\.js$/, '.md');
     if (argv.debug) {
-      console.log("Generating", fullpath);
+      console.log('Generating', fullpath);
     }
     waiting++;
-    parseFile(path.join(directory, file), function(err, result) {
+    jsdocParser(path.join(directory, file), function(err, result) {
       if (err) {
         console.error('Error generating docs for file', file, err);
         waiting--;
@@ -1039,7 +593,7 @@ function jsdox() {
 
   function main(){
     if(typeof argv._[0] !== 'undefined'){
-      fs.mkdir(argv.output, function(err) {
+      fs.mkdir(argv.output, function() {
         q.all(argv._.map(function(file) {
           var deferred = q.defer();
 
@@ -1055,7 +609,7 @@ function jsdox() {
           return deferred.promise;
         }))
         .then(function () {
-          console.log("jsdox completed");
+          console.log('jsdox completed');
         });
       });
     } else {
@@ -1064,12 +618,6 @@ function jsdox() {
   }
 }
 
-exports.isDocComment = isDocComment;
-exports.hasTag = hasTag;
-exports.parseLine = parseLine;
-exports.parseComment = parseComment;
-exports.parseComments = parseComments;
-exports.parseFile = parseFile;
 exports.analyze = analyze;
 exports.generateMD = generateMD;
 exports.generateForDir = generateForDir;

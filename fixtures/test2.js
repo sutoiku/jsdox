@@ -7,16 +7,13 @@
  * @copyright (c) 2012 Blah Blah Blah
  * @license MIT
  * @author Joe Schmo
- * Some more extra text
- *
- * some text after a blank line
 */
 
 exports = {
   /**
-   * @param a the first param
-   * @param b the second param
-   * @returns the result
+   * @param {String} a - the first param
+   * @param {String} b - the second param
+   * @returns {String} the result
   */
   func1: function(a, b) {
     return 1;
