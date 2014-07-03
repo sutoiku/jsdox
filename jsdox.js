@@ -43,7 +43,7 @@ var
     })
     .argv,
   packageJson = require('./package.json'),
-  jsdocParser = require('./lib/jsDocParser');
+  jsdocParser = require('jsdoc3-parser');
 
 function inspect(text) {
   return util.inspect(text, false, 20);
