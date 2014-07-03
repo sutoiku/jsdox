@@ -130,6 +130,10 @@ function analyze(ast) {
 
         break;
       case 'function':
+        if (tag.undocumented) {
+          break;
+        }
+
         var fn = {};
         fn.name         = tag.name;
         fn.params       = tag.params || [];
