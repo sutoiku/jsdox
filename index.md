@@ -16,6 +16,8 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 <li><a href="#tags">Tags</a></li>
 <li><a href="#examples">Examples</a></li>
 <li><a href="#resources">Resources</a></li>
+<li><a href="#related-projects">Related projects</a></li>
+<li><a href="#author-and-contributors">Author and contributors</a></li>
 <li><a href="#license">License</a></li>
 </ul>
 </div>
@@ -60,7 +62,7 @@ with other extensions will be ignored
 * function `done` is required and will be called when generation is complete.
 
 # Tags<a name="tags">&nbsp;</a>
-jsdox only supports a subset of the the jsdox 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
+jsdox only supports a subset of the the jsdoc 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
 
 ### @author  *text*
 Specifies the author name, contact information, etc...
@@ -87,7 +89,7 @@ In the case where the function name can not be inferred by jsdox, make it explic
 {% endhighlight %}
 
 ### @license *text*
-Specify the 
+Specify the license type.
 {% highlight bash %}
 @license MIT
 {% endhighlight %}
@@ -117,7 +119,7 @@ Goes into the short description (the overview) at the top of the page under the 
 {% endhighlight %}
 
 ### @param [*type*] *name* [*description*]
-Documents a function or method parameter, with an optional type and optional description
+Documents a function or method parameter, with an optional type and optional description.
 {% highlight bash %}
 @param {Boolean} [optional] Changes behavior
 {% endhighlight %}
@@ -132,7 +134,7 @@ In functions or methods, specify what gets returned and the type of the value re
 See @returns
 
 ### @title *text*
-Will be used as the title of the generated page
+Will be used as the title of the generated page.
 {% highlight bash %}
 @title Some smart title goes here
 {% endhighlight %}
@@ -149,20 +151,33 @@ jsdox fixtures --output sample_output
 * [test2](https://github.com/sutoiku/jsdox/blob/master/sample_output/test2.md)
 * [test3](https://github.com/sutoiku/jsdox/blob/master/sample_output/test3.md)
 
-# Resources<a name="resources">&nbsp;</a>
-* Githup [repo](https://github.com/sutoiku/jsdox)
+
+# Resources
+* [jsdox](http://jsdox.org) Documentation
+* Github [repo](https://github.com/sutoiku/jsdox)
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
 * Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
+* Run the test suite using `npm test`
 
-# Author and Maintainers
-* Pascal Belloncle (Original author) [site](http://www.stoic.com)
-* Marc Trudel [site](http://www.wizcorp.jp)
+# Related projects
+* [grunt-jsdox](https://github.com/mmacmillan/grunt-jsdox) A grunt task
+  to run jsdox on your project
 
-# License<a name="license">&nbsp;</a>
+# Author and contributors
+* Pascal Belloncle (psq, Original author)
+* Sam Blowes (blowsie)
+* Todd Henderson (thenderson21)
+* Nic Jansma (nicjansma)
+* Joel Kemp (mrjoelkemp)
+* Ron Korving (ronkorving)
+* Mike MacMillan (mmacmillan)
+* Marc Trudel (stelcheck)
+
+# License
 
 jsdox.js is freely distributable under the terms of the MIT license.
 
-Copyright (c) 2012-2013 Sutoiku
+Copyright (c) 2012-2014 Sutoiku
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
