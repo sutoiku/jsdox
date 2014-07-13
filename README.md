@@ -1,8 +1,8 @@
-# jsdox.js
+# jsdox [![npm](http://img.shields.io/npm/v/jsdox.svg)](https://npmjs.org/package/jsdox) [![npm](http://img.shields.io/npm/dm/jsdox.svg)](https://npmjs.org/package/jsdox)
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
 
-Relies on (for now) patched version of the UglifyJS parser to get the full AST including comments
+Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to get the full AST including comments
 
 # Resources
 * [jsdox](http://jsdox.org) Documentation
