@@ -43,51 +43,62 @@ var
     })
     .argv,
   packageJson = require('./package.json'),
-  jsdocParser = require('jsdoc3-parser');
-
-function inspect(text) {
-  return util.inspect(text, false, 20);
-}
-
-// [ { text: '',
-//   tags:
-//    [ { tag: 'overview',
-//        tagValue: 'This is the overview',
-//        value: 'This is the overview' },
-//      { tag: 'copyright',
-//        tagValue: '2012 Blah Blah Blah',
-//        value: '2012 Blah Blah Blah' } ] },
-// { text: 'This is a test function\nwith a description on multiple lines',
-//   tags:
-//    [ { tag: 'param',
-//        tagValue: '{String} file filename to parse',
-//        type: 'String',
-//        name: 'file',
-//        value: 'filename to parse' } ] },
-// { text: '',
-//   generated: true,
-//   tags:
-//    [ { tag: 'function',
-//        tagValue: 'test',
-//        name: 'test' } ] },
-// { text: 'function without name',
-//   tags:
-//    [ { tag: 'function',
-//        tagValue: 'test2',
-//        name: 'test2' },
-//      { tag: 'returns',
-//        tagValue: 'null',
-//        name: 'null' } ] } ]
+  jsdocParser = require('jsdoc3-parser'),
+  Mustache = require('mustache');
 
 /**
-  analyze one file
-*/
-
+ * Transforms the AST into a form that represents a
+ * single file with modules and their functions.
+ *
+ * @param {Object} ast
+ * @returns {Object}
+ *
+ * @example
+ * { functions:
+ *    [ { name: 'testNamed',
+ *        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
+ *        returns: '',
+ *        version: '',
+ *        description: 'This is a test function\nwith a description on multiple lines' },
+ *      { name: 'testAnonynous',
+ *        params: [],
+ *        returns: 'the result',
+ *        version: '',
+ *        description: 'function without name',
+ *        type: 'String' } ],
+ *   methods: [],
+ *   classes: [],
+ *   modules:
+ *    [ { name: 'test_module',
+ *        functions:
+ *         [ { name: 'testAnonynous',
+ *             params: [],
+ *             returns: 'the result',
+ *             version: '',
+ *             description: 'function without name',
+ *             type: 'String' } ],
+ *        classes: [],
+ *        description: '' } ],
+ *   global_functions:
+ *    [ { name: 'testNamed',
+ *        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
+ *        returns: '',
+ *        version: '',
+ *        description: 'This is a test function\nwith a description on multiple lines' } ],
+ *   globalVariables: [],
+ *   description: 'Some extra text\nSome more extra text',
+ *   overview: 'This is the overview',
+ *   copyright: '2012 Blah Blah Blah',
+ *   license: 'MIT',
+ *   author: 'Joe Schmo',
+ *   version: ''
+ * }
+ */
 function analyze(ast) {
   var result = {
-    functions: [],  // which module, list of params + returns
-    methods: [],  // which class
-    classes: [],  // which module
+    functions: [],
+    methods: [],
+    classes: [],
     modules: [],
     globalModule: null,
     globalVariables: [],
@@ -100,8 +111,7 @@ function analyze(ast) {
   },
   currentModule   = null,
   currentClass    = null,
-  currentFunction = null,
-  currentMethod   = null;
+  currentFunction = null;
 
   function initGlobalModule() {
     var global = {};
@@ -127,23 +137,30 @@ function analyze(ast) {
 
         (currentFunction || result).version = tag.version;
         (currentFunction || result).deprecated = tag.deprecated || true;
-
         break;
       case 'function':
-        if (tag.undocumented) {
-          break;
-        }
+        if (tag.undocumented) break;
 
-        var fn = {};
-        fn.name         = tag.name;
+        var fn = tag;
         fn.params       = tag.params || [];
+        fn.hasParams    = !!fn.params.length;
+        // For the function signature
+        fn.paramsString = fn.params.map(function(p) {
+          return p.name;
+        }).join(', ');
+
+        // For param details
+        fn.params.forEach(setPipedTypesString);
         fn.returns      = tag.returns || [];
-        fn.version      = '';
+        fn.returns.forEach(setPipedTypesString);
+        // To avoid reaching to the parent for these fields
+        fn.version      = tag.version || false;
         fn.fires        = tag.fires || [];
         fn.description  = tag.description;
+        fn.deprecated   = tag.deprecated || false;
         fn.internal     = isInternal(fn.name);
+        fn.moduleName   = currentModule ? currentModule.name : '';
         currentFunction = fn;
-        currentMethod   = null;
         if (currentModule) {
           currentModule.functions.push(fn);
         } else {
@@ -168,9 +185,6 @@ function analyze(ast) {
         if (currentFunction) {
           currentFunction.returns = tag.text;
           currentFunction.type = tag.type;
-        } else if (currentMethod) {
-          currentMethod.returns = tag.text;
-          currentMethod.type = tag.type;
         }
         break;
       case 'module':
@@ -201,254 +215,43 @@ function analyze(ast) {
         break;
     }
   });
+
   return result;
+}
+
+/**
+ * Attaches a 'typesString' pipe-separated attribute
+ * containing the node's types
+ * @param {AST} node - May or may not contain a type attribute
+ */
+function setPipedTypesString(node) {
+  if (! node.type) return '';
+
+  node.typesString = node.type.names.join(' | ');
 }
 
 function isInternal(name){
   return name.lastIndexOf('_', 0) === 0;
 }
 
-function generateH1(text) {
-  return text + '\n' +
-      '===================================================================================================='.
-      substr(0, text.length) + '\n';
-}
-
-function generateH2(text) {
-  return text + '\n' +
-      '----------------------------------------------------------------------------------------------------'.
-      substr(0, text.length) + '\n';
-}
-
-function generateH3(text) {
-  return '###' + text + '###\n';
-}
-
-function generateList(list) {
-  var out = '';
-  for (var i = 0; i < list.length; i++) {
-    out += '* ' + list[i] + '\n';
-  }
-  return out + '\n';
-}
-
-function generateCode(code, nl) {
-  return '`' + code + '`' + (nl ? '\n\n' : '');
-}
-
-function generateCodeBlock(code, lang) {
-  return '\n```' + lang +'\n' + code + '\n```\n';
-}
-
-function generateLine() {
-  return '---\n\n';
-}
-
-function generateURL(text, url, nl) {
-  return '[' + text + '](' + url + ')' + (nl ? '\n\n' : '');
-}
-
-function generateText(text, nl) {
-  return (text ? text.replace(/\n/g, '\n') : '\n') + (nl ? '\n\n' : '');
-}
-
-function generateStrong(text, nl) {
-  return '**' + text + '**' + (nl ? '\n\n' : '');
+function inspect(text) {
+  return util.inspect(text, false, 20);
 }
 
 /**
- * @param  {String|Array} - text
- * @param  {Boolean} nl   - Whether or not to add newlines to the end of each line
- * @return {String}
+ * Renders markdown from the given analyzed AST
+ * @param  {Object} ast - output from analyze()
+ * @return {String} Markdown output
  */
-function generateEm(text, nl) {
-  if (text instanceof Array) {
-    if (text.length > 1) {
-      // Intentionally ignore newlines for multiple items
-      return text.map(function(text) {
-        return generateEm(text);
-      }).join(' | ');
+function generateMD(ast) {
+  if (!ast) return 'no analyzed ast to generate markdown from';
 
-    } else {
-      text = text[0];
-    }
-  }
+  var templates = {
+    file: fs.readFileSync('./templates/file.mustache').toString(),
+    function: fs.readFileSync('./templates/function.mustache').toString()
+  };
 
-  return '*' + text + '*' + (nl ? '\n\n' : '');
-}
-
-function filterMD(text) {
-  return text.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
-}
-
-function generateFunctionsForModule(module, displayName) {
-  function generateFunction(prefix, fn) {
-    if (! fn.internal || argv.All) {
-      var proto = prefix;
-      proto += fn.name + '(';
-      // @todo: simplify with a map and join
-      for (var j = 0; j < fn.params.length; j++) {
-        proto += filterMD(fn.params[j].name);
-        if (j !== fn.params.length-1) {
-          proto += ', ';
-        }
-      }
-      proto += ')';
-      out += generateH2(proto);
-      if (fn.description) {
-        out += generateText(fn.description, true);
-      }
-      if (fn.deprecated) {
-        if (typeof fn.deprecated === 'boolean') {
-          out += generateText('**Deprecated**', true);
-        } else {
-          out += generateText('**Deprecated:** ' + fn.deprecated, true);
-        }
-      }
-      if (fn.params.length) {
-        out += generateStrong('Parameters', true);
-        fn.params.forEach(function (param) {
-          out += generateStrong(param.name);
-          if (param.type) {
-            out += ':  ' + generateEm(param.type.names);
-          }
-          out += ',  ' + generateText(param.description, true);
-        });
-      }
-      if (fn.returns.length) {
-        fn.returns.forEach(function (returns) {
-          out += generateStrong('Returns', true);
-          if (returns.type) {
-            out += generateEm(returns.type.names) + ',  ';
-          }
-          out += generateText(returns.description, true);
-        });
-      }
-      if (fn.fires.length) {
-        fn.fires.forEach(function(eventName) {
-          out += generateStrong('Fires') + ': ';
-          out += generateText(eventName, true);
-        });
-      }
-    }
-  }
-
-  var out = '';
-  if (displayName) {
-    out += generateH1('module ' + module.name);
-  }
-  if (module.description) {
-    out += generateText(module.description, true);
-  }
-
-  for (var i = 0; i < module.functions.length; i++) {
-    var fn = module.functions[i];
-    var proto = '';
-    if (module.name !== 'Global') {
-      proto += module.name + '.';
-    }
-    generateFunction(proto, fn);
-  }
-
-  for (i = 0; i < module.classes.length; i++) {
-    var klass = module.classes[i];
-    var classname = '';
-    if (module.name !== 'Global') {
-      classname += module.name + '.';
-    }
-    classname += klass.name;
-    out += generateH2('class ' + classname);
-    if (klass.members.length) {
-      out += generateStrong('Members', true);
-      for (var j = 0; j < klass.members.length; j++) {
-        var member = klass.members[j];
-        out += generateStrong(member.name);
-        if (member.type) {
-          out += ':  ' + generateEm(member.type);
-        }
-        out += ',  ' + generateText(member.value, true);
-      }
-    }
-    if (klass.methods.length) {
-      out += generateStrong('Methods', true);
-      for (var k = 0; k < klass.methods.length; k++) {
-        var method = klass.methods[k];
-        generateFunction(classname + '.', method);
-      }
-    }
-
-  }
-  return out;
-}
-
-// { functions:
-//    [ { name: 'testNamed',
-//        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
-//        returns: '',
-//        version: '',
-//        description: 'This is a test function\nwith a description on multiple lines' },
-//      { name: 'testAnonynous',
-//        params: [],
-//        returns: 'the result',
-//        version: '',
-//        description: 'function without name',
-//        type: 'String' } ],
-//   methods: [],
-//   classes: [],
-//   modules:
-//    [ { name: 'test_module',
-//        functions:
-//         [ { name: 'testAnonynous',
-//             params: [],
-//             returns: 'the result',
-//             version: '',
-//             description: 'function without name',
-//             type: 'String' } ],
-//        classes: [],
-//        description: '' } ],
-//   global_functions:
-//    [ { name: 'testNamed',
-//        params: [ { name: 'file', type: 'String', value: 'filename to parse' } ],
-//        returns: '',
-//        version: '',
-//        description: 'This is a test function\nwith a description on multiple lines' } ],
-//   globalVariables: [],
-//   description: 'Some extra text\nSome more extra text',
-//   overview: 'This is the overview',
-//   copyright: '2012 Blah Blah Blah',
-//   license: 'MIT',
-//   author: 'Joe Schmo',
-//   version: '' }
-
-function generateMD(data) {
-  if (!data) {
-    return 'no data to generate from';
-  }
-  var out = '';
-
-  if (data.copyright) {
-    out += generateEm(/*'©' +*/ data.copyright, true);
-  }
-
-  if (data.overview) {
-    out += generateStrong('Overview:') + ' ' + generateText(data.overview, true);
-  }
-
-  if (data.author) {
-    data.author.forEach(function(author) {
-      out += generateStrong('Author:') + ' ' + generateText(author, true);
-    });
-  }
-
-  if (data.description) {
-    out += generateText(data.description, true);
-  }
-
-  for (var i = 0; i < data.modules.length; i++) {
-    out += generateFunctionsForModule(data.modules[i], (data.modules.length > 1));
-  }
-
-  return out;
+  return Mustache.render(templates.file, ast, templates);
 }
 
 function generateForDir(filename, destination, cb, fileCb) {
@@ -475,8 +278,8 @@ function generateForDir(filename, destination, cb, fileCb) {
       }
 
       if (argv.debug) {
-        console.log(file, util.inspect(result, false, 20));
-        console.log(file, util.inspect(analyze(result), false, 20));
+        console.log(file + ' AST: ', util.inspect(result, false, 20));
+        console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
       }
 
       var data = analyze(result),
@@ -502,7 +305,6 @@ function generateForDir(filename, destination, cb, fileCb) {
       }
     });
   }
-
 
   if (filename.match(/\.js$/)) {
     oneFile(path.dirname(filename), path.basename(filename), cb);

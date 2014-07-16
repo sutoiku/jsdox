@@ -11,7 +11,20 @@ var util = require('util');
 var fs = require('fs');
 var jsp = require("uglify-js").parser;
 
-
+/**
+ * Collection of stuff
+ * @type {Object}
+ */
+var foo = {
+  /**
+   * I so cool
+   * @return {Boolean|null}
+   * @deprecated Not a good function
+   */
+  bar: function() {
+    return true
+  }
+}
 
 /**
   This is a test function
@@ -21,6 +34,7 @@ var jsp = require("uglify-js").parser;
   @param {Boolean|null} [optional] Changes behavior
   @fires module:foo#one_thing
   @fires module:foo#another
+  @emits module:foo#booyah
 */
 function testNamed(file, optional) {
   fs.readFile(file, function (err, data) {
