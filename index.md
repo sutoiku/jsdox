@@ -6,7 +6,7 @@ subtitle: jsdoc to markdown
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
 
-<header class="jumbotron subhead" id="overview">
+<header class="subhead" id="overview">
 <div class="subnav">
 <ul class="nav nav-pills">
 <li><a href="#install">Install</a></li>
@@ -152,18 +152,18 @@ jsdox fixtures --output sample_output
 * [test3](https://github.com/sutoiku/jsdox/blob/master/sample_output/test3.md)
 
 
-# Resources
+# Resources<a name="resources">&nbsp;</a>
 * [jsdox](http://jsdox.org) Documentation
 * Github [repo](https://github.com/sutoiku/jsdox)
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
 * Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 * Run the test suite using `npm test`
 
-# Related projects
+# Related projects<a name="related-projects">&nbsp;</a>
 * [grunt-jsdox](https://github.com/mmacmillan/grunt-jsdox) A grunt task
   to run jsdox on your project
 
-# Author and contributors
+# Author and contributors<a name="author-and-contributors">&nbsp;</a>
 * Pascal Belloncle (psq, Original author)
 * Sam Blowes (blowsie)
 * Todd Henderson (thenderson21)
@@ -173,7 +173,7 @@ jsdox fixtures --output sample_output
 * Mike MacMillan (mmacmillan)
 * Marc Trudel (stelcheck)
 
-# License
+# License<a name="license">&nbsp;</a>
 
 jsdox.js is freely distributable under the terms of the MIT license.
 
