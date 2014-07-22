@@ -18,7 +18,7 @@
   ],
   "name": "jsdox",
   "description": "Simple JSDoc 3 to Markdown generator",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/sutoiku/jsdox.git"
@@ -28,7 +28,8 @@
     "bin/jsdox",
     "jsdox.js",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "templates"
   ],
   "scripts": {
     "test": "jshint --config jshint-config.json jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
