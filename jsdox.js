@@ -247,8 +247,8 @@ function generateMD(ast) {
   if (!ast) return 'no analyzed ast to generate markdown from';
 
   var templates = {
-    file: fs.readFileSync('./templates/file.mustache').toString(),
-    function: fs.readFileSync('./templates/function.mustache').toString()
+    file: fs.readFileSync(__dirname + '/templates/file.mustache').toString(),
+    function: fs.readFileSync(__dirname + '/templates/function.mustache').toString()
   };
 
   return Mustache.render(templates.file, ast, templates);
