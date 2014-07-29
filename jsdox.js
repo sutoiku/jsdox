@@ -163,6 +163,7 @@ function analyze(ast) {
         currentFunction = fn;
         if (currentClass) {
           currentClass.methods.push(fn);
+          fn.className = currentClass ? currentClass.name : '';
         }
         else if (currentModule) {
           currentModule.functions.push(fn);
@@ -251,6 +252,7 @@ function generateMD(ast) {
 
   var templates = {
     file: fs.readFileSync(__dirname + '/templates/file.mustache').toString(),
+    class: fs.readFileSync(__dirname + '/templates/class.mustache').toString(),
     function: fs.readFileSync(__dirname + '/templates/function.mustache').toString()
   };
 
