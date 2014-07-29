@@ -180,7 +180,7 @@ function analyze(ast) {
         fn.fires.push(tag.name);
         break;
       case 'member':
-        if (currentClass) {
+        if (currentClass && tag.undocumented !== true) {
           currentClass.members.push(tag);
         }
         break;
