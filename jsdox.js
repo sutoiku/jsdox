@@ -161,7 +161,10 @@ function analyze(ast) {
         fn.internal     = isInternal(fn.name);
         fn.moduleName   = currentModule ? currentModule.name : '';
         currentFunction = fn;
-        if (currentModule) {
+        if (currentClass) {
+          currentClass.methods.push(fn);
+        }
+        else if (currentModule) {
           currentModule.functions.push(fn);
         } else {
           if (!result.globalModule) {
@@ -201,7 +204,7 @@ function analyze(ast) {
         klass.name = tag.name;
         klass.methods = [];
         klass.members = [];
-        klass.description = tag.text;
+        klass.description = tag.description;
         result.classes.push(klass);
         if (currentModule) {
           currentModule.classes.push(klass);
