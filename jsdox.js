@@ -388,9 +388,9 @@ function jsdox() {
   }
 
   if(argv.config){
-  loadConfigFile(argv.config, main);
+    loadConfigFile(argv.config, main);
   } else {
-  main();
+    main();
   }
 
   function main(){
@@ -416,6 +416,7 @@ function jsdox() {
       });
     } else {
       console.error('Error missing input file or directory.');
+      printHelp();
     }
   }
 }
