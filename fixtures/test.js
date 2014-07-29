@@ -105,3 +105,54 @@ function testDeprecated() {
 }
 
 testNamed('test.js');
+
+/** 
+  * This is a class
+  * @class SampleClass
+*/
+function SampleClass(parm1){
+
+  /**
+   * A method in the class
+   * @param a the first param
+   * @param b the second param
+   * @returns the result
+  */
+  this.func1 = function(a, b) {
+    return 1;
+  };
+
+  /**
+  function without name
+    @function testAnonynous
+    @returns {String} the result
+  */
+
+  var testAnonynous = function() {
+    return null;
+  };
+
+  /**
+    This is a test method
+    with a description on multiple lines
+    @param {String|null} file filename to parse
+                         this parsing thing is funny business
+    @param {Boolean|null} [optional] Changes behavior
+    @fires module:foo#one_thing
+    @fires module:foo#another
+    @emits module:foo#booyah
+  */
+  function testNamed(file, optional) {
+    fs.readFile(file, function (err, data) {
+      if (err) {
+        throw err;
+      }
+      var ast = jsp.parse(data.toString());
+      console.log(util.inspect(ast, false, 20, true));
+      /* term */
+      // console.log(util.inspect(ast[1][0][1]));
+      // console.log(util.inspect(ast[1][3][1]));
+      console.log(util.inspect(ast[1][5][1]));
+    });
+  }
+}

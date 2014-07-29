@@ -1,80 +1,127 @@
-Some smart title goes here
-==========================
-*(c) 2012 Blah Blah Blah*
+foo
+===
 
-**Author:** Joe Schmo
+Can I get some description please
+  on more than one line, if possible.
 
-**Overview:** This is the overview with some `markdown` included, how nice!
+foo.bar() 
+-----------------------------
+I so cool
 
-Some extra text
-Some more extra text
+Deprecated: Not a good function
 
-some text after a blank line
+**Returns**: Boolean | null, I so cool
 
-
-module Global
-=============
-testNamed(file, \[optional\])
+foo.testNamed(file, optional) 
 -----------------------------
 This is a test function
-with a description on multiple lines
-
+  with a description on multiple lines
 
 **Parameters**
 
-**file**:  *String*,  filename to parse
+**file**: String | null, filename to parse
+                       this parsing thing is funny business
 
-**[optional]**:  *Boolean*,  Changes behavior
+**optional**: Boolean | null, Changes behavior
 
-module test_module
-==================
-Can I get some description please
+**Fires**: module:foo#event:one_thing
 
-on more than one line, if possible.
-test_module.testAnonynous()
----------------------------
+**Fires**: module:foo#event:another
+
+**Fires**: module:foo#event:booyah
+
+
+foo.testAnonynous() 
+-----------------------------
 function without name
 
+**Returns**: String, the result
 
-**Returns**
-
-*String*,  the result
-
-test_module.testAnon2()
------------------------
+foo.testAnon2() 
+-----------------------------
 second function without name
 
+**Returns**: String, the result
 
-**Returns**
-
-*String*,  the result
-
-test_module.func1(a, b)
------------------------
-@ returns the result
-
+foo.func1(a, b) 
+-----------------------------
+Can I get some description please
+  on more than one line, if possible.
 
 **Parameters**
 
-**a**,  the first param
+**a**: the first param
 
-**b**,  the second param
+**b**: the second param
 
-test_module.func2(c, d)
------------------------
-@ returns the other result
+**Returns**: the result
 
+foo.func2(c, d) 
+-----------------------------
+Can I get some description please
+  on more than one line, if possible.
 
 **Parameters**
 
-**c**,  the first param
+**c**: the first param
 
-**d**,  the second param
+**d**: the second param
 
-test_module.testDeprecated()
-----------------------------
+**Returns**: the other result
+
+foo.testDeprecated() 
+-----------------------------
 This is a deprecated function.
 
+Deprecated: Because I said so
 
-**Deprecated:** Because I said so
 
+SampleClass
+===
+This is a class
+
+foo.SampleClass.func1(a, b) 
+-----------------------------
+A method in the class
+
+**Parameters**
+
+**a**: the first param
+
+**b**: the second param
+
+**Returns**: the result
+foo.SampleClass.testAnonynous() 
+-----------------------------
+function without name
+
+**Returns**: String, the result
+foo.SampleClass.testNamed(file, optional) 
+-----------------------------
+This is a test method
+    with a description on multiple lines
+
+**Parameters**
+
+**file**: String | null, filename to parse
+                         this parsing thing is funny business
+
+**optional**: Boolean | null, Changes behavior
+
+**Fires**: module:foo#event:one_thing
+
+**Fires**: module:foo#event:another
+
+**Fires**: module:foo#event:booyah
+
+
+
+---
+
+*(c) 2012 Blah Blah Blah*
+
+**License:** MIT Joe Schmo
+
+**Overview:** What's up?
+
+**Version:** 1.0.1
