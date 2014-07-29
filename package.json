@@ -18,7 +18,7 @@
   ],
   "name": "jsdox",
   "description": "Simple JSDoc 3 to Markdown generator",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "repository": {
     "type": "git",
     "url": "git://github.com/sutoiku/jsdox.git"

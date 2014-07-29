@@ -23,6 +23,7 @@ Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to ge
 * Joel Kemp (mrjoelkemp)
 * Ron Korving (ronkorving)
 * Mike MacMillan (mmacmillan)
+* Akeem McLennon (bluelaguna)
 * Marc Trudel (stelcheck)
 
 # License
