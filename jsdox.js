@@ -161,7 +161,11 @@ function analyze(ast) {
         fn.internal     = isInternal(fn.name);
         fn.moduleName   = currentModule ? currentModule.name : '';
         currentFunction = fn;
-        if (currentModule) {
+        if (currentClass) {
+          currentClass.methods.push(fn);
+          fn.className = currentClass ? currentClass.name : '';
+        }
+        else if (currentModule) {
           currentModule.functions.push(fn);
         } else {
           if (!result.globalModule) {
@@ -176,7 +180,7 @@ function analyze(ast) {
         fn.fires.push(tag.name);
         break;
       case 'member':
-        if (currentClass) {
+        if (currentClass && tag.undocumented !== true) {
           currentClass.members.push(tag);
         }
         break;
@@ -201,7 +205,7 @@ function analyze(ast) {
         klass.name = tag.name;
         klass.methods = [];
         klass.members = [];
-        klass.description = tag.text;
+        klass.description = tag.description;
         result.classes.push(klass);
         if (currentModule) {
           currentModule.classes.push(klass);
@@ -248,6 +252,7 @@ function generateMD(ast) {
 
   var templates = {
     file: fs.readFileSync(__dirname + '/templates/file.mustache').toString(),
+    class: fs.readFileSync(__dirname + '/templates/class.mustache').toString(),
     function: fs.readFileSync(__dirname + '/templates/function.mustache').toString()
   };
 
