@@ -1,4 +1,4 @@
-{{#moduleName}}{{moduleName}}.{{/moduleName}}{{#className}}{{className}}.{{/className}}{{name}}({{#paramsString}}{{paramsString}}{{/paramsString}}) {{#version}}{{version}}{{/version}}
+{{#className}}{{className}}.{{/className}}{{name}} {{#version}}{{version}}{{/version}}
 -----------------------------
 {{#description}}
 {{{description}}}
@@ -10,16 +10,20 @@ Deprecated: {{{deprecated}}}
 {{/deprecated}}
 {{#hasParams}}
 **Parameters**
-
-{{/hasParams}}
+```
 {{#params}}
-**{{name}}**: {{#typesString}}{{typesString}}, {{/typesString}}{{#description}}{{{description}}}{{/description}}
+{{name}}: {{#typesString}}{{typesString}}, {{/typesString}}{{#description}}{{{description}}}{{/description}}
 
 {{/params}}
+```
+{{/hasParams}}
 {{#fires}}
 **Fires**: {{.}}
 
 {{/fires}}
 {{#returns}}
-**Returns**: {{#typesString}}{{typesString}}, {{/typesString}}{{#description}}{{{description}}}{{/description}}
+**Returns**: {{#typesString}}{{typesString}}{{/typesString}}
+```
+{{#description}}{{{description}}}{{/description}}
+```
 {{/returns}}
