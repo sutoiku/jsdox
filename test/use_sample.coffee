@@ -15,9 +15,9 @@ exec 'jsdoc -X ' + sourceFile, {maxBuffer: 400*1024}, (err, stdout, stderr) ->
         console.log err.message, stderr
         return
     explainFile = explainDir + '/' + basename(sourceFile)
-    write explainFile, stdout, (err) ->
-        if err
-            console.log err
+    write explainFile, stdout, (err3) ->
+        if err3
+            console.log err3
             return
         exec 'jsdox2 ' + explainFile + ' -o ' + saveDir, (err2, stdout2, stderr2) ->
             if err2 or stderr2
