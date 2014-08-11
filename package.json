@@ -41,6 +41,7 @@
   "dependencies": {
     "optimist": "~0.3.4",
     "q": "^1.0.1",
+    "jsdoc3-parser": "^1.0.0",
     "mustache": "^0.8.2"
   },
   "devDependencies": {
