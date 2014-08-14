@@ -292,6 +292,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     }
     waiting++;
     jsdocParser(path.join(directory, file), function(err, result) {
+      if (err) {
         console.error('Error generating docs for file', file, err);
         waiting--;
         if (!waiting) {
