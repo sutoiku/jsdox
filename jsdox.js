@@ -41,6 +41,9 @@ var
     .options('d',{
      alias: 'debug'
     })
+    .options('templateDir', {
+      alias: 't'
+    })
     .argv,
   packageJson = require('./package.json'),
   jsdocParser = require('jsdoc3-parser'),
@@ -245,21 +248,27 @@ function inspect(text) {
 /**
  * Renders markdown from the given analyzed AST
  * @param  {Object} ast - output from analyze()
+ * @param  {String} templateDir - templates directory (optional)
  * @return {String} Markdown output
  */
-function generateMD(ast) {
+function generateMD(ast, templateDir) {
   if (!ast) return 'no analyzed ast to generate markdown from';
+  if (!templateDir) {
+    templateDir = __dirname + '/templates/';
+  } else {
+    templateDir = templateDir.replace(/\\/g, '/') + '/';
+  }
 
   var templates = {
-    file: fs.readFileSync(__dirname + '/templates/file.mustache').toString(),
-    class: fs.readFileSync(__dirname + '/templates/class.mustache').toString(),
-    function: fs.readFileSync(__dirname + '/templates/function.mustache').toString()
+    file: fs.readFileSync(templateDir + 'file.mustache').toString(),
+    class: fs.readFileSync(templateDir + 'class.mustache').toString(),
+    function: fs.readFileSync(templateDir + 'function.mustache').toString()
   };
 
   return Mustache.render(templates.file, ast, templates);
 }
 
-function generateForDir(filename, destination, cb, fileCb) {
+function generateForDir(filename, destination, templateDir, cb, fileCb) {
   var waiting = 0;
   var touched = 0;
   var error = null;
@@ -288,7 +297,7 @@ function generateForDir(filename, destination, cb, fileCb) {
       }
 
       var data = analyze(result),
-          output = generateMD(data);
+          output = generateMD(data, templateDir);
 
       if (output) {
         fileCb && fileCb(file, data);
@@ -404,7 +413,7 @@ function jsdox() {
         q.all(argv._.map(function(file) {
           var deferred = q.defer();
 
-          generateForDir(file, argv.output, function(err) {
+          generateForDir(file, argv.output, argv.templateDir, function(err) {
             if (err) {
               console.error(err);
               throw err;
