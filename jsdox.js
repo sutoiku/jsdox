@@ -142,7 +142,7 @@ function analyze(ast) {
         (currentFunction || result).deprecated = tag.deprecated || true;
         break;
       case 'function':
-        if (tag.undocumented) break;
+        if (tag.undocumented) { break; }
 
         var fn = tag;
         fn.params       = tag.params || [];
@@ -232,7 +232,7 @@ function analyze(ast) {
  * @param {AST} node - May or may not contain a type attribute
  */
 function setPipedTypesString(node) {
-  if (! node.type) return '';
+  if (! node.type) { return ''; }
 
   node.typesString = node.type.names.join(' | ');
 }
@@ -252,7 +252,7 @@ function inspect(text) {
  * @return {String} Markdown output
  */
 function generateMD(ast, templateDir) {
-  if (!ast) return 'no analyzed ast to generate markdown from';
+  if (!ast) { return 'no analyzed ast to generate markdown from'; }
   if (!templateDir) {
     templateDir = __dirname + '/templates/';
   } else {

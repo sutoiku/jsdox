@@ -22,9 +22,9 @@ var foo = {
    * @deprecated Not a good function
    */
   bar: function() {
-    return true
+    return true;
   }
-}
+};
 
 /**
   This is a test function
@@ -106,7 +106,7 @@ function testDeprecated() {
 
 testNamed('test.js');
 
-/** 
+/**
   * This is a class
   * @class SampleClass
 */

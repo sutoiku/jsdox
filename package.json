@@ -46,7 +46,8 @@
   },
   "devDependencies": {
     "mocha": "1.0.x",
-    "should": "0.6.x"
+    "expect.js": "^0.3.1",
+    "jshint": "^2.5.3"
   },
   "optionalDependencies": {},
   "engines": {
