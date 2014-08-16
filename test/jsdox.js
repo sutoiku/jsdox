@@ -1,11 +1,27 @@
 var exec = require('child_process').exec,
-    expect = require('expect.js');
+    expect = require('expect.js'),
+    fs = require('fs');
 
 var bin = 'bin/jsdox';
 
 describe('jsdox', function() {
   it('prints an error if an input file or directory is not supplied', function(done) {
     expectOutputFromCommand(bin, 'Error', done, true);
+  });
+
+  it('generates non-empty output markdown files from the fixtures/ files', function(done) {
+    var cmd = bin + ' fixtures/**.js -o sample_output';
+
+    exec(cmd, function(err, stdout, stderr) {
+      expect(stderr).to.be.empty();
+
+      fs.readdirSync('sample_output').forEach(function(outputFile) {
+        var content = fs.readFileSync('sample_output/' + outputFile).toString();
+        expect(content).not.to.be.empty();
+      });
+
+      done();
+    });
   });
 
   describe('cli options', function() {
@@ -16,6 +32,8 @@ describe('jsdox', function() {
     it('prints the version with the -v option', function(done) {
       expectOutputFromCommand(bin + ' -v', require('../package.json').version, done);
     });
+
+    it('accepts a custom template directory with the -t option');
   });
 });
 

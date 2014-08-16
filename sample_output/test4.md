@@ -1,26 +1,39 @@
-Some smart title goes here
-==========================
-*(c) 2012 Blah Blah Blah*
-
-**Author:** Joe Schmo
-
-**Overview:** This is the overview with some `markdown` included, how nice!
-
-Some extra text
-Some more extra text
-
-some text after a blank line
+Global
+===
 
 
-notAnInternalFunction(file, \[optional\])
------------------------------------------
-This is a test function
-with a description on multiple lines
 
+_internalFunction(file, optional) 
+-----------------------------
+This is a test internal function
+  with a description on multiple lines
 
 **Parameters**
 
-**file**:  *String*,  filename to parse
+**file**: String, filename to parse
 
-**[optional]**:  *Boolean*,  Changes behavior
+**optional**: Boolean, Changes behavior
+
+
+notAnInternalFunction(file, optional) 
+-----------------------------
+This is a test function
+  with a description on multiple lines
+
+**Parameters**
+
+**file**: String, filename to parse
+
+**optional**: Boolean, Changes behavior
+
+
+
+---
+
+*(c) 2012 Blah Blah Blah*
+
+**License:** MIT Joe Schmo
+
+**Overview:** This is the overview with some `markdown` included, how nice!
+
 
