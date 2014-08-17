@@ -45,9 +45,10 @@
     "mustache": "^0.8.2"
   },
   "devDependencies": {
-    "mocha": "1.0.x",
     "expect.js": "^0.3.1",
-    "jshint": "^2.5.3"
+    "jshint": "^2.5.3",
+    "mocha": "1.0.x",
+    "should": "4.0.4"
   },
   "optionalDependencies": {},
   "engines": {
