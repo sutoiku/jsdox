@@ -205,7 +205,7 @@ function analyze(ast) {
         module.requires = tag.requires || [];
         module.hasRequires = !!module.requires.length;
         module.requires.forEach(function(r, i) {
-          if (!r) return '';
+          if (!r) { return ''; }
           module.requires[i] = {req: r};
         });
         result.modules.push(module);
