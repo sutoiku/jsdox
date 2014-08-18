@@ -103,6 +103,7 @@ function analyze(ast) {
     methods: [],
     classes: [],
     modules: [],
+    members: [],
     globalModule: null,
     globalVariables: [],
     description: '',
@@ -110,7 +111,8 @@ function analyze(ast) {
     copyright: '',
     license: '',
     author: '',
-    version: ''
+    version: '',
+    hasMembers: false
   },
   currentModule   = null,
   currentClass    = null,
@@ -185,6 +187,9 @@ function analyze(ast) {
       case 'member':
         if (currentClass && tag.undocumented !== true) {
           currentClass.members.push(tag);
+        } else if (tag.scope === 'inner' && tag.undocumented !== true) {
+          result.members.push({member: tag.name});
+          result.hasMembers = true;
         }
         break;
       case 'return':
@@ -200,6 +205,12 @@ function analyze(ast) {
         module.functions = [];
         module.classes = [];
         module.description = tag.description;
+        module.requires = tag.requires || [];
+        module.hasRequires = !!module.requires.length;
+        module.requires.forEach(function(r, i) {
+          if (!r) { return ''; }
+          module.requires[i] = {req: r};
+        });
         result.modules.push(module);
         currentModule = module;
         break;
@@ -290,7 +301,6 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
           error = err;
         }
       }
-
       if (argv.debug) {
         console.log(file + ' AST: ', util.inspect(result, false, 20));
         console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
