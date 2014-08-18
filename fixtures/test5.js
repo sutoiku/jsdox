@@ -6,7 +6,7 @@
 */
 
 /**
-  init system configuration
+  Init system configuration
   @module base
   @requires './model/settings'
 */
