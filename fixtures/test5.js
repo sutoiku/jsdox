@@ -6,7 +6,7 @@
 */
 
 /**
-  Init system configuration
+  init system configuration
   @module base
   @requires './model/settings'
 */
@@ -16,16 +16,13 @@ path = require('path');
 
 settings = require('./model/settings');
 
-
 /** @member */
 
 ROOT = '.';
 
-
 /** @member */
 
 UPLOAD_DIR = 'upload';
-
 
 /** @member */
 
