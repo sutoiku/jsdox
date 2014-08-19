@@ -393,7 +393,7 @@ function printHelp(){
   console.log('  -H, --help\t\t Prints this message and quits.');
   console.log('  -v, --version\t\t Prints the current version and quits.');
   console.log('  -o, --output\t\t Output directory.');
-  console.log('  -t, --templateDir\t\t Template directory to use intead of built-in ones.');
+  console.log('  -t, --templateDir\t Template directory to use intead of built-in ones.');
   process.exit();
 }
 
