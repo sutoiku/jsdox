@@ -1,47 +1,53 @@
-Some smart title goes here
-==========================
-*(c) 2012 Blah Blah Blah*
-
-**Author:** Joe Schmo
-
-**Overview:** This is the overview with some `markdown` included, how nice!
-
-Some extra text
-Some more extra text
-
-some text after a blank line
+Global
+===
 
 
-func1(a, b)
------------
-@ returns the result
 
-
+func1(a, b) 
+-----------------------------
 **Parameters**
 
-**a**,  the first param
+**a**: String, the first param
 
-**b**,  the second param
+**b**: String, the second param
 
-func2(c, d)
------------
+**Returns**: String, the result
+
+func2(c, d) 
+-----------------------------
+**Parameters**
+
+**c**: the first param
+
+**d**: the second param
 @ returns the other result
 
 
-**Parameters**
-
-**c**,  the first param
-
-**d**,  the second param
-
-exported(param, param)
-----------------------
+exported(param) 
+-----------------------------
 exported with dot notation
 
+**Parameters**
+
+**param**: String, the parameter
+
+
+globalFunction(param) 
+-----------------------------
+global function
 
 **Parameters**
 
-**param**:  *String*,  the parameter
+**param**: String, the parameter
 
-**param**:  *String*,  the parameter
+
+
+---
+
+*(c) 2012 Blah Blah Blah*
+
+**License:** MIT Joe Schmo
+
+**Overview:** This is the overview with some `markdown` included, how nice!
+
 
