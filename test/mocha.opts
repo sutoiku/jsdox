@@ -1,5 +1,4 @@
-test/*.js test/lib/*.js
---require should
+test/jsdox.js test/lib/*.js
 --reporter dot
 --ui bdd
 --growl
