@@ -47,34 +47,11 @@ var
     .argv,
   packageJson = require('./package.json'),
   jsdocParser = require('jsdoc3-parser'),
-  Mustache = require('mustache'),
-  analyze = require('./lib/analyze');
+  analyze = require('./lib/analyze'),
+  generateMD = require('./lib/generateMD');
 
 function inspect(text) {
   return util.inspect(text, false, 20);
-}
-
-/**
- * Renders markdown from the given analyzed AST
- * @param  {Object} ast - output from analyze()
- * @param  {String} templateDir - templates directory (optional)
- * @return {String} Markdown output
- */
-function generateMD(ast, templateDir) {
-  if (!ast) { return 'no analyzed ast to generate markdown from'; }
-  if (!templateDir) {
-    templateDir = __dirname + '/templates/';
-  } else {
-    templateDir = templateDir.replace(/\\/g, '/') + '/';
-  }
-
-  var templates = {
-    file: fs.readFileSync(templateDir + 'file.mustache').toString(),
-    class: fs.readFileSync(templateDir + 'class.mustache').toString(),
-    function: fs.readFileSync(templateDir + 'function.mustache').toString()
-  };
-
-  return Mustache.render(templates.file, ast, templates);
 }
 
 function generateForDir(filename, destination, templateDir, cb, fileCb) {
