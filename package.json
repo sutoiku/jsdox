@@ -29,7 +29,8 @@
     "jsdox.js",
     "LICENSE",
     "README.md",
-    "templates"
+    "templates",
+    "lib"
   ],
   "scripts": {
     "test": "jshint --config jshint-config.json jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
