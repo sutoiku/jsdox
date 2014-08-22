@@ -54,18 +54,47 @@ function inspect(text) {
   return util.inspect(text, false, 20);
 }
 
+function printHelp(){
+  console.log('Usage:\tjsdox [options] <file | directory>');
+  console.log('\tjsdox --All --output docs folder\n');
+  console.log('Options:');
+  console.log('  -c, --config \t<file>\t Configuration JSON file.');
+  console.log('  -A, --All\t\t Generates documentation for all available elements including internal methods.');
+  console.log('  -d, --debug\t\t Prints debugging information to the console.');
+  console.log('  -H, --help\t\t Prints this message and quits.');
+  console.log('  -v, --version\t\t Prints the current version and quits.');
+  console.log('  -o, --output\t\t Output directory.');
+  console.log('  -t, --templateDir\t Template directory to use instead of built-in ones.');
+  process.exit();
+}
+
+function printVersion(){
+  console.log('Version: ' + packageJson.version);
+  process.exit();
+}
+
+/**
+ * @param  {String}   filename
+ * @param  {String}   destination
+ * @param  {String}   templateDir
+ * @param  {Function} cb
+ * @param  {Function} fileCb
+ */
 function generateForDir(filename, destination, templateDir, cb, fileCb) {
-  var waiting = 0;
-  var touched = 0;
-  var error = null;
+  var waiting = 0,
+      touched = 0,
+      error = null;
 
   function oneFile(directory, file, cb) {
     var fullpath = path.join(destination, file);
     fullpath = fullpath.replace(/\.js$/, '.md');
+
     if (argv.debug) {
       console.log('Generating', fullpath);
     }
+
     waiting++;
+
     jsdocParser(path.join(directory, file), function(err, result) {
       if (err) {
         console.error('Error generating docs for file', file, err);
@@ -76,6 +105,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
           error = err;
         }
       }
+
       if (argv.debug) {
         console.log(file + ' AST: ', util.inspect(result, false, 20));
         console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
@@ -96,6 +126,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
             return cb(error);
           }
         });
+
       } else {
         waiting--;
         if (!waiting) {
@@ -107,6 +138,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
   if (filename.match(/\.js$/)) {
     oneFile(path.dirname(filename), path.basename(filename), cb);
+
   } else {
     fs.stat(filename, function (err, s) {
       if (!err && s.isDirectory()) {
@@ -131,6 +163,10 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
   }
 }
 
+/**
+ * @param  {String}   file
+ * @param  {Function} callback
+ */
 function loadConfigFile(file, callback){
   var config;
 
@@ -143,14 +179,16 @@ function loadConfigFile(file, callback){
         console.error('Error loading config file: ', err);
         process.exit();
       }
+
       for(var key in config){
         if (key !== 'input'){
-        argv[key] = config[key];
+          argv[key] = config[key];
         } else {
-        argv._[0] = config[key];
+          argv._[0] = config[key];
         }
       }
       callback();
+
     } else {
       console.error('Error loading config file: ', file);
       process.exit();
@@ -158,66 +196,47 @@ function loadConfigFile(file, callback){
   });
 }
 
-function printHelp(){
-  console.log('Usage:\tjsdox [options] <file | directory>');
-  console.log('\tjsdox --All --output docs folder\n');
-  console.log('Options:');
-  console.log('  -c, --config \t<file>\t Configuration JSON file.');
-  console.log('  -A, --All\t\t Generates documentation for all available elements including internal methods.');
-  console.log('  -d, --debug\t\t Prints debugging information to the console.');
-  console.log('  -H, --help\t\t Prints this message and quits.');
-  console.log('  -v, --version\t\t Prints the current version and quits.');
-  console.log('  -o, --output\t\t Output directory.');
-  console.log('  -t, --templateDir\t Template directory to use instead of built-in ones.');
-  process.exit();
-}
+function main(){
+  if(typeof argv._[0] !== 'undefined'){
+    fs.mkdir(argv.output, function() {
+      q.all(argv._.map(function(file) {
+        var deferred = q.defer();
 
-function printVersion(){
-  console.log('Version: ' + packageJson.version);
-  process.exit();
+        generateForDir(file, argv.output, argv.templateDir, function(err) {
+          if (err) {
+            console.error(err);
+            throw err;
+          }
+
+          deferred.resolve();
+        });
+
+        return deferred.promise;
+      }))
+      .then(function () {
+        console.log('jsdox completed');
+      });
+    });
+  } else {
+    console.error('Error missing input file or directory.');
+    printHelp();
+  }
 }
 
 function jsdox() {
-  //Handle options
   if(argv.help){
-   printHelp();
+    printHelp();
   }
 
   if(argv.version){
-   printVersion();
+    printVersion();
   }
 
   if(argv.config){
     loadConfigFile(argv.config, main);
+
   } else {
     main();
-  }
-
-  function main(){
-    if(typeof argv._[0] !== 'undefined'){
-      fs.mkdir(argv.output, function() {
-        q.all(argv._.map(function(file) {
-          var deferred = q.defer();
-
-          generateForDir(file, argv.output, argv.templateDir, function(err) {
-            if (err) {
-              console.error(err);
-              throw err;
-            }
-
-            deferred.resolve();
-          });
-
-          return deferred.promise;
-        }))
-        .then(function () {
-          console.log('jsdox completed');
-        });
-      });
-    } else {
-      console.error('Error missing input file or directory.');
-      printHelp();
-    }
   }
 }
 
