@@ -1,3 +1,4 @@
+test/*.js test/lib/*.js
 --require should
 --reporter dot
 --ui bdd
