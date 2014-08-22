@@ -48,8 +48,8 @@
   "devDependencies": {
     "expect.js": "^0.3.1",
     "jshint": "^2.5.3",
-    "mocha": "1.0.x",
-    "should": "4.0.4"
+    "sinon": "^1.10.3",
+    "mocha": "^1.21.4"
   },
   "optionalDependencies": {},
   "engines": {
