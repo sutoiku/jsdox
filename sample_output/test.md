@@ -4,6 +4,13 @@ foo
 Can I get some description please
   on more than one line, if possible.
 
+
+**Members:**
+
++ foo
+
+---
+
 foo.bar() 
 -----------------------------
 I so cool
