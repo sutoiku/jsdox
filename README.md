@@ -2,13 +2,13 @@
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
 
-Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to get the full AST including comments
+Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to get the full AST including comments.
 
 # Resources
 * [jsdox](http://jsdox.org) Documentation
 * Github [repo](https://github.com/sutoiku/jsdox)
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
-* Contribute by creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
+* Contribute by [reading the guidelines](https://github.com/sutoiku/jsdox/blob/master/Contributing.md) and creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 * Run the test suite using `npm test`
 
 # Related projects
