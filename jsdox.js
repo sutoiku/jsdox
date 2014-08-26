@@ -111,7 +111,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
       }
 
-      var data = analyze(result),
+      var data = analyze(result, argv),
           output = generateMD(data, templateDir);
 
       if (output) {
@@ -171,6 +171,7 @@ function loadConfigFile(file, callback){
   var config;
 
   //check to see if file exists
+  file = path.resolve(process.cwd(), file);
   fs.exists(file, function(exists) {
     if (exists) {
       try {

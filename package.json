@@ -33,7 +33,7 @@
     "lib"
   ],
   "scripts": {
-    "test": "jshint --config jshint-config.json jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
+    "test": "jshint --config .jshintrc jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
   },
   "preferGlobal": true,
   "bin": {
