@@ -15,10 +15,6 @@
   "node": true,
   "noempty": true,
   "nonew": true,
-  "globals": {
-    "define": true,
-    "should": false
-  },
   "predef":
   [
     "after",
@@ -29,7 +25,8 @@
     "it",
     "unescape",
     "par",
-    "each"
+    "each",
+    "define"
   ],
   "smarttabs": true,
   "trailing": false,
