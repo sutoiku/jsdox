@@ -1,11 +1,10 @@
 {{#name}}
-{{name}}
-===
+## Class: {{name}}
 {{/name}}
 {{#description}}{{{description}}}{{/description}}
 
 {{#members}}
-**{{name}}** - {{{description}}}
+**{{name}}**: {{#typesString}}`{{typesString}}`{{/typesString}} {{#description}}, {{{description}}}{{/description}}
 {{/members}}
 {{#methods}}
 {{> function}}
