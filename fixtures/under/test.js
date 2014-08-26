@@ -107,6 +107,20 @@ function testDeprecated() {
 testNamed('test.js');
 
 /**
+ * @description Provides chainable functions to easily build and execute a command.
+ * @property {String} last_err Last error, if present
+ * @class
+ */
+var Ketch = function Ketch() {
+
+  /**
+   * @description Internal array representation of this command.
+   * @type {Array}
+   */
+  this.cmd = Ketch.parseArgs.apply(null, arguments);
+};
+
+/**
   * This is a class
   * @class SampleClass
 */
@@ -117,6 +131,8 @@ function SampleClass(parm1){
    * @param a the first param
    * @param b the second param
    * @returns the result
+   * @example
+   *   func1(1, 2)
   */
   this.func1 = function(a, b) {
     return 1;

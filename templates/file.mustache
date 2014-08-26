@@ -1,7 +1,6 @@
 {{#modules}}
 {{#name}}
-{{name}}
-===
+# {{name}}
 {{/name}}
 
 {{#description}}{{{description}}}{{/description}}
@@ -22,7 +21,14 @@
 {{/members}}
 {{/hasMembers}}
 
----
+{{#examples}}
+**Example:**
+```js
+{{{examples}}}
+```
+
+{{/examples}}
+* * *
 
 {{#functions}}
 {{> function}}
@@ -34,11 +40,13 @@
 {{/classes}}
 
 {{/modules}}
----
+* * *
 
 {{#copyright}}*{{copyright}}*{{/copyright}}
 
-{{#license}}**License:** {{license}} {{/license}}{{#author}}{{author}}{{/author}}
+{{#author}}**Author:** {{author}}{{/author}}
+
+{{#license}}**License:** {{license}} {{/license}}
 
 {{#overview}}**Overview:** {{{overview}}}{{/overview}}
 

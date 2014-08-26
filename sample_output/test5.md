@@ -1,5 +1,4 @@
-base
-===
+# base
 
 init system configuration
 
@@ -13,19 +12,22 @@ init system configuration
 + UPLOAD_DIR
 + QRCODE_DIR
 
----
+* * *
 
-base.init() 
------------------------------
+### base.init() 
+
 Read global config from database
 
 
 
----
+
+* * *
 
 
 
-**License:** MIT lemori
+**Author:** lemori
+
+**License:** MIT 
 
 **Overview:** This sample will output module requires and members.
 

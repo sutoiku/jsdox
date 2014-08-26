@@ -1,8 +1,10 @@
----
+* * *
 
 *(c) 2012 Blah Blah Blah*
 
-**License:** MIT Joe Schmo
+**Author:** Joe Schmo
+
+**License:** MIT 
 
 **Overview:** What's up?
 
