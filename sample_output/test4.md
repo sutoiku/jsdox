@@ -7,7 +7,7 @@ Global
 
 ---
 
-_internalFunction(file, optional) 
+privateFunction(file, optional) 
 -----------------------------
 This is a test internal function
   with a description on multiple lines

@@ -17,7 +17,7 @@ I so cool
 
 Deprecated: Not a good function
 
-**Returns**: Boolean | null, I so cool
+**Returns**: Boolean | null, 
 
 foo.testNamed(file, optional) 
 -----------------------------

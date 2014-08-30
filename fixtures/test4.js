@@ -18,6 +18,18 @@ function _internalFunction(file, optional) {
 }
 
 /**
+  This is a test internal function
+  with a description on multiple lines
+  @param {String} file filename to parse
+  @param {Boolean} [optional] Changes behavior
+  @private
+*/
+function privateFunction(file, optional) {
+  return false;
+}
+
+
+/**
   This is a test function
   with a description on multiple lines
   @param {String} file filename to parse
