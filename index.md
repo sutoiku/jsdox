@@ -2,6 +2,12 @@ Functions
 =========
 
 
+###[_internalFunction](sample_output/test4.md):
+This is a test internal function
+  with a description on multiple lines (in [fixtures&#x2F;test4.js](fixtures/test4.js))
+
+
+
 ###[bar](sample_output/test.md):
 I so cool (in [fixtures&#x2F;test.js](fixtures/test.js))
 
@@ -17,23 +23,23 @@ exported with dot notation (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
-###[func1](sample_output/test2.md):
- (in [fixtures&#x2F;test2.js](fixtures/test2.js))
-
-
-
 ###[func1](sample_output/test.md):
  (in [fixtures&#x2F;test.js](fixtures/test.js))
 
 
 
-###[func2](sample_output/test2.md):
+###[func1](sample_output/test2.md):
  (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
 ###[func2](sample_output/test.md):
  (in [fixtures&#x2F;test.js](fixtures/test.js))
+
+
+
+###[func2](sample_output/test2.md):
+ (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
@@ -49,6 +55,12 @@ Read global config from database (in [fixtures&#x2F;test5.js](fixtures/test5.js)
 
 ###[notAnInternalFunction](sample_output/test4.md):
 This is a test function
+  with a description on multiple lines (in [fixtures&#x2F;test4.js](fixtures/test4.js))
+
+
+
+###[privateFunction](sample_output/test4.md):
+This is a test internal function
   with a description on multiple lines (in [fixtures&#x2F;test4.js](fixtures/test4.js))
 
 

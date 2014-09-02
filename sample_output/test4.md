@@ -7,6 +7,30 @@ Global
 
 ---
 
+_internalFunction(file, optional) 
+-----------------------------
+This is a test internal function
+  with a description on multiple lines
+
+**Parameters**
+
+**file**: String, filename to parse
+
+**optional**: Boolean, Changes behavior
+
+
+privateFunction(file, optional) 
+-----------------------------
+This is a test internal function
+  with a description on multiple lines
+
+**Parameters**
+
+**file**: String, filename to parse
+
+**optional**: Boolean, Changes behavior
+
+
 notAnInternalFunction(file, optional) 
 -----------------------------
 This is a test function
