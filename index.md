@@ -22,7 +22,7 @@ exported with dot notation (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
-###[func1](sample_output/test.md):
+###[func1](sample_output/test2.md#func2c-d-):
  (in [fixtures&#x2F;test.js](fixtures/test.js))
 
 
