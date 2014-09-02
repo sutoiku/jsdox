@@ -1,3 +1,10 @@
+### Notes
+
+This repository is a fork from https://github.com/sutoiku/jsdox
+
+New features:
+*Index generation for your generated documentation
+
 # jsdox [![npm](http://img.shields.io/npm/v/jsdox.svg)](https://npmjs.org/package/jsdox) [![npm](http://img.shields.io/npm/dm/jsdox.svg)](https://npmjs.org/package/jsdox) [![build status](https://travis-ci.org/sutoiku/jsdox.svg?branch=master)](https://travis-ci.org/sutoiku/jsdox)
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
