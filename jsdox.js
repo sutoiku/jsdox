@@ -71,15 +71,16 @@ function printHelp(){
     console.log('Usage:\tjsdox [options] <file | directory>');
     console.log('\tjsdox --All --output docs folder\n');
     console.log('Options:');
-    console.log('  -c, --config \t<file>\t Configuration JSON file.');
-    console.log('  -A, --All\t\t Generates documentation for all available elements including internal methods.');
-    console.log('  -d, --debug\t\t Prints debugging information to the console.');
-    console.log('  -H, --help\t\t Prints this message and quits.');
-    console.log('  -v, --version\t\t Prints the current version and quits.');
-    console.log('  -o, --output\t\t Output directory.');
-    console.log('  -t, --templateDir\t Template directory to use instead of built-in ones.');
-    console.log('  -i, --index\t\t Generates an index with the documentation. A file name can be provided in argument.');
-    console.log('  -r, --recursive\t Generates documentation in all subdirectories of the directory given as argument.');
+    console.log('  -c,\t--config \t<file>\t Configuration JSON file.');
+    console.log('  -A,\t--All\t\t\t Generates documentation for all available elements including internal methods.');
+    console.log('  -d,\t--debug\t\t\t Prints debugging information to the console.');
+    console.log('  -H,\t--help\t\t\t Prints this message and quits.');
+    console.log('  -v,\t--version\t\t Prints the current version and quits.');
+    console.log('  -o,\t--output\t\t Output directory.');
+    console.log('  -t,\t--templateDir\t\t Template directory to use instead of built-in ones.');
+    console.log('  -i,\t--index\t\t\t Generates an index with the documentation. A file name can be provided in argument.');
+    console.log('  -r,\t--recursive\t\t Generates documentation in all subdirectories of the directory given as argument.');
+    console.log('  --rr,\t--respect-recursive\t Will generate subdirectories and copy the original organization of the sources.');
 
     process.exit();
 }
@@ -116,10 +117,11 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     };
 
     function oneFile(directory, file, cb) {
-        //var fullpath = path.join(destination, file);
-        console.log(directory);
-        var fullpath = path.join(path.join(destination,path.dirname(file)),path.basename(file));
-        console.log(fullpath);
+        if(argv.rr) {
+            var fullpath = path.join(path.join(destination, path.dirname(file)), path.basename(file));
+        }else{
+            var fullpath = path.join(destination, file);
+        }
         fullpath = fullpath.replace(/\.js$/, '.md');
 
         if (argv.debug) {
@@ -153,7 +155,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.functions[i];
                         toAdd.file = fullpath;
-                        toAdd.sourcePath = path.join(directory,file);
+                        toAdd.sourcePath = path.join(directory,path.basename(file));
                         index.functions.push(toAdd);
                     }
                 }
@@ -161,7 +163,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.classes[i];
                         toAdd.file = fullpath;
-                        toAdd.sourcePath = path.join(directory,file);
+                        toAdd.sourcePath = path.join(directory,path.basename(file));
                         index.classes.push(toAdd);
                     }
                 }

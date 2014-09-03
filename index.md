@@ -3,79 +3,79 @@ Functions
 
 
 ###[bar](sample_output/fixtures/under/test.md):
-I so cool (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+I so cool (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
 ###[create](sample_output/fixtures/test3.md):
-Create a record (in [fixtures&#x2F;fixtures&#x2F;test3.js](fixtures/fixtures/test3.js))
+Create a record (in [fixtures&#x2F;test3.js](fixtures/test3.js))
 
 
 
 ###[exported](sample_output/fixtures/test2.md):
-exported with dot notation (in [fixtures&#x2F;fixtures&#x2F;test2.js](fixtures/fixtures/test2.js))
+exported with dot notation (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
 ###[func1](sample_output/fixtures/under/test.md):
- (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+ (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
 ###[func1](sample_output/fixtures/test2.md):
- (in [fixtures&#x2F;fixtures&#x2F;test2.js](fixtures/fixtures/test2.js))
-
-
-
-###[func2](sample_output/fixtures/test2.md):
- (in [fixtures&#x2F;fixtures&#x2F;test2.js](fixtures/fixtures/test2.js))
+ (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
 ###[func2](sample_output/fixtures/under/test.md):
- (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+ (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
+
+
+
+###[func2](sample_output/fixtures/test2.md):
+ (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
 ###[globalFunction](sample_output/fixtures/test2.md):
-global function (in [fixtures&#x2F;fixtures&#x2F;test2.js](fixtures/fixtures/test2.js))
+global function (in [fixtures&#x2F;test2.js](fixtures/test2.js))
 
 
 
 ###[init](sample_output/fixtures/test5.md):
-Read global config from database (in [fixtures&#x2F;fixtures&#x2F;test5.js](fixtures/fixtures/test5.js))
+Read global config from database (in [fixtures&#x2F;test5.js](fixtures/test5.js))
 
 
 
 ###[notAnInternalFunction](sample_output/fixtures/test4.md):
 This is a test function
-  with a description on multiple lines (in [fixtures&#x2F;fixtures&#x2F;test4.js](fixtures/fixtures/test4.js))
+  with a description on multiple lines (in [fixtures&#x2F;test4.js](fixtures/test4.js))
 
 
 
 ###[remove](sample_output/fixtures/test3.md):
-Remove a record (in [fixtures&#x2F;fixtures&#x2F;test3.js](fixtures/fixtures/test3.js))
+Remove a record (in [fixtures&#x2F;test3.js](fixtures/test3.js))
 
 
 
 ###[testAnon2](sample_output/fixtures/under/test.md):
-second function without name (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+second function without name (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
 ###[testAnonynous](sample_output/fixtures/under/test.md):
-function without name (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+function without name (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
 ###[testDeprecated](sample_output/fixtures/under/test.md):
-This is a deprecated function. (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+This is a deprecated function. (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
 ###[testNamed](sample_output/fixtures/under/test.md):
 This is a test function
-  with a description on multiple lines (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+  with a description on multiple lines (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
 
 
@@ -86,5 +86,5 @@ Classes
 
 
 ###[SampleClass](sample_output/fixtures/under/test.md):
-This is a class (in [fixtures&#x2F;under&#x2F;fixtures&#x2F;under&#x2F;test.js](fixtures/under/fixtures/under/test.js))
+This is a class (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
 
