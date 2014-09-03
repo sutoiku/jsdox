@@ -6,8 +6,7 @@ lib-cov
 *.out
 *.pid
 *.gz
-.idea/*
-todo.txt
+
 
 pids
 logs
