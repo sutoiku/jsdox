@@ -154,8 +154,8 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                 for (var i = 0; i < data.functions.length; i++) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.functions[i];
-                        toAdd.file = fullpath;
-                        toAdd.sourcePath = path.join(directory,path.basename(file));
+                        toAdd.file = path.relative(destination,fullpath);
+                        toAdd.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
                         index.functions.push(toAdd);
                     }
                 }
@@ -317,6 +317,11 @@ function main(){
                             fileName='index';
                         }else{
                             fileName=argv.index;
+                        }
+                        if(typeof argv.output == 'string'){
+                            fileName=path.join(argv.output,fileName);
+                        }else{
+                            fileName=path.join('output',fileName);
                         }
                         fs.writeFileSync(fileName+'.md', generateMD(index, argv.templateDir, true));
                     }
