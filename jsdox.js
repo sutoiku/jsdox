@@ -44,6 +44,9 @@ var
         .options('templateDir', {
             alias: 't'
         })
+        .options('index', {
+            alias: 'i'
+        })
         .argv,
     packageJson = require('./package.json'),
     jsdocParser = require('jsdoc3-parser'),
@@ -70,6 +73,8 @@ function printHelp(){
     console.log('  -v, --version\t\t Prints the current version and quits.');
     console.log('  -o, --output\t\t Output directory.');
     console.log('  -t, --templateDir\t Template directory to use instead of built-in ones.');
+    console.log('  -i, --index\t\t Generates an index with the documentation. A file name can be provided in argument.')
+
     process.exit();
 }
 
@@ -120,20 +125,22 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                 output = generateMD(data, templateDir);
 
 
-            for(var i=0;i<data.functions.length;i++){
-                if(data.functions[i].className==undefined) {
-                    var toAdd=data.functions[i];
-                    toAdd.file=fullpath;
-                    toAdd.sourcePath=directory+file;
-                    index.functions.push(toAdd);
+            if(argv.index) {
+                for (var i = 0; i < data.functions.length; i++) {
+                    if (data.functions[i].className == undefined) {
+                        var toAdd = data.functions[i];
+                        toAdd.file = fullpath;
+                        toAdd.sourcePath = directory + file;
+                        index.functions.push(toAdd);
+                    }
                 }
-            }
-            for(var i=0;i<data.classes.length;i++){
-                if(data.functions[i].className==undefined) {
-                    var toAdd=data.classes[i];
-                    toAdd.file=fullpath;
-                    toAdd.sourcePath=directory+file;
-                    index.classes.push(toAdd);
+                for (var i = 0; i < data.classes.length; i++) {
+                    if (data.functions[i].className == undefined) {
+                        var toAdd = data.classes[i];
+                        toAdd.file = fullpath;
+                        toAdd.sourcePath = directory + file;
+                        index.classes.push(toAdd);
+                    }
                 }
             }
 
@@ -241,7 +248,15 @@ function main(){
             }))
                 .then(function(){
                     //create index
-                    fs.writeFileSync('index.md',generateIndex(index,argv.templateDir));
+                    if(argv.index) {
+                        var fileName;
+                        if(argv.index==true){
+                            fileName='index';
+                        }else{
+                            fileName=argv.index;
+                        }
+                        fs.writeFileSync(fileName+'.md', generateMD(index, argv.templateDir, true));
+                    }
 
 
 
