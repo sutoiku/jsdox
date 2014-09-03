@@ -52,7 +52,6 @@ var
     jsdocParser = require('jsdoc3-parser'),
     analyze = require('./lib/analyze'),
     generateMD = require('./lib/generateMD'),
-    generateIndex = require('./lib/generateIndex'),
     index= {
         classes: [],
         functions: []
