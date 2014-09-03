@@ -3,7 +3,7 @@
 This repository is a fork from https://github.com/sutoiku/jsdox
 
 Features I added:
-* Index generation for your generated documentation (take a look ad [index.md](sample_output/index.md))
+* Index generation for your generated documentation with -i (take a look ad [index.md](sample_output/index.md))
 * Recursive generation of documentation with -r (ie: documentation for subdirectories is generated too)
 * Respectful recursive generation with --rr (ie: the documentation for dir1/dir2/file.js will be in output_dir/dir1/dir/file.md)
 
