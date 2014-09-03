@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+*/
 
 var
   util = require('util'),
@@ -22,36 +22,36 @@ var
   q    = require('q'),
   argv = require('optimist')
     .options('output', {
-      alias: 'o',
-      'default':'output'
+     alias: 'o',
+     'default':'output'
     })
     .options('config',{
-      alias: 'c'
+     alias: 'c'
     })
     .options('version',{
-      alias: 'v'
+     alias: 'v'
     })
     .options('help',{
-      alias: 'h'
+     alias: 'h'
     })
     .boolean('A', 'd')
     .options('A',{
-      alias: 'All'
+     alias: 'All'
     })
     .options('d',{
-      alias: 'debug'
+     alias: 'debug'
     })
     .options('templateDir', {
-      alias: 't'
+     alias: 't'
     })
     .options('index', {
-      alias: 'i'
+     alias: 'i'
     })
     .options('recursive',{
-      alias: 'r'
+     alias: 'r'
     })
     .options('respect-recursive', {
-      alias: 'rr'
+     alias: 'rr'
     })
     .argv,
   packageJson = require('./package.json'),
@@ -99,8 +99,8 @@ function printVersion(){
  */
 function generateForDir(filename, destination, templateDir, cb, fileCb) {
   var waiting = 0,
-    touched = 0,
-    error = null;
+      touched = 0,
+      error = null;
 
   var readdirSyncRec = function(dir, filelist) {
     var files = fs.readdirSync(dir);
@@ -148,7 +148,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
       }
 
       var data = analyze(result, argv),
-        output = generateMD(data, templateDir);
+          output = generateMD(data, templateDir);
 
 
       if(argv.index) {
@@ -225,11 +225,11 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
 
           });
-          if (!touched) {
+          if(!touched) {
             cb();
           }
 
-        }else {
+        } else {
           cb();
         }
       });
@@ -266,7 +266,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 function loadConfigFile(file, callback){
   var config;
 
-//check to see if file exists
+  //check to see if file exists
   file = path.resolve(process.cwd(), file);
   fs.exists(file, function(exists) {
     if (exists) {
