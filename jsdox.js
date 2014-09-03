@@ -50,6 +50,9 @@ var
         .options('recursive',{
             alias: 'r'
         })
+        .options('respect-recursive', {
+            alias: 'rr'
+        })
         .argv,
     packageJson = require('./package.json'),
     jsdocParser = require('jsdoc3-parser'),
@@ -113,7 +116,10 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     };
 
     function oneFile(directory, file, cb) {
-        var fullpath = path.join(destination, file);
+        //var fullpath = path.join(destination, file);
+        console.log(directory);
+        var fullpath = path.join(path.join(destination,path.dirname(file)),path.basename(file));
+        console.log(fullpath);
         fullpath = fullpath.replace(/\.js$/, '.md');
 
         if (argv.debug) {
@@ -122,7 +128,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
         waiting++;
 
-        jsdocParser(path.join(directory, file), function(err, result) {
+        jsdocParser(path.join(directory, path.basename(file)), function(err, result) {
             if (err) {
                 console.error('Error generating docs for file', file, err);
                 waiting--;
@@ -189,17 +195,31 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         oneFile(path.dirname(filename), path.basename(filename), cb);
 
     } else {
-        if(argv.recursive){
+        if(argv.recursive || argv.rr){
             fs.stat(filename, function (err, s) {
                 if (!err && s.isDirectory()) {
                     var contentList=readdirSyncRec(filename);
                     contentList.forEach(function(fileFullPath) {
-                        try {
+                        if(argv.rr){
+                            //create the sub-directories
+                            try{
+                                fs.mkdirSync(path.join(destination,path.dirname(fileFullPath)));
+                            }catch(err){} //lazy way: if the file already exists, everything is alright.
+                            try {
+                                oneFile(path.dirname(fileFullPath), fileFullPath, cb), touched++;
+                            }catch(err){
+                                console.error('Error generating docs for files', file, err);
+                                return cb(err);
+                            }
+                        }else {
+                            try{
                             oneFile(path.dirname(fileFullPath), path.basename(fileFullPath), cb), touched++;
-                        }catch(err){
-                            console.error('Error generating docs for files', file, err);
-                            return cb(err);
+                            }catch(err){
+                                console.error('Error generating docs for files', file, err);
+                                return cb(err);
+                            }
                         }
+
 
                     });
                     if (!touched) {
