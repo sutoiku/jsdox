@@ -1,6 +1,6 @@
 var exec = require('child_process').exec,
-  expect = require('expect.js'),
-  fs = require('fs');
+    expect = require('expect.js'),
+    fs = require('fs');
 
 var bin = 'bin/jsdox';
 
