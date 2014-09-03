@@ -47,6 +47,9 @@ var
         .options('index', {
             alias: 'i'
         })
+        .options('recursive',{
+            alias: 'r'
+        })
         .argv,
     packageJson = require('./package.json'),
     jsdocParser = require('jsdoc3-parser'),
@@ -72,7 +75,8 @@ function printHelp(){
     console.log('  -v, --version\t\t Prints the current version and quits.');
     console.log('  -o, --output\t\t Output directory.');
     console.log('  -t, --templateDir\t Template directory to use instead of built-in ones.');
-    console.log('  -i, --index\t\t Generates an index with the documentation. A file name can be provided in argument.')
+    console.log('  -i, --index\t\t Generates an index with the documentation. A file name can be provided in argument.');
+    console.log('  -r, --recursive\t Generates documentation in all subdirectories of the directory given as argument.');
 
     process.exit();
 }
@@ -93,6 +97,20 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     var waiting = 0,
         touched = 0,
         error = null;
+
+    var readdirSyncRec = function(dir, filelist) {
+        files = fs.readdirSync(dir);
+        filelist = filelist || [];
+        files.forEach(function(file) {
+            if (fs.statSync(path.join(dir,file)).isDirectory()) {
+                filelist = readdirSyncRec(path.join(dir,file), filelist);
+            }
+            else {
+                filelist.push(path.join(dir,file));
+            }
+        });
+        return filelist;
+    };
 
     function oneFile(directory, file, cb) {
         var fullpath = path.join(destination, file);
@@ -129,7 +147,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.functions[i];
                         toAdd.file = fullpath;
-                        toAdd.sourcePath = directory + file;
+                        toAdd.sourcePath = path.join(directory,file);
                         index.functions.push(toAdd);
                     }
                 }
@@ -137,7 +155,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.classes[i];
                         toAdd.file = fullpath;
-                        toAdd.sourcePath = directory + file;
+                        toAdd.sourcePath = path.join(directory,file);
                         index.classes.push(toAdd);
                     }
                 }
@@ -171,26 +189,50 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         oneFile(path.dirname(filename), path.basename(filename), cb);
 
     } else {
-        fs.stat(filename, function (err, s) {
-            if (!err && s.isDirectory()) {
-                fs.readdir(filename, function(err, files) {
-                    if (err) {
-                        console.error('Error generating docs for files', filename, err);
-                        return cb(err);
-                    }
-                    files.forEach(function(file) {
-                        if (file.match(/\.js$/)) {
-                            oneFile(filename, file, cb), touched++;
+        if(argv.recursive){
+            fs.stat(filename, function (err, s) {
+                if (!err && s.isDirectory()) {
+                    var contentList=readdirSyncRec(filename);
+                    contentList.forEach(function(fileFullPath) {
+                        try {
+                            oneFile(path.dirname(fileFullPath), path.basename(fileFullPath), cb), touched++;
+                        }catch(err){
+                            console.error('Error generating docs for files', file, err);
+                            return cb(err);
                         }
+
                     });
-                    if(!touched) {
+                    if (!touched) {
                         cb();
                     }
-                });
-            } else {
-                cb();
-            }
-        });
+
+                }else {
+                    cb();
+                }
+            });
+        }else {
+            fs.stat(filename, function (err, s) {
+                if (!err && s.isDirectory()) {
+                    fs.readdir(filename, function (err, files) {
+                        if (err) {
+                            console.error('Error generating docs for files', filename, err);
+                            return cb(err);
+                        }
+                        files.forEach(function (file) {
+                            if (file.match(/\.js$/)) {
+                                oneFile(filename, file, cb), touched++;
+                            }
+                        });
+                        if (!touched) {
+                            cb();
+                        }
+                    });
+                } else {
+                    cb();
+                }
+            });
+        }
+
     }
 }
 
@@ -261,8 +303,6 @@ function main(){
 
                 })
                 .then(function () {
-
-
                     console.log('jsdox completed');
                 });
         });
