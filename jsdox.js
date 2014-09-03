@@ -103,7 +103,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         error = null;
 
     var readdirSyncRec = function(dir, filelist) {
-        files = fs.readdirSync(dir);
+        var files = fs.readdirSync(dir);
         filelist = filelist || [];
         files.forEach(function(file) {
             if (fs.statSync(path.join(dir,file)).isDirectory()) {
@@ -117,10 +117,11 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     };
 
     function oneFile(directory, file, cb) {
+        var fullpath;
         if(argv.rr) {
-            var fullpath = path.join(path.join(destination, path.dirname(file)), path.basename(file));
+            fullpath = path.join(path.join(destination, path.dirname(file)), path.basename(file));
         }else{
-            var fullpath = path.join(destination, file);
+            fullpath = path.join(destination, file);
         }
         fullpath = fullpath.replace(/\.js$/, '.md');
 
@@ -152,19 +153,19 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
             if(argv.index) {
                 for (var i = 0; i < data.functions.length; i++) {
-                    if (data.functions[i].className == undefined) {
-                        var toAdd = data.functions[i];
-                        toAdd.file = path.relative(destination,fullpath);
-                        toAdd.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
-                        index.functions.push(toAdd);
+                    if (data.functions[i].className === undefined) {
+                        var toAddFct = data.functions[i];
+                        toAddFct.file = path.relative(destination,fullpath);
+                        toAddFct.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
+                        index.functions.push(toAddFct);
                     }
                 }
-                for (var i = 0; i < data.classes.length; i++) {
-                    if (data.functions[i].className == undefined) {
-                        var toAdd = data.classes[i];
-                        toAdd.file = path.relative(destination,fullpath);
-                        toAdd.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
-                        index.classes.push(toAdd);
+                for (var j = 0; j < data.classes.length; j++) {
+                    if (data.functions[j].className === undefined) {
+                        var toAddClass = data.classes[j];
+                        toAddClass.file = path.relative(destination,fullpath);
+                        toAddClass.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
+                        index.classes.push(toAddClass);
                     }
                 }
             }
@@ -210,14 +211,14 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                             try {
                                 oneFile(path.dirname(fileFullPath), fileFullPath, cb), touched++;
                             }catch(err){
-                                console.error('Error generating docs for files', file, err);
+                                console.error('Error generating docs for files', path.basename(fileFullPath), err);
                                 return cb(err);
                             }
                         }else {
                             try{
                             oneFile(path.dirname(fileFullPath), path.basename(fileFullPath), cb), touched++;
                             }catch(err){
-                                console.error('Error generating docs for files', file, err);
+                                console.error('Error generating docs for files', path.basename(fileFullPath), err);
                                 return cb(err);
                             }
                         }
@@ -313,12 +314,12 @@ function main(){
                     //create index
                     if(argv.index) {
                         var fileName;
-                        if(argv.index==true){
+                        if(argv.index===true){
                             fileName='index';
                         }else{
                             fileName=argv.index;
                         }
-                        if(typeof argv.output == 'string'){
+                        if(typeof argv.output === 'string'){
                             fileName=path.join(argv.output,fileName);
                         }else{
                             fileName=path.join('output',fileName);
