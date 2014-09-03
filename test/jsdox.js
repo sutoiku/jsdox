@@ -16,8 +16,10 @@ describe('jsdox', function() {
             expect(stderr).to.be.empty();
 
             fs.readdirSync('sample_output').forEach(function(outputFile) {
-                var content = fs.readFileSync('sample_output/' + outputFile).toString();
-                expect(content).not.to.be.empty();
+                if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+                    var content = fs.readFileSync('sample_output/' + outputFile).toString();
+                    expect(content).not.to.be.empty();
+                }
             });
 
             done();
@@ -35,9 +37,11 @@ describe('jsdox', function() {
 
             var nbFiles=0;
             fs.readdirSync('sample_output').forEach(function(outputFile) {
-                var content = fs.readFileSync('sample_output/' + outputFile).toString();
-                expect(content).not.to.be.empty();
-                nbFiles+=1;
+                if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+                    var content = fs.readFileSync('sample_output/' + outputFile).toString();
+                    expect(content).not.to.be.empty();
+                    nbFiles += 1;
+                }
             });
             expect(nbFiles).to.be(6);
 
@@ -55,19 +59,23 @@ describe('jsdox', function() {
             var nbFilesB=0;
             fs.readdirSync('sample_output/fixtures').forEach(function(outputFile) {
                 if(!fs.statSync('sample_output/fixtures/' + outputFile).isDirectory()) {
-                    var content = fs.readFileSync('sample_output/fixtures/' + outputFile).toString();
-                    expect(content).not.to.be.empty();
-                    nbFilesA += 1;
-                    //clean for future tests
-                    fs.unlinkSync('sample_output/fixtures/' + outputFile);
+                    if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+                        var content = fs.readFileSync('sample_output/fixtures/' + outputFile).toString();
+                        expect(content).not.to.be.empty();
+                        nbFilesA += 1;
+                        //clean for future tests
+                        fs.unlinkSync('sample_output/fixtures/' + outputFile);
+                    }
                 }
             });
             expect(nbFilesA).to.be(4);
             fs.readdirSync('sample_output/fixtures/under').forEach(function(outputFile) {
-                var content = fs.readFileSync('sample_output/fixtures/under/' + outputFile).toString();
-                expect(content).not.to.be.empty();
-                nbFilesB+=1;
-                fs.unlinkSync('sample_output/fixtures/under/' + outputFile);
+                if(!fs.statSync('sample_output/fixtures/under/' + outputFile).isDirectory()) {
+                    var content = fs.readFileSync('sample_output/fixtures/under/' + outputFile).toString();
+                    expect(content).not.to.be.empty();
+                    nbFilesB += 1;
+                    fs.unlinkSync('sample_output/fixtures/under/' + outputFile);
+                }
             });
             fs.rmdirSync('sample_output/fixtures/under/');
             fs.rmdirSync('sample_output/fixtures/');
