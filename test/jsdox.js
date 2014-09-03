@@ -45,29 +45,6 @@ describe('jsdox', function() {
         });
     });
 
-    it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and index.md', function(done) {
-        var cmd =bin + ' fixtures/ -o sample_output -r -i';
-
-        exec(cmd, function(err, stdout, stderr) {
-            expect(stderr).to.be.empty();
-
-            var nbFiles=0;
-            var hasIndex=false;
-            fs.readdirSync('sample_output').forEach(function(outputFile) {
-                var content = fs.readFileSync('sample_output/' + outputFile).toString();
-                expect(content).not.to.be.empty();
-                nbFiles+=1;
-                hasIndex=hasIndex||(outputFile === 'index.md');
-            });
-            expect(nbFiles).to.be(7);
-            expect(hasIndex).to.be(true);
-            //clean index for other tests
-            fs.unlinkSync('sample_output/index.md');
-
-            done();
-        });
-    });
-
     it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and an under directory in outputs', function(done) {
         var cmd =bin + ' fixtures/ -o sample_output --rr -i';
 
@@ -100,6 +77,31 @@ describe('jsdox', function() {
             done();
         });
     });
+
+    it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and index.md', function(done) {
+        var cmd =bin + ' fixtures/ -o sample_output -r -i';
+
+        exec(cmd, function(err, stdout, stderr) {
+            expect(stderr).to.be.empty();
+
+            var nbFiles=0;
+            var hasIndex=false;
+            fs.readdirSync('sample_output').forEach(function(outputFile) {
+                var content = fs.readFileSync('sample_output/' + outputFile).toString();
+                expect(content).not.to.be.empty();
+                nbFiles+=1;
+                hasIndex=hasIndex||(outputFile === 'index.md');
+            });
+            expect(nbFiles).to.be(7);
+            expect(hasIndex).to.be(true);
+            //clean index for other tests
+            fs.unlinkSync('sample_output/index.md');
+
+            done();
+        });
+    });
+
+
 
 
 
