@@ -162,8 +162,8 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                 for (var i = 0; i < data.classes.length; i++) {
                     if (data.functions[i].className == undefined) {
                         var toAdd = data.classes[i];
-                        toAdd.file = fullpath;
-                        toAdd.sourcePath = path.join(directory,path.basename(file));
+                        toAdd.file = path.relative(destination,fullpath);
+                        toAdd.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
                         index.classes.push(toAdd);
                     }
                 }

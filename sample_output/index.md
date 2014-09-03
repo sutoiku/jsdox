@@ -85,6 +85,6 @@ Classes
 =======
 
 
-###[SampleClass](sample_output/fixtures/under/test.md):
-This is a class (in [fixtures&#x2F;under&#x2F;test.js](fixtures/under/test.js))
+###[SampleClass](fixtures/under/test.md):
+This is a class (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
 
