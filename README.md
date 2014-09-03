@@ -7,6 +7,11 @@ Features I added:
 * Recursive generation of documentation with -r (ie: documentation for subdirectories is generated too)
 * Respectful recursive generation with --rr (ie: the documentation for dir1/dir2/file.js will be in output_dir/dir1/dir/file.md)
 
+Generate the example output file with
+'''
+node jsdox.js fixtures/ --rr -i -o sample_output
+'''
+
 # jsdox [![npm](http://img.shields.io/npm/v/jsdox.svg)](https://npmjs.org/package/jsdox) [![npm](http://img.shields.io/npm/dm/jsdox.svg)](https://npmjs.org/package/jsdox) [![build status](https://travis-ci.org/sutoiku/jsdox.svg?branch=master)](https://travis-ci.org/sutoiku/jsdox)
 
 jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a subset of [jsdoc 3](http://usejsdoc.org/) from your javascript files and generates [markdown](http://daringfireball.net/projects/markdown/) files.
