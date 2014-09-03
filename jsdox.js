@@ -42,7 +42,7 @@ var
      alias: 'debug'
     })
     .options('templateDir', {
-     alias: 't'
+      alias: 't'
     })
     .options('index', {
      alias: 'i'
