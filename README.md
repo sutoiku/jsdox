@@ -32,6 +32,7 @@ Usage: `jsdox [options] <file | directory>`
 # Resources
 * [jsdox](http://jsdox.org) Documentation
 * Github [repo](https://github.com/sutoiku/jsdox)
+* [Changelog](https://github.com/sutoiku/jsdox/blob/master/CHANGES.md)
 * Issue [tracker](https://github.com/sutoiku/jsdox/issues)
 * Contribute by [reading the guidelines](https://github.com/sutoiku/jsdox/blob/master/Contributing.md) and creating [pull requests](https://github.com/sutoiku/jsdox/pulls)!
 * Run the test suite using `npm test`
