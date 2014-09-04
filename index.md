@@ -53,13 +53,15 @@ To call the main jsdox function, use the following code:
 
 jsdox = require("jsdox");
 
-jsdox.generateForDir(input, output, done);
+jsdox.generateForDir(input, output, templateDir, cb, fileCb);
 
 {% endhighlight %}
 * `input` is either a single file (name ends in ".js"), or a folder (one level only) that contains .js files.  Files
 with other extensions will be ignored
 * `output` is the destination folder
-* function `done` is required and will be called when generation is complete.
+* `templateDir` is the location of the mustache templates to use
+* function `cb` is required and will be called when generation is complete.
+* function `fileCb` is optional and will be called for each file with the file and the result of `analyze` for that file
 
 # Tags<a name="tags">&nbsp;</a>
 jsdox only supports a subset of the the jsdoc 3 set.  Here's the list of what is currently supported (it will safely ignore any tags it does not recognize).
