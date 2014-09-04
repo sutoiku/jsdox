@@ -16,3 +16,9 @@ Contributing guidelines
 If you fixed or added something useful to the project, you can send a pull-request that **includes unit tests** for your change(s).
 Your PR will be reviewed by a maintainer and accepted, or commented for rework, or declined.
 
+### Regenerate sample_output ###
+
+If your PR makes changes to the output, regenerate the sample_output content by running
+```
+node jsdox.js -i --rr -o sample_output/ fixtures
+```
