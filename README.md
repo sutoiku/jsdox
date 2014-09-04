@@ -4,6 +4,31 @@ jsdox is a simple jsdoc 3 generator.  It pulls documentation tags based on a sub
 
 Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to get the full AST including comments.
 
+### CLI Options
+
+Usage: `jsdox [options] <file | directory>`
+
+`--config <file>` (alias `-c`): Configuration JSON file.
+
+`--All` (alias `-A`): Generates documentation for all available elements including internal methods.
+
+`--debug` (alias `-d`): Prints debugging information to the console.
+
+`--help` (alias `-H`): Prints help and quits.
+
+`--version` (alias `-v`): Prints the current version and quits.
+
+`--output` (alias `-o`): Output directory. Default value is 'output'.
+
+`--templateDir` (alias `-t`): Template directory to use instead of built-in ones.
+
+`--index` (alias `-i`): Generates an index with the documentation. A file name can be provided in argument. Default value is 'index'.
+
+`--recursive` (alias `-r`): Generates documentation in all subdirectories of the source folder.
+
+`--respect-recursive` (alias `--rr`): Generate subdirectories and copy the original organization of the sources.
+
+
 # Resources
 * [jsdox](http://jsdox.org) Documentation
 * Github [repo](https://github.com/sutoiku/jsdox)
@@ -26,6 +51,7 @@ Relies on the [JSDoc3 parser](https://github.com/mrjoelkemp/jsdoc3-parser) to ge
 * Michael Martin-Smucker (mlms13)
 * Akeem McLennon (bluelaguna)
 * Marc Trudel (stelcheck)
+* Vladimir de Turckheim (vdeturckheim)
 
 # License
 
