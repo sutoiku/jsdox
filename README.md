@@ -51,6 +51,7 @@ Usage: `jsdox [options] <file | directory>`
 * Michael Martin-Smucker (mlms13)
 * Akeem McLennon (bluelaguna)
 * Marc Trudel (stelcheck)
+* Vladimir de Turckheim (vdeturckheim)
 
 # License
 
