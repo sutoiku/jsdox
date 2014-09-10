@@ -15,59 +15,58 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var
-  util = require('util'),
-  fs   = require('fs'),
-  path = require('path'),
-  q    = require('q'),
-  argv = require('optimist')
+var util = require('util');
+var fs = require('fs');
+var path = require('path');
+var q = require('q');
+var argv = require('optimist')
     .options('output', {
-     alias: 'o',
-     'default':'output'
+      alias: 'o',
+      default:'output'
     })
-    .options('config',{
-     alias: 'c'
+    .options('config', {
+      alias: 'c'
     })
-    .options('version',{
-     alias: 'v'
+    .options('version', {
+      alias: 'v'
     })
-    .options('help',{
-     alias: 'h'
+    .options('help', {
+      alias: 'h'
     })
     .boolean('A', 'd')
-    .options('A',{
-     alias: 'All'
+    .options('A', {
+      alias: 'All'
     })
-    .options('d',{
-     alias: 'debug'
+    .options('d', {
+      alias: 'debug'
     })
     .options('templateDir', {
       alias: 't'
     })
     .options('index', {
-     alias: 'i'
+      alias: 'i'
     })
-    .options('recursive',{
-     alias: 'r'
+    .options('recursive', {
+      alias: 'r'
     })
     .options('respect-recursive', {
-     alias: 'rr'
+      alias: 'rr'
     })
-    .argv,
-  packageJson = require('./package.json'),
-  jsdocParser = require('jsdoc3-parser'),
-  analyze = require('./lib/analyze'),
-  generateMD = require('./lib/generateMD'),
-  index= {
-    classes: [],
-    functions: []
-  };
+    .argv;
+var packageJson = require('./package.json');
+var jsdocParser = require('jsdoc3-parser');
+var analyze = require('./lib/analyze');
+var generateMD = require('./lib/generateMD');
+var index = {
+  classes: [],
+  functions: []
+};
 
 function inspect(text) {
   return util.inspect(text, false, 20);
 }
 
-function printHelp(){
+function printHelp() {
   console.log('Usage:\tjsdox [options] <file | directory>');
   console.log('\tjsdox --All --output docs folder\n');
   console.log('Options:');
@@ -85,7 +84,7 @@ function printHelp(){
   process.exit();
 }
 
-function printVersion(){
+function printVersion() {
   console.log('Version: ' + packageJson.version);
   process.exit();
 }
@@ -98,19 +97,18 @@ function printVersion(){
  * @param  {Function} fileCb
  */
 function generateForDir(filename, destination, templateDir, cb, fileCb) {
-  var waiting = 0,
-      touched = 0,
-      error = null;
+  var waiting = 0;
+  var touched = 0;
+  var error = null;
 
   var readdirSyncRec = function(dir, filelist) {
     var files = fs.readdirSync(dir);
     filelist = filelist || [];
     files.forEach(function(file) {
-      if (fs.statSync(path.join(dir,file)).isDirectory()) {
-        filelist = readdirSyncRec(path.join(dir,file), filelist);
-      }
-      else {
-        filelist.push(path.join(dir,file));
+      if (fs.statSync(path.join(dir, file)).isDirectory()) {
+        filelist = readdirSyncRec(path.join(dir, file), filelist);
+      } else {
+        filelist.push(path.join(dir, file));
       }
     });
     return filelist;
@@ -118,9 +116,9 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
   function oneFile(directory, file, cb) {
     var fullpath;
-    if(argv.rr) {
+    if (argv.rr) {
       fullpath = path.join(path.join(destination, path.dirname(file)), path.basename(file));
-    }else{
+    } else {
       fullpath = path.join(destination, file);
     }
     fullpath = fullpath.replace(/\.js$/, '.md');
@@ -147,29 +145,28 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
       }
 
-      var data = analyze(result, argv),
-          output = generateMD(data, templateDir);
+      var data = analyze(result, argv);
+      var output = generateMD(data, templateDir);
 
 
-      if(argv.index) {
+      if (argv.index) {
         for (var i = 0; i < data.functions.length; i++) {
           if (data.functions[i].className === undefined) {
             var toAddFct = data.functions[i];
-            toAddFct.file = path.relative(destination,fullpath);
-            toAddFct.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
+            toAddFct.file = path.relative(destination, fullpath);
+            toAddFct.sourcePath = path.relative(destination, path.join(directory, path.basename(file)));
             index.functions.push(toAddFct);
           }
         }
         for (var j = 0; j < data.classes.length; j++) {
           if (data.functions[j].className === undefined) {
             var toAddClass = data.classes[j];
-            toAddClass.file = path.relative(destination,fullpath);
-            toAddClass.sourcePath = path.relative(destination,path.join(directory,path.basename(file)));
+            toAddClass.file = path.relative(destination, fullpath);
+            toAddClass.sourcePath = path.relative(destination, path.join(directory, path.basename(file)));
             index.classes.push(toAddClass);
           }
         }
       }
-
 
 
       if (output) {
@@ -198,26 +195,26 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     oneFile(path.dirname(filename), path.basename(filename), cb);
 
   } else {
-    if(argv.recursive || argv.rr){
+    if (argv.recursive || argv.rr) {
       fs.stat(filename, function (err, s) {
         if (!err && s.isDirectory()) {
-          var contentList=readdirSyncRec(filename);
+          var contentList = readdirSyncRec(filename);
           contentList.forEach(function(fileFullPath) {
-            if(argv.rr){
+            if (argv.rr) {
               //create the sub-directories
-              try{
-                fs.mkdirSync(path.join(destination,path.dirname(fileFullPath)));
-              }catch(err){} //lazy way: if the file already exists, everything is alright.
+              try {
+                fs.mkdirSync(path.join(destination, path.dirname(fileFullPath)));
+              } catch(err) {} //lazy way: if the file already exists, everything is alright.
               try {
                 oneFile(path.dirname(fileFullPath), fileFullPath, cb), touched++;
-              }catch(err){
+              } catch(err) {
                 console.error('Error generating docs for files', path.basename(fileFullPath), err);
                 return cb(err);
               }
-            }else {
-              try{
+            } else {
+              try {
                 oneFile(path.dirname(fileFullPath), path.basename(fileFullPath), cb), touched++;
-              }catch(err){
+              } catch(err) {
                 console.error('Error generating docs for files', path.basename(fileFullPath), err);
                 return cb(err);
               }
@@ -225,7 +222,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
 
           });
-          if(!touched) {
+          if (!touched) {
             cb();
           }
 
@@ -263,7 +260,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
  * @param  {String}   file
  * @param  {Function} callback
  */
-function loadConfigFile(file, callback){
+function loadConfigFile(file, callback) {
   var config;
 
   //check to see if file exists
@@ -277,8 +274,8 @@ function loadConfigFile(file, callback){
         process.exit();
       }
 
-      for(var key in config){
-        if (key !== 'input'){
+      for (var key in config) {
+        if (key !== 'input') {
           argv[key] = config[key];
         } else {
           argv._[0] = config[key];
@@ -293,8 +290,8 @@ function loadConfigFile(file, callback){
   });
 }
 
-function main(){
-  if(typeof argv._[0] !== 'undefined'){
+function main() {
+  if (typeof argv._[0] !== 'undefined') {
     fs.mkdir(argv.output, function() {
       q.all(argv._.map(function(file) {
         var deferred = q.defer();
@@ -310,21 +307,21 @@ function main(){
 
         return deferred.promise;
       }))
-        .then(function(){
+        .then(function() {
           //create index
-          if(argv.index) {
+          if (argv.index) {
             var fileName;
-            if(argv.index===true){
-              fileName='index';
-            }else{
-              fileName=argv.index;
+            if (argv.index === true) {
+              fileName = 'index';
+            } else {
+              fileName = argv.index;
             }
-            if(typeof argv.output === 'string'){
-              fileName=path.join(argv.output,fileName);
-            }else{
-              fileName=path.join('output',fileName);
+            if (typeof argv.output === 'string') {
+              fileName = path.join(argv.output, fileName);
+            } else {
+              fileName = path.join('output', fileName);
             }
-            fs.writeFileSync(fileName+'.md', generateMD(index, argv.templateDir, true));
+            fs.writeFileSync(fileName + '.md', generateMD(index, argv.templateDir, true));
           }
 
 
@@ -341,15 +338,15 @@ function main(){
 }
 
 function jsdox() {
-  if(argv.help){
+  if (argv.help) {
     printHelp();
   }
 
-  if(argv.version){
+  if (argv.version) {
     printVersion();
   }
 
-  if(argv.config){
+  if (argv.config) {
     loadConfigFile(argv.config, main);
 
   } else {

@@ -17,23 +17,23 @@ exported with dot notation (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test
 
 
 
-###[func1](fixtures/test2.md):
- (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test2.js))
-
-
-
 ###[func1](fixtures/under/test.md):
  (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
 
 
 
-###[func2](fixtures/test2.md):
+###[func1](fixtures/test2.md):
  (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test2.js))
 
 
 
 ###[func2](fixtures/under/test.md):
  (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
+
+
+
+###[func2](fixtures/test2.md):
+ (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test2.js))
 
 
 

@@ -33,7 +33,8 @@
     "lib"
   ],
   "scripts": {
-    "test": "jshint --config .jshintrc jsdox.js bin/* test/* fixtures/* && node_modules/.bin/mocha;"
+    "lint": "node_modules/.bin/jscs jsdox.js lib && node_modules/.bin/jshint --config .jshintrc jsdox.js lib/* bin/* test/* fixtures/*",
+    "test": "npm run lint && node_modules/.bin/mocha;"
   },
   "preferGlobal": true,
   "bin": {
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
+    "jscs": "^1.6.1",
     "jshint": "^2.5.3",
     "sinon": "^1.10.3",
     "mocha": "^1.21.4"
