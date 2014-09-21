@@ -1,56 +1,61 @@
-Global
-===
+# Global
 
 
 
 
 
----
+* * *
 
-func1(a, b) 
------------------------------
+### func1(a, b) 
+
 **Parameters**
 
-**a**: String, the first param
+**a**: `String`, the first param
 
-**b**: String, the second param
+**b**: `String`, the second param
 
-**Returns**: String, the result
+**Returns**: `String`, the result
 
-func2(c, d) 
------------------------------
+
+### func2(c, d) 
+
 **Parameters**
 
-**c**: the first param
+**c**: , the first param
 
-**d**: the second param
+**d**: , the second param
 @ returns the other result
 
 
-exported(param) 
------------------------------
+
+### exported(param) 
+
 exported with dot notation
 
 **Parameters**
 
-**param**: String, the parameter
+**param**: `String`, the parameter
 
 
-globalFunction(param) 
------------------------------
+
+### globalFunction(param) 
+
 global function
 
 **Parameters**
 
-**param**: String, the parameter
+**param**: `String`, the parameter
 
 
 
----
+
+* * *
 
 *(c) 2012 Blah Blah Blah*
 
-**License:** MIT Joe Schmo
+**Author:** Joe Schmo
+
+**License:** MIT 
 
 **Overview:** This is the overview with some `markdown` included, how nice!
 

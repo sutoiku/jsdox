@@ -31,13 +31,25 @@ var index = {
 /**
  * Whether or not to print debug information.
  * Global to this module.
+ *
  * @type {Boolean}
  */
 var debug = false;
+
+/**
+ * Cache of the optimist arguments list
+ *
+ * @type {Object}
+ */
 var argv;
 
-function inspect(text) {
-  return util.inspect(text, false, 20);
+/**
+ * Pretty print utility
+ * @param  {Object} ast [description]
+ * @return {String}
+ */
+function inspect(ast) {
+  return util.inspect(ast, false, 20);
 }
 
 function printHelp() {
@@ -122,7 +134,6 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
       var data = analyze(result, argv);
       var output = generateMD(data, templateDir);
 
-
       if (argv.index) {
         for (var i = 0; i < data.functions.length; i++) {
           if (data.functions[i].className === undefined) {
@@ -141,7 +152,6 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
           }
         }
       }
-
 
       if (output) {
         fileCb && fileCb(file, data);
@@ -193,8 +203,6 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
                 return cb(err);
               }
             }
-
-
           });
           if (!touched) {
             cb();
@@ -204,7 +212,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
           cb();
         }
       });
-    }else {
+    } else {
       fs.stat(filename, function (err, s) {
         if (!err && s.isDirectory()) {
           fs.readdir(filename, function (err, files) {
@@ -226,7 +234,6 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         }
       });
     }
-
   }
 }
 
