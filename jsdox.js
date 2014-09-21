@@ -19,40 +19,6 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var q = require('q');
-var argv = require('optimist')
-    .options('output', {
-      alias: 'o',
-      default:'output'
-    })
-    .options('config', {
-      alias: 'c'
-    })
-    .options('version', {
-      alias: 'v'
-    })
-    .options('help', {
-      alias: 'h'
-    })
-    .boolean('A', 'd')
-    .options('A', {
-      alias: 'All'
-    })
-    .options('d', {
-      alias: 'debug'
-    })
-    .options('templateDir', {
-      alias: 't'
-    })
-    .options('index', {
-      alias: 'i'
-    })
-    .options('recursive', {
-      alias: 'r'
-    })
-    .options('respect-recursive', {
-      alias: 'rr'
-    })
-    .argv;
 var packageJson = require('./package.json');
 var jsdocParser = require('jsdoc3-parser');
 var analyze = require('./lib/analyze');
@@ -61,6 +27,14 @@ var index = {
   classes: [],
   functions: []
 };
+
+/**
+ * Whether or not to print debug information.
+ * Global to this module.
+ * @type {Boolean}
+ */
+var debug = false;
+var argv;
 
 function inspect(text) {
   return util.inspect(text, false, 20);
@@ -123,7 +97,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     }
     fullpath = fullpath.replace(/\.js$/, '.md');
 
-    if (argv.debug) {
+    if (debug) {
       console.log('Generating', fullpath);
     }
 
@@ -140,7 +114,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
         }
       }
 
-      if (argv.debug) {
+      if (debug) {
         console.log(file + ' AST: ', util.inspect(result, false, 20));
         console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
       }
@@ -260,11 +234,12 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
  * @param  {String}   file
  * @param  {Function} callback
  */
-function loadConfigFile(file, callback) {
+function loadConfigFile(file, argv, callback) {
   var config;
 
-  //check to see if file exists
+  // Check to see if file exists
   file = path.resolve(process.cwd(), file);
+
   fs.exists(file, function(exists) {
     if (exists) {
       try {
@@ -290,7 +265,7 @@ function loadConfigFile(file, callback) {
   });
 }
 
-function main() {
+function main(argv) {
   if (typeof argv._[0] !== 'undefined') {
     fs.mkdir(argv.output, function() {
       q.all(argv._.map(function(file) {
@@ -323,9 +298,6 @@ function main() {
             }
             fs.writeFileSync(fileName + '.md', generateMD(index, argv.templateDir, true));
           }
-
-
-
         })
         .then(function () {
           console.log('jsdox completed');
@@ -337,7 +309,10 @@ function main() {
   }
 }
 
-function jsdox() {
+function jsdox(args) {
+  argv = args;
+  debug = !!argv.debug;
+
   if (argv.help) {
     printHelp();
   }
@@ -347,10 +322,10 @@ function jsdox() {
   }
 
   if (argv.config) {
-    loadConfigFile(argv.config, main);
-
+    // @todo: refactor to not rely on argv
+    loadConfigFile(argv.config, argv, main);
   } else {
-    main();
+    main(argv);
   }
 }
 
@@ -358,7 +333,3 @@ exports.analyze = analyze;
 exports.generateMD = generateMD;
 exports.generateForDir = generateForDir;
 exports.jsdox = jsdox;
-
-if (require.main === module) {
-  jsdox();
-}

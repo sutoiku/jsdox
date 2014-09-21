@@ -16,7 +16,7 @@ describe('jsdox', function() {
       expect(stderr).to.be.empty();
 
       fs.readdirSync('sample_output').forEach(function(outputFile) {
-        if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+        if (!fs.statSync('sample_output/' + outputFile).isDirectory()) {
           var content = fs.readFileSync('sample_output/' + outputFile).toString();
           expect(content).not.to.be.empty();
         }
@@ -25,19 +25,20 @@ describe('jsdox', function() {
       done();
     });
   });
+
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files', function(done) {
     var cmd =bin + ' fixtures/ -o sample_output -r';
     //in case an old index.md is here
-    try{
+    try {
       fs.unlinkSync('sample_output/index.md');
-    }catch(err){}
+    } catch(err){}
 
     exec(cmd, function(err, stdout, stderr) {
       expect(stderr).to.be.empty();
 
       var nbFiles=0;
       fs.readdirSync('sample_output').forEach(function(outputFile) {
-        if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+        if (!fs.statSync('sample_output/' + outputFile).isDirectory()) {
           var content = fs.readFileSync('sample_output/' + outputFile).toString();
           expect(content).not.to.be.empty();
           nbFiles += 1;
@@ -58,8 +59,8 @@ describe('jsdox', function() {
       var nbFilesA=0;
       var nbFilesB=0;
       fs.readdirSync('sample_output/fixtures').forEach(function(outputFile) {
-        if(!fs.statSync('sample_output/fixtures/' + outputFile).isDirectory()) {
-          if(!fs.statSync('sample_output/' + outputFile).isDirectory()) {
+        if (!fs.statSync('sample_output/fixtures/' + outputFile).isDirectory()) {
+          if (!fs.statSync('sample_output/' + outputFile).isDirectory()) {
             var content = fs.readFileSync('sample_output/fixtures/' + outputFile).toString();
             expect(content).not.to.be.empty();
             nbFilesA += 1;
@@ -70,7 +71,7 @@ describe('jsdox', function() {
       });
       expect(nbFilesA).to.be(4);
       fs.readdirSync('sample_output/fixtures/under').forEach(function(outputFile) {
-        if(!fs.statSync('sample_output/fixtures/under/' + outputFile).isDirectory()) {
+        if (!fs.statSync('sample_output/fixtures/under/' + outputFile).isDirectory()) {
           var content = fs.readFileSync('sample_output/fixtures/under/' + outputFile).toString();
           expect(content).not.to.be.empty();
           nbFilesB += 1;
@@ -109,12 +110,6 @@ describe('jsdox', function() {
     });
   });
 
-
-
-
-
-
-
   describe('cli options', function() {
     it('prints the help menu with the -H option', function(done) {
       expectOutputFromCommand(bin + ' -H', 'Usage:', done);
@@ -125,6 +120,11 @@ describe('jsdox', function() {
     });
 
     it('accepts a custom template directory with the -t option');
+
+    describe('-o option', function() {
+      it('converts an input file to an output markdown file');
+      it('converts an input directory of files to an output directory of markdown files');
+    });
   });
 });
 
