@@ -33,7 +33,7 @@
     "lib"
   ],
   "scripts": {
-    "lint": "node_modules/.bin/jscs jsdox.js lib && node_modules/.bin/jshint --config .jshintrc jsdox.js lib/* bin/* test/* fixtures/*",
+    "lint": "node_modules/.bin/jscs jsdox.js lib test && node_modules/.bin/jshint --config .jshintrc jsdox.js lib/* bin/* test/* fixtures/*",
     "test": "npm run lint && node_modules/.bin/mocha;"
   },
   "preferGlobal": true,

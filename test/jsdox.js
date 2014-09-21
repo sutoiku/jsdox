@@ -1,6 +1,6 @@
-var exec = require('child_process').exec,
-    expect = require('expect.js'),
-    fs = require('fs');
+var exec = require('child_process').exec;
+var expect = require('expect.js');
+var fs = require('fs');
 
 var bin = 'bin/jsdox';
 
@@ -27,16 +27,16 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files', function(done) {
-    var cmd =bin + ' fixtures/ -o sample_output -r';
+    var cmd = bin + ' fixtures/ -o sample_output -r';
     //in case an old index.md is here
     try {
       fs.unlinkSync('sample_output/index.md');
-    } catch(err){}
+    } catch(err) {}
 
     exec(cmd, function(err, stdout, stderr) {
       expect(stderr).to.be.empty();
 
-      var nbFiles=0;
+      var nbFiles = 0;
       fs.readdirSync('sample_output').forEach(function(outputFile) {
         if (!fs.statSync('sample_output/' + outputFile).isDirectory()) {
           var content = fs.readFileSync('sample_output/' + outputFile).toString();
@@ -51,13 +51,13 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and an under directory in outputs', function(done) {
-    var cmd =bin + ' fixtures/ -o sample_output --rr -i';
+    var cmd = bin + ' fixtures/ -o sample_output --rr -i';
 
     exec(cmd, function(err, stdout, stderr) {
       expect(stderr).to.be.empty();
 
-      var nbFilesA=0;
-      var nbFilesB=0;
+      var nbFilesA = 0;
+      var nbFilesB = 0;
       fs.readdirSync('sample_output/fixtures').forEach(function(outputFile) {
         if (!fs.statSync('sample_output/fixtures/' + outputFile).isDirectory()) {
           if (!fs.statSync('sample_output/' + outputFile).isDirectory()) {
@@ -88,18 +88,18 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and index.md', function(done) {
-    var cmd =bin + ' fixtures/ -o sample_output -r -i';
+    var cmd = bin + ' fixtures/ -o sample_output -r -i';
 
     exec(cmd, function(err, stdout, stderr) {
       expect(stderr).to.be.empty();
 
-      var nbFiles=0;
-      var hasIndex=false;
+      var nbFiles = 0;
+      var hasIndex = false;
       fs.readdirSync('sample_output').forEach(function(outputFile) {
         var content = fs.readFileSync('sample_output/' + outputFile).toString();
         expect(content).not.to.be.empty();
-        nbFiles+=1;
-        hasIndex=hasIndex||(outputFile === 'index.md');
+        nbFiles += 1;
+        hasIndex = hasIndex || (outputFile === 'index.md');
       });
       expect(nbFiles).to.be(7);
       expect(hasIndex).to.be(true);
