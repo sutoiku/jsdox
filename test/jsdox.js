@@ -28,7 +28,7 @@ describe('jsdox', function() {
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files', function(done) {
     var cmd = bin + ' fixtures/ -o sample_output -r';
-    //in case an old index.md is here
+    // In case an old index.md is here
     try {
       fs.unlinkSync('sample_output/index.md');
     } catch(err) {}
@@ -64,7 +64,7 @@ describe('jsdox', function() {
             var content = fs.readFileSync('sample_output/fixtures/' + outputFile).toString();
             expect(content).not.to.be.empty();
             nbFilesA += 1;
-            //clean for future tests
+            // Clean for future tests
             fs.unlinkSync('sample_output/fixtures/' + outputFile);
           }
         }
@@ -103,7 +103,7 @@ describe('jsdox', function() {
       });
       expect(nbFiles).to.be(7);
       expect(hasIndex).to.be(true);
-      //clean index for other tests
+      // Clean index for other tests
       fs.unlinkSync('sample_output/index.md');
 
       done();
