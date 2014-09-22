@@ -1,7 +1,7 @@
-var expect = require('expect.js'),
-    sinon = require('sinon'),
-    analyze = require('../../lib/analyze'),
-    jsdoc = require('jsdoc3-parser');
+var expect = require('expect.js');
+var sinon = require('sinon');
+var analyze = require('../../lib/analyze');
+var jsdoc = require('jsdoc3-parser');
 
 describe('analyze', function() {
   it.skip('takes a JSDoc ast and returns a transformed AST', function() {

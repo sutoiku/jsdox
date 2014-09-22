@@ -1,8 +1,8 @@
-var expect = require('expect.js'),
-    sinon = require('sinon'),
-    generateMD = require('../../lib/generateMD'),
-    Mustache = require('mustache'),
-    fs = require('fs');
+var expect = require('expect.js');
+var sinon = require('sinon');
+var generateMD = require('../../lib/generateMD');
+var Mustache = require('mustache');
+var fs = require('fs');
 
 describe('generateMD', function() {
   // In case we need to restore earlier
@@ -51,7 +51,7 @@ describe('generateMD', function() {
       overview: 'What\'s up?',
       copyright: '(c) 2012 Blah Blah Blah',
       license: 'MIT',
-      author: [ 'Joe Schmo' ],
+      author: ['Joe Schmo'],
       version: '1.0.1',
       hasMembers: false,
       deprecated: true

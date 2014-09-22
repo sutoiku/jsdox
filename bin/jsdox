@@ -1,2 +1,40 @@
 #!/usr/bin/env node
-require('../jsdox').jsdox();
+
+var jsdox = require('../jsdox').jsdox;
+
+var argv = require('optimist')
+    .options('output', {
+      alias: 'o',
+      default:'output'
+    })
+    .options('config', {
+      alias: 'c'
+    })
+    .options('version', {
+      alias: 'v'
+    })
+    .options('help', {
+      alias: 'h'
+    })
+    .boolean('A', 'd')
+    .options('A', {
+      alias: 'All'
+    })
+    .options('d', {
+      alias: 'debug'
+    })
+    .options('templateDir', {
+      alias: 't'
+    })
+    .options('index', {
+      alias: 'i'
+    })
+    .options('recursive', {
+      alias: 'r'
+    })
+    .options('respect-recursive', {
+      alias: 'rr'
+    })
+    .argv;
+
+jsdox(argv);
