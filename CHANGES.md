@@ -1,9 +1,22 @@
 upcoming
 ------
 
+
+0.4.3
+------
+
 * Index generation for your generated documentation with -i (vdeturckheim)
 * Recursive generation of documentation with -r (ie: documentation for subdirectories is generated too) (vdeturckheim)
 * Respectful recursive generation with --rr (ie: the documentation for dir1/dir2/file.js will be in output_dir/dir1/dir/file.md) (vdeturckheim)
+* Use JSCS to check code formatting (mrjoelkemp, psq)
+* normalizing headers to pound format (boneskull)
+* use alternate horizontal rules so you don't get them confused with headers (boneskull)
+* adding types to members (boneskull)
+* types display monospace (boneskull)
+* classes prefixed with "Class:" (boneskull)
+* `@example` tag support for `@module` and `@function` (boneskull)
+* separate `@author` from `@license` (boneskull)
+
 
 
 0.4.2
