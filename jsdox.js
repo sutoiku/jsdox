@@ -15,42 +15,16 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var q = require('q');
+var mkdirp = require('mkdirp');
+
 var packageJson = require('./package.json');
-var jsdocParser = require('jsdoc3-parser');
-var analyze = require('./lib/analyze');
+var generateForDir = require('./lib/generateForDir');
+var generateForFile = require('./lib/generateForFile');
 var generateMD = require('./lib/generateMD');
-var index = {
-  classes: [],
-  functions: []
-};
-
-/**
- * Whether or not to print debug information.
- * Global to this module.
- *
- * @type {Boolean}
- */
-var debug = false;
-
-/**
- * Cache of the optimist arguments list
- *
- * @type {Object}
- */
-var argv;
-
-/**
- * Pretty print utility
- * @param  {Object} ast [description]
- * @return {String}
- */
-function inspect(ast) {
-  return util.inspect(ast, false, 20);
-}
+var util = require('./lib/util');
 
 function printHelp() {
   console.log('Usage:\tjsdox [options] <file | directory>');
@@ -76,172 +50,11 @@ function printVersion() {
 }
 
 /**
- * @param  {String}   filename
- * @param  {String}   destination
- * @param  {String}   templateDir
- * @param  {Function} cb
- * @param  {Function} fileCb
- */
-function generateForDir(filename, destination, templateDir, cb, fileCb) {
-  var waiting = 0;
-  var touched = 0;
-  var error = null;
-
-  var readdirSyncRec = function(dir, filelist) {
-    var files = fs.readdirSync(dir);
-    filelist = filelist || [];
-    files.forEach(function(file) {
-      if (fs.statSync(path.join(dir, file)).isDirectory()) {
-        filelist = readdirSyncRec(path.join(dir, file), filelist);
-      } else {
-        filelist.push(path.join(dir, file));
-      }
-    });
-    return filelist;
-  };
-
-  function oneFile(directory, file, cb) {
-    var fullpath;
-    if (argv.rr) {
-      fullpath = path.join(path.join(destination, path.dirname(file)), path.basename(file));
-    } else {
-      fullpath = path.join(destination, file);
-    }
-    fullpath = fullpath.replace(/\.js$/, '.md');
-
-    if (debug) {
-      console.log('Generating', fullpath);
-    }
-
-    waiting++;
-
-    jsdocParser(path.join(directory, path.basename(file)), function(err, result) {
-      if (err) {
-        console.error('Error generating docs for file', file, err);
-        waiting--;
-        if (!waiting) {
-          return cb(err);
-        } else {
-          error = err;
-        }
-      }
-
-      if (debug) {
-        console.log(file + ' AST: ', util.inspect(result, false, 20));
-        console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
-      }
-
-      var data = analyze(result, argv);
-      var output = generateMD(data, templateDir);
-
-      if (argv.index) {
-        for (var i = 0; i < data.functions.length; i++) {
-          if (data.functions[i].className === undefined) {
-            var toAddFct = data.functions[i];
-            toAddFct.file = path.relative(destination, fullpath);
-            toAddFct.sourcePath = path.relative(destination, path.join(directory, path.basename(file)));
-            index.functions.push(toAddFct);
-          }
-        }
-        for (var j = 0; j < data.classes.length; j++) {
-          if (data.functions[j].className === undefined) {
-            var toAddClass = data.classes[j];
-            toAddClass.file = path.relative(destination, fullpath);
-            toAddClass.sourcePath = path.relative(destination, path.join(directory, path.basename(file)));
-            index.classes.push(toAddClass);
-          }
-        }
-      }
-
-      if (output) {
-        fileCb && fileCb(file, data);
-        fs.writeFile(fullpath, output, function(err) {
-          waiting--;
-          if (err) {
-            console.error('Error generating docs for file', file, err);
-            error = err;
-          }
-          if (!waiting) {
-            return cb(error);
-          }
-        });
-
-      } else {
-        waiting--;
-        if (!waiting) {
-          return cb(error);
-        }
-      }
-    });
-  }
-
-  if (filename.match(/\.js$/)) {
-    oneFile(path.dirname(filename), path.basename(filename), cb);
-
-  } else {
-    if (argv.recursive || argv.rr) {
-      fs.stat(filename, function (err, s) {
-        if (!err && s.isDirectory()) {
-          var contentList = readdirSyncRec(filename);
-          contentList.forEach(function(fileFullPath) {
-            if (argv.rr) {
-              //create the sub-directories
-              try {
-                fs.mkdirSync(path.join(destination, path.dirname(fileFullPath)));
-              } catch(err) {} //lazy way: if the file already exists, everything is alright.
-              try {
-                oneFile(path.dirname(fileFullPath), fileFullPath, cb), touched++;
-              } catch(err) {
-                console.error('Error generating docs for files', path.basename(fileFullPath), err);
-                return cb(err);
-              }
-            } else {
-              try {
-                oneFile(path.dirname(fileFullPath), path.basename(fileFullPath), cb), touched++;
-              } catch(err) {
-                console.error('Error generating docs for files', path.basename(fileFullPath), err);
-                return cb(err);
-              }
-            }
-          });
-          if (!touched) {
-            cb();
-          }
-
-        } else {
-          cb();
-        }
-      });
-    } else {
-      fs.stat(filename, function (err, s) {
-        if (!err && s.isDirectory()) {
-          fs.readdir(filename, function (err, files) {
-            if (err) {
-              console.error('Error generating docs for files', filename, err);
-              return cb(err);
-            }
-            files.forEach(function (file) {
-              if (file.match(/\.js$/)) {
-                oneFile(filename, file, cb), touched++;
-              }
-            });
-            if (!touched) {
-              cb();
-            }
-          });
-        } else {
-          cb();
-        }
-      });
-    }
-  }
-}
-
-/**
- * @param  {String}   file
+ * @param  {Object}   argv
  * @param  {Function} callback
  */
-function loadConfigFile(file, argv, callback) {
+function loadConfigFile(argv, callback) {
+  var file = argv.config;
   var config;
 
   // Check to see if file exists
@@ -273,53 +86,51 @@ function loadConfigFile(file, argv, callback) {
 }
 
 function main(argv) {
-  if (typeof argv._[0] !== 'undefined') {
-    fs.mkdir(argv.output, function() {
-      q.all(argv._.map(function(file) {
-        var deferred = q.defer();
 
-        generateForDir(file, argv.output, argv.templateDir, function(err) {
-          if (err) {
-            console.error(err);
-            throw err;
-          }
+  console.log(argv)
 
-          deferred.resolve();
-        });
-
-        return deferred.promise;
-      }))
-        .then(function() {
-          //create index
-          if (argv.index) {
-            var fileName;
-            if (argv.index === true) {
-              fileName = 'index';
-            } else {
-              fileName = argv.index;
-            }
-            if (typeof argv.output === 'string') {
-              fileName = path.join(argv.output, fileName);
-            } else {
-              fileName = path.join('output', fileName);
-            }
-            fs.writeFileSync(fileName + '.md', generateMD(index, argv.templateDir, true));
-          }
-        })
-        .then(function () {
-          console.log('jsdox completed');
-        });
-    });
-  } else {
+  if (!argv._.length) {
     console.error('Error missing input file or directory.');
     printHelp();
+    return;
   }
+
+  // @todo: support input being a directory and output being a directory
+  // @todo: support input being a file and output being a file
+
+  if (util.isDirectoryPath(argv.output)) {
+    try {
+      mkdirp.sync(argv.output);
+    } catch (err) {}
+  }
+
+  q.all(argv._.map(function(filename) {
+    var options = {
+      filename: filename,
+      argv: argv
+    };
+
+    return util.isDirectory(filename) ?
+            generateForDir(options) :
+            generateForFile(options);
+  }))
+  .then(function() {
+    // Create index
+    if (argv.index) {
+      var fileName = argv.index === true ? 'index' : argv.index;
+      fileName = typeof argv.output === 'string' ?
+                  path.join(argv.output, fileName) :
+                  path.join('output', fileName);
+
+      fs.writeFileSync(fileName + '.md', generateMD(generateForDir.index, argv.templateDir, true));
+    }
+  })
+  .then(function () {
+    console.log('jsdox completed');
+  });
 }
 
-function jsdox(args) {
-  argv = args;
-  debug = !!argv.debug;
-
+function jsdox(argv) {
   if (argv.help) {
     printHelp();
   }
@@ -329,14 +140,14 @@ function jsdox(args) {
   }
 
   if (argv.config) {
-    // @todo: refactor to not rely on argv
-    loadConfigFile(argv.config, argv, main);
+    loadConfigFile(argv, main);
   } else {
     main(argv);
   }
 }
 
-exports.analyze = analyze;
-exports.generateMD = generateMD;
-exports.generateForDir = generateForDir;
+exports.analyze = require('./lib/analyze');
+exports.generateMD = require('./lib/generateMD');
+exports.generateForDir = require('./lib/generateForDir');
+exports.generateForFile = require('./lib/generateForFile');
 exports.jsdox = jsdox;

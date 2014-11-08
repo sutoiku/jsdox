@@ -68,5 +68,7 @@
   "requireDotNotation": true,
   "disallowYodaConditions": true,
   "disallowNewlineBeforeBlockStatements": true,
-  "validateLineBreaks": "LF"
+  "validateLineBreaks": "LF",
+  "requireSpaceAfterLineComment": true,
+  "safeContextKeyword": "self"
 }
