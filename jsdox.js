@@ -41,7 +41,7 @@ var debug = false;
  *
  * @type {Object}
  */
-var argv;
+var argv = {};
 
 /**
  * Pretty print utility
