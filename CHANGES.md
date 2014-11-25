@@ -1,6 +1,12 @@
 upcoming
 ------
 
+* nothing yet
+
+0.4.4
+------
+
+* fix undefined "argv" when using in programatic context (boneskull)
 
 0.4.3
 ------
