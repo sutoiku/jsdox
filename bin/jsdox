@@ -16,18 +16,22 @@ var argv = require('optimist')
     .options('help', {
       alias: 'h'
     })
-    .boolean('A', 'd')
     .options('A', {
-      alias: 'All'
+      alias: 'All',
+      boolean: true
     })
     .options('d', {
-      alias: 'debug'
+      alias: 'debug',
+      boolean: true
     })
     .options('templateDir', {
       alias: 't'
     })
     .options('index', {
       alias: 'i'
+    })
+    .options('index-sort', {
+      default: 'standard'
     })
     .options('recursive', {
       alias: 'r'

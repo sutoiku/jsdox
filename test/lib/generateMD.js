@@ -63,4 +63,94 @@ describe('generateMD', function() {
   it('throws an error if an ast is not supplied', function() {
     expect(generateMD).to.throwError();
   });
+
+  it('sorts index classes and functions by name', function() {
+    var analyzed = {
+      functions: [
+        {name: 'zero', longname: 'zero' },
+        {name: 'one', longname: 'foo.one' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'four', longname: 'foo.four' }
+      ],
+      classes: [
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+      ]
+    };
+
+    generateMD(analyzed, null, true, 'standard');
+
+    expect(analyzed.functions).to.eql([
+        {name: 'four', longname: 'foo.four' },
+        {name: 'one', longname: 'foo.one' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'zero', longname: 'zero' }
+    ]);
+    expect(analyzed.classes).to.eql([
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+    ]);
+  });
+
+  it('sorts index classes and functions by namespace', function() {
+    var analyzed = {
+      functions: [
+        {name: 'zero', longname: 'zero' },
+        {name: 'one', longname: 'foo.one' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'four', longname: 'foo.four' }
+      ],
+      classes: [
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+      ]
+    };
+
+    generateMD(analyzed, null, true, 'namespace');
+
+    expect(analyzed.functions).to.eql([
+        {name: 'zero', longname: 'zero' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'four', longname: 'foo.four' },
+        {name: 'one', longname: 'foo.one' }
+    ]);
+    expect(analyzed.classes).to.eql([
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+    ]);
+  });
+
+  it('leaves index classes and functions unsorted', function() {
+    var analyzed = {
+      functions: [
+        {name: 'zero', longname: 'zero' },
+        {name: 'one', longname: 'foo.one' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'four', longname: 'foo.four' }
+      ],
+      classes: [
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+      ]
+    };
+
+    generateMD(analyzed, null, true, 'none');
+
+    expect(analyzed.functions).to.eql([
+        {name: 'zero', longname: 'zero' },
+        {name: 'one', longname: 'foo.one' },
+        {name: 'two', longname: 'bar.two' },
+        {name: 'three', longname: 'bar.three' },
+        {name: 'four', longname: 'foo.four' }
+    ]);
+    expect(analyzed.classes).to.eql([
+        {name: 'Five', longname: 'Five' },
+        {name: 'Six', longname: 'bar.Six' }
+    ]);
+  });
 });
