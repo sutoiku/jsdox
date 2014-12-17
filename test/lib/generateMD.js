@@ -82,15 +82,15 @@ describe('generateMD', function() {
     generateMD(analyzed, null, true, 'standard');
 
     expect(analyzed.functions).to.eql([
-        {name: 'four', longname: 'foo.four' },
-        {name: 'one', longname: 'foo.one' },
-        {name: 'three', longname: 'bar.three' },
-        {name: 'two', longname: 'bar.two' },
-        {name: 'zero', longname: 'zero' }
+        {name: 'four', longname: 'foo.four', target: '#foo.four' },
+        {name: 'one', longname: 'foo.one', target: '#foo.one' },
+        {name: 'three', longname: 'bar.three', target: '#bar.three' },
+        {name: 'two', longname: 'bar.two', target: '#bar.two' },
+        {name: 'zero', longname: 'zero', target: '#zero' }
     ]);
     expect(analyzed.classes).to.eql([
-        {name: 'Five', longname: 'Five' },
-        {name: 'Six', longname: 'bar.Six' }
+        {name: 'Five', longname: 'Five', target: '#five' },
+        {name: 'Six', longname: 'bar.Six', target: '#bar.six' }
     ]);
   });
 
@@ -112,15 +112,15 @@ describe('generateMD', function() {
     generateMD(analyzed, null, true, 'namespace');
 
     expect(analyzed.functions).to.eql([
-        {name: 'zero', longname: 'zero' },
-        {name: 'three', longname: 'bar.three' },
-        {name: 'two', longname: 'bar.two' },
-        {name: 'four', longname: 'foo.four' },
-        {name: 'one', longname: 'foo.one' }
+        {name: 'zero', longname: 'zero', target: '#zero' },
+        {name: 'three', longname: 'bar.three', target: '#bar.three' },
+        {name: 'two', longname: 'bar.two', target: '#bar.two' },
+        {name: 'four', longname: 'foo.four', target: '#foo.four' },
+        {name: 'one', longname: 'foo.one', target: '#foo.one' }
     ]);
     expect(analyzed.classes).to.eql([
-        {name: 'Five', longname: 'Five' },
-        {name: 'Six', longname: 'bar.Six' }
+        {name: 'Five', longname: 'Five', target: '#five' },
+        {name: 'Six', longname: 'bar.Six', target: '#bar.six' }
     ]);
   });
 
@@ -142,15 +142,15 @@ describe('generateMD', function() {
     generateMD(analyzed, null, true, 'none');
 
     expect(analyzed.functions).to.eql([
-        {name: 'zero', longname: 'zero' },
-        {name: 'one', longname: 'foo.one' },
-        {name: 'two', longname: 'bar.two' },
-        {name: 'three', longname: 'bar.three' },
-        {name: 'four', longname: 'foo.four' }
+        {name: 'zero', longname: 'zero', target: '#zero' },
+        {name: 'one', longname: 'foo.one', target: '#foo.one' },
+        {name: 'two', longname: 'bar.two', target: '#bar.two' },
+        {name: 'three', longname: 'bar.three', target: '#bar.three' },
+        {name: 'four', longname: 'foo.four', target: '#foo.four' }
     ]);
     expect(analyzed.classes).to.eql([
-        {name: 'Five', longname: 'Five' },
-        {name: 'Six', longname: 'bar.Six' }
+        {name: 'Five', longname: 'Five', target: '#five' },
+        {name: 'Six', longname: 'bar.Six', target: '#bar.six' }
     ]);
   });
 });

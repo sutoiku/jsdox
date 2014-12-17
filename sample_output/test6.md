@@ -19,7 +19,7 @@ Disposes everything.
 
 
 ## Class: Thing
-Definition for a Thing object.
+Definition for a Thing object used by a Worker.  See [main.Worker](#main.worker).
 
 **name**: `string` , Every Thing has a name.
 **data**: `* | undefined` , Every Thing might have some data.
@@ -29,11 +29,11 @@ Definition for a Worker.
 
 ### main.Worker.do(thing) 
 
-Have a Worker do some Thing.
+Have a Worker do some Thing.  See [main.Thing](#main.thing).
 
 **Parameters**
 
-**thing**: `main.Thing`, The Thing to do.
+**thing**: `main.Thing`, The Thing to do.  See [main.Thing](#main.thing).
 
 
 
@@ -67,6 +67,6 @@ Run the Bar utility.
 
 **License:** MIT 
 
-**Overview:** This sample handles namespaces and interfaces.
+**Overview:** This sample handles namespaces, interfaces, and links.
 
 
