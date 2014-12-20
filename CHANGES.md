@@ -3,6 +3,17 @@ upcoming
 
 * nothing yet
 
+0.4.6
+------
+
+* Add options to sort the index differently (nicksay)
+* Add support for @namespace and @interface tags (nicksay)
+
+0.4.5
+------
+
+* Require the latest version of JSDoc3 Parser (nicksay)
+
 0.4.4
 ------
 
