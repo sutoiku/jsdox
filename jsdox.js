@@ -303,7 +303,7 @@ function main(argv) {
             } else {
               fileName = path.join('output', fileName);
             }
-            fs.writeFileSync(fileName + '.md', generateMD(index, argv.templateDir, true));
+            fs.writeFileSync(fileName + '.md', generateMD(index, argv.templateDir, true, argv['index-sort']));
           }
         })
         .then(function () {

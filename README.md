@@ -18,11 +18,13 @@ Usage: `jsdox [options] <file | directory>`
 
 `--version` (alias `-v`): Prints the current version and quits.
 
-`--output` (alias `-o`): Output directory. Default value is 'output'.
+`--output <dir>` (alias `-o`): Output directory. Default value is `output`.
 
-`--templateDir` (alias `-t`): Template directory to use instead of built-in ones.
+`--templateDir <dir>` (alias `-t`): Template directory to use instead of built-in ones.
 
-`--index` (alias `-i`): Generates an index with the documentation. A file name can be provided in argument. Default value is 'index'.
+`--index <name>` (alias `-i`): Generates an index with the documentation. An optional file name can be provided as an argument. Default value is `index`.
+
+`--index-sort <type>`: Defines how to sort the index.  Options are: `standard` (sorted by name), `namespace` (sorted by package/module and name), and `none` (not sorted). Default value is `standard`.
 
 `--recursive` (alias `-r`): Generates documentation in all subdirectories of the source folder.
 
