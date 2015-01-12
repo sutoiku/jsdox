@@ -3,6 +3,11 @@ upcoming
 
 * nothing yet
 
+0.4.7
+------
+
+* Process descriptions for @link tags (nicksay)
+
 0.4.6
 ------
 
