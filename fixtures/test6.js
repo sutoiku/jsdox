@@ -1,5 +1,5 @@
 /**
-  @overview This sample handles namespaces and interfaces.
+  @overview This sample handles namespaces, interfaces, and links.
   @license MIT
 */
 
@@ -24,7 +24,7 @@ main.dispose = function() {};
 
 
 /**
- * Definition for a Thing object.
+ * Definition for a Thing object used by a Worker.  See {@link main.Worker}.
  * @interface
  */
 main.Thing;
@@ -52,9 +52,9 @@ main.Worker;
 
 
 /**
- * Have a Worker do some Thing.
+ * Have a Worker do some Thing.  See {@link main.Thing}.
  *
- * @param {main.Thing} thing The Thing to do.
+ * @param {main.Thing} thing The Thing to do.  See {@link main.Thing}.
  */
 main.Worker.prototype.do = function(thing) {};
 
