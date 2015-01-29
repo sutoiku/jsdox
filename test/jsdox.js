@@ -51,7 +51,7 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under and' +
-      ' the fixtures/underparent/underchild files and an under and an underparent/underchild directory in outputs', function(done) {
+      ' the fixtures/under_grandparent/under_parent files and an under and an under_grandparent/under_parent directory in outputs', function(done) {
     var cmd = bin + ' fixtures/ -o sample_output --rr -i';
 
     exec(cmd, function(err, stdout, stderr) {
@@ -84,18 +84,18 @@ describe('jsdox', function() {
       });
       expect(nbFilesB).to.be(2);
 
-      fs.readdirSync('sample_output/fixtures/underparent/underchild').forEach(function(outputFile) {
-        if (!fs.statSync('sample_output/fixtures/underparent/underchild/' + outputFile).isDirectory()) {
-          var content = fs.readFileSync('sample_output/fixtures/underparent/underchild/' + outputFile).toString();
+      fs.readdirSync('sample_output/fixtures/under_grandparent/under_parent').forEach(function(outputFile) {
+        if (!fs.statSync('sample_output/fixtures/under_grandparent/under_parent/' + outputFile).isDirectory()) {
+          var content = fs.readFileSync('sample_output/fixtures/under_grandparent/under_parent/' + outputFile).toString();
           expect(content).not.to.be.empty();
           nbFilesC += 1;
-          fs.unlinkSync('sample_output/fixtures/underparent/underchild/' + outputFile);
+          fs.unlinkSync('sample_output/fixtures/under_grandparent/under_parent/' + outputFile);
         }
       });
       expect(nbFilesC).to.be(1);
 
-      fs.rmdirSync('sample_output/fixtures/underparent/underchild/');
-      fs.rmdirSync('sample_output/fixtures/underparent/');
+      fs.rmdirSync('sample_output/fixtures/under_grandparent/under_parent/');
+      fs.rmdirSync('sample_output/fixtures/under_grandparent/');
       fs.rmdirSync('sample_output/fixtures/under/');
       fs.rmdirSync('sample_output/fixtures/');
 
