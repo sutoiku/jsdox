@@ -3,6 +3,11 @@ upcoming
 
 * nothing yet
 
+0.4.8
+------
+
+* fix for subdirectories with an empty parent (gaborsar)
+
 0.4.7
 ------
 

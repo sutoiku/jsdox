@@ -1,7 +1,7 @@
 /*global exports:true */
 
 /**
- * @overview This file is contained by a folder what contained by an other folder.
+ * @overview This file is contained by a folder within an other folder.
  * @license MIT
  * @author Gabor Sar
 */
