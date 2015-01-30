@@ -44,7 +44,7 @@ describe('jsdox', function() {
           nbFiles += 1;
         }
       });
-      expect(nbFiles).to.be(7);
+      expect(nbFiles).to.be(8);
 
       done();
     });
@@ -72,7 +72,7 @@ describe('jsdox', function() {
           }
         }
       });
-      expect(nbFilesA).to.be(5);
+      expect(nbFilesA).to.be(6);
 
       fs.readdirSync('sample_output/fixtures/under').forEach(function(outputFile) {
         if (!fs.statSync('sample_output/fixtures/under/' + outputFile).isDirectory()) {
@@ -117,7 +117,7 @@ describe('jsdox', function() {
         nbFiles += 1;
         hasIndex = hasIndex || (outputFile === 'index.md');
       });
-      expect(nbFiles).to.be(8);
+      expect(nbFiles).to.be(9);
       expect(hasIndex).to.be(true);
       //clean index for other tests
       fs.unlinkSync('sample_output/index.md');
