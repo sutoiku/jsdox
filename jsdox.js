@@ -160,7 +160,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
           }
         }
         for (var j = 0; j < data.classes.length; j++) {
-          if (data.functions[j].className === undefined) {
+          if (data.functions[j] && data.functions[j].className === undefined) {
             var toAddClass = data.classes[j];
             toAddClass.file = path.relative(destination, fullpath);
             toAddClass.sourcePath = path.relative(destination, path.join(directory, path.basename(file)));
