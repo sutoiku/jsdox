@@ -8,18 +8,28 @@
  * Test class.
  *
  * @class Test
- * @param {*} a First parameter.
- * @param {*} b Second parameter.
+ * @param {*} aa First parameter.
+ * @param {*} bb Second parameter.
  */
-function Test(a, b) {
+function Test(aa, bb) {
 
     /**
      * @member {*} a First member.
      */
-    this.a = a;
+    this.a = aa;
 
     /**
      * @member {*} b Second member.
      */
-    this.b = b;
+    this.b = bb;
 }
+
+
+/**
+This is mm function
+ * @param cc the first param is cc
+ * @ returns always 0
+*/
+Test.prototype.mm = function(cc) {
+  return 0;
+};

@@ -1,7 +1,8 @@
 upcoming
 ------
 
-* nothing yet
+* don't crash because argv is missing with debug on (psq)
+* analyzer: include constructor params in class information (psq)
 
 0.4.9
 ------

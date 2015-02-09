@@ -3,6 +3,12 @@
 {{/name}}
 {{#description}}{{{description}}}{{/description}}
 
+## PARAMS: {{paramnames}}
+{{#params}}
+**{{name}}**: {{#typesString}}`{{typesString}}`{{/typesString}}{{#description}}, {{{description}}}{{/description}}
+
+{{/params}}
+
 {{#members}}
 **{{name}}**: {{#typesString}}`{{typesString}}`{{/typesString}} {{#description}}, {{{description}}}{{/description}}
 {{/members}}
