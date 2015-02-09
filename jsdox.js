@@ -144,7 +144,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
 
       if (debug) {
         console.log(file + ' AST: ', util.inspect(result, false, 20));
-        console.log(file + ' Analyzed: ', util.inspect(analyze(result), false, 20));
+        console.log(file + ' Analyzed: ', util.inspect(analyze(result, argv), false, 20));
       }
 
       var data = analyze(result, argv);
