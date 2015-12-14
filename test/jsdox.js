@@ -27,6 +27,8 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files', function(done) {
+    this.timeout(5000);
+
     var cmd = bin + ' fixtures/ -o sample_output -r';
     //in case an old index.md is here
     try {
@@ -52,6 +54,8 @@ describe('jsdox', function() {
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under and' +
       ' the fixtures/under_grandparent/under_parent files and an under and an under_grandparent/under_parent directory in outputs', function(done) {
+    this.timeout(5000);
+
     var cmd = bin + ' fixtures/ -o sample_output --rr -i';
 
     exec(cmd, function(err, stdout, stderr) {
@@ -104,6 +108,8 @@ describe('jsdox', function() {
   });
 
   it('generates non-empty output markdown files from the fixtures/ and the fixtures/under files and index.md', function(done) {
+    this.timeout(5000);
+
     var cmd = bin + ' fixtures/ -o sample_output -r -i';
 
     exec(cmd, function(err, stdout, stderr) {
