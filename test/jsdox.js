@@ -112,10 +112,12 @@ describe('jsdox', function() {
       var nbFiles = 0;
       var hasIndex = false;
       fs.readdirSync('sample_output').forEach(function(outputFile) {
-        var content = fs.readFileSync('sample_output/' + outputFile).toString();
-        expect(content).not.to.be.empty();
-        nbFiles += 1;
-        hasIndex = hasIndex || (outputFile === 'index.md');
+        if (fs.lstatSync('sample_output/' + outputFile).isFile()) {
+          var content = fs.readFileSync('sample_output/' + outputFile).toString();
+          expect(content).not.to.be.empty();
+          nbFiles += 1;
+          hasIndex = hasIndex || (outputFile === 'index.md');
+        }
       });
       expect(nbFiles).to.be(9);
       expect(hasIndex).to.be(true);
