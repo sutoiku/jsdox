@@ -10,12 +10,7 @@
       "web": "http://www.wizcorp.jp"
     }
   ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "license": "MIT",
   "name": "jsdox",
   "description": "Simple JSDoc 3 to Markdown generator",
   "version": "0.4.9",
