@@ -1,16 +1,12 @@
-# foo
-
-Can I get some description please
-  on more than one line, if possible.
+# Global
 
 
-**Members:**
 
-+ foo
+
 
 * * *
 
-### foo.bar() 
+### bar() 
 
 I so cool
 
@@ -19,7 +15,7 @@ Deprecated: Not a good function
 **Returns**: `Boolean | null`
 
 
-### foo.testNamed(file, optional) 
+### testNamed(file, optional) 
 
 This is a test function
   with a description on multiple lines
@@ -38,6 +34,16 @@ This is a test function
 **Fires**: module:foo#event:booyah
 
 
+
+
+# foo
+
+Can I get some description please
+  on more than one line, if possible.
+
+
+
+* * *
 
 ### foo.testAnonynous() 
 

@@ -106,7 +106,7 @@ function generateForDir(filename, destination, templateDir, cb, fileCb) {
     } catch(err) {
       if (err) {
         // parent directory not found
-        if (err.errno === 34) {
+        if (err.code === "ENOENT") {
           fs.mkdirSync(path.dirname(dirPath));
           fs.mkdirSync(dirPath);
         } else {
