@@ -1,8 +1,9 @@
-upcoming
+0.4.10
 ------
 
 * don't crash because argv is missing with debug on (psq)
 * analyzer: include constructor params in class information (psq)
+* add support for nested params (anselmstordeur)
 
 0.4.9
 ------

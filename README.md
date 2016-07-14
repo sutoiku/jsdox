@@ -55,6 +55,7 @@ Usage: `jsdox [options] <file | directory>`
 * Akeem McLennon (bluelaguna)
 * Gabor Sar (gaborsar)
 * Marc Trudel (stelcheck)
+* Anselm Stordeur (anselmstordeur)
 * Vladimir de Turckheim (vdeturckheim)
 
 # License
