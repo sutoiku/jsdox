@@ -51,7 +51,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=0.8.4"
+    "node": ">=4.0"
   },
   "homepage": "http://jsdox.org",
   "bugs": "https://github.com/sutoiku/jsdox/issues"
