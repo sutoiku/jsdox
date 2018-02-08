@@ -13,13 +13,13 @@
  */
 function Test(a, b) {
 
-    /**
-     * @member {*} a First member.
+  /**
+   * @member {*} a First member.
      */
-    this.a = a;
+  this.a = a;
 
-    /**
-     * @member {*} b Second member.
-     */
-    this.b = b;
+  /**
+   * @member {*} b Second member.
+   */
+  this.b = b;
 }

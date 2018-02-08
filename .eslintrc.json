@@ -1,0 +1,45 @@
+{
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": 8,
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true,
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"globals": {
+		"describe":true,
+		"it":true,
+    "after":true,
+    "afterEach":true,
+    "before":true,
+    "beforeEach":true,
+    "describe":true,
+    "it":true,
+    "unescape":true,
+    "par":true,
+    "each":true,
+    "define":true
+	},
+	"plugins": [
+		"json"
+	],
+	"rules": {
+		"no-console":"off",
+    "no-unused-vars":"off",
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+		"indent": ["error", 2, {"MemberExpression":1,"SwitchCase":1}],
+		"linebreak-style": ["error", "unix"],
+		"no-extra-semi":["error"],
+		"no-use-before-define": ["error", { "functions": false, "classes": true }],
+		"no-irregular-whitespace": ["error", {"skipRegExps":true}],
+		"no-empty":0
+	}
+}

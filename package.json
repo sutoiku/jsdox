@@ -28,7 +28,7 @@
     "lib"
   ],
   "scripts": {
-    "lint": "node_modules/.bin/jscs jsdox.js lib test && node_modules/.bin/jshint --config .jshintrc jsdox.js lib/* bin/* test/* fixtures/*",
+    "lint": "node_modules/.bin/eslint -c .eslintrc.json jsdox.js lib/* bin/* test/**/*.js fixtures/*",
     "test": "npm run lint && node_modules/.bin/mocha;"
   },
   "preferGlobal": true,
@@ -42,9 +42,9 @@
     "q": "^1.0.1"
   },
   "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-plugin-json": "^1.2.0",
     "expect.js": "^0.3.1",
-    "jscs": "^1.6.1",
-    "jshint": "^2.5.3",
     "mocha": "^1.21.4",
     "sinon": "^1.10.3"
   },

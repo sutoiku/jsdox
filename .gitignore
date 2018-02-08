@@ -41,3 +41,6 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+
+# .vimrc overrides for code style compliance don't need to be shared
+.vimrc

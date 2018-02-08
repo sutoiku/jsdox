@@ -17,28 +17,28 @@
  */
 
 
- /**
-  * Create a record
-  * @method create
-  * @param  {Object}  values  An object holding the initial values of the record's fields
-  * @return {Object}          The created record
-  */
+/**
+ * Create a record
+ * @method create
+ * @param  {Object}  values  An object holding the initial values of the record's fields
+ * @return {Object}          The created record
+ */
 
- exports.Object.prototype.create = function(values) {
-   try {
-     return new exports.Record(values, this);
-   }
-   catch (error) {
-     console.log('Error in crud.create() function: ' + error);
-     throw error;
-   }
- };
+exports.Object.prototype.create = function(values) {
+  try {
+    return new exports.Record(values, this);
+  }
+  catch (error) {
+    console.log('Error in crud.create() function: ' + error);
+    throw error;
+  }
+};
 
- /**
-  * Remove a record
-  * @method
-  */
+/**
+ * Remove a record
+ * @method
+ */
 
- exports.Object.prototype.remove = function(values) {
-   // TBD
- };
+exports.Object.prototype.remove = function(values) {
+  // TBD
+};

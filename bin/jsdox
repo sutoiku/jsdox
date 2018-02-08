@@ -3,42 +3,42 @@
 var jsdox = require('../jsdox').jsdox;
 
 var argv = require('optimist')
-    .options('output', {
-      alias: 'o',
-      default:'output'
-    })
-    .options('config', {
-      alias: 'c'
-    })
-    .options('version', {
-      alias: 'v'
-    })
-    .options('help', {
-      alias: 'h'
-    })
-    .options('A', {
-      alias: 'All',
-      boolean: true
-    })
-    .options('d', {
-      alias: 'debug',
-      boolean: true
-    })
-    .options('templateDir', {
-      alias: 't'
-    })
-    .options('index', {
-      alias: 'i'
-    })
-    .options('index-sort', {
-      default: 'standard'
-    })
-    .options('recursive', {
-      alias: 'r'
-    })
-    .options('respect-recursive', {
-      alias: 'rr'
-    })
-    .argv;
+  .options('output', {
+    alias: 'o',
+    default:'output'
+  })
+  .options('config', {
+    alias: 'c'
+  })
+  .options('version', {
+    alias: 'v'
+  })
+  .options('help', {
+    alias: 'h'
+  })
+  .options('A', {
+    alias: 'All',
+    boolean: true
+  })
+  .options('d', {
+    alias: 'debug',
+    boolean: true
+  })
+  .options('templateDir', {
+    alias: 't'
+  })
+  .options('index', {
+    alias: 'i'
+  })
+  .options('index-sort', {
+    default: 'standard'
+  })
+  .options('recursive', {
+    alias: 'r'
+  })
+  .options('respect-recursive', {
+    alias: 'rr'
+  })
+  .argv;
 
 jsdox(argv);
