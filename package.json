@@ -36,10 +36,10 @@
     "jsdox": "./bin/jsdox"
   },
   "dependencies": {
-    "jsdoc3-parser": "^1.0.3",
-    "mustache": "^0.8.2",
-    "optimist": "~0.3.4",
-    "q": "^1.0.1"
+    "jsdoc3-parser": "^1.1.0",
+    "mustache": "^2.3.0",
+    "optimist": "^0.6.1",
+    "q": "^1.5.1"
   },
   "devDependencies": {
     "eslint": "^4.17.0",
