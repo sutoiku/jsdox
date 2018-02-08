@@ -1,3 +1,10 @@
+0.5.0
+------
+
+* updated dependencies to latest releases
+* migrated jscs and jshint to eslint
+* added preliminary tests for analyzer (these are probably passing incorrect behavior, but they serve as a baseline)
+
 0.4.10
 ------
 
