@@ -61,9 +61,6 @@ second function without name
 
 ### foo.func1(a, b) 
 
-Can I get some description please
-  on more than one line, if possible.
-
 **Parameters**
 
 **a**: , the first param
@@ -74,9 +71,6 @@ Can I get some description please
 
 
 ### foo.func2(c, d) 
-
-Can I get some description please
-  on more than one line, if possible.
 
 **Parameters**
 

@@ -15,7 +15,7 @@ Contributing guidelines
 
 If your PR makes changes to the output, regenerate the sample_output content by running
 ```
-node jsdox.js -i --rr -o sample_output/ fixtures
+bin/jsdox -i -r -o sample_output fixtures/
 ```
 
 ### Update README.md and CHANGES.md ###
