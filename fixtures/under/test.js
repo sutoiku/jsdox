@@ -124,7 +124,7 @@ var Ketch = function Ketch() {
   * This is a class
   * @class SampleClass
 */
-function SampleClass(parm1){
+function SampleClass(parm1) {
 
   /**
    * A method in the class

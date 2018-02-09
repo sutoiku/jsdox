@@ -27,8 +27,7 @@
 exports.Object.prototype.create = function(values) {
   try {
     return new exports.Record(values, this);
-  }
-  catch (error) {
+  } catch(error) {
     console.log('Error in crud.create() function: ' + error);
     throw error;
   }

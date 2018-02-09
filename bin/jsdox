@@ -5,7 +5,7 @@ var jsdox = require('../jsdox').jsdox;
 var argv = require('optimist')
   .options('output', {
     alias: 'o',
-    default:'output'
+    default: 'output'
   })
   .options('config', {
     alias: 'c'

@@ -2,13 +2,13 @@ Functions
 =========
 
 
-###[bar](test.md):
-I so cool (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
-
-
-
 ###[bar](test6.md):
 Run the Bar utility. (in [..&#x2F;fixtures&#x2F;test6.js](../fixtures/test6.js))
+
+
+
+###[bar](test.md):
+I so cool (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
 
 
 
@@ -47,13 +47,13 @@ Return the sum of two numbers. (in [..&#x2F;fixtures&#x2F;under_grandparent&#x2F
 
 
 
-###[func2](test2.md):
- (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test2.js))
-
-
-
 ###[func2](test.md):
  (in [..&#x2F;fixtures&#x2F;under&#x2F;test.js](../fixtures/under/test.js))
+
+
+
+###[func2](test2.md):
+ (in [..&#x2F;fixtures&#x2F;test2.js](../fixtures/test2.js))
 
 
 

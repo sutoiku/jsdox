@@ -13,7 +13,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test2.js"), (err, res) => {
       expect(err).to.eql(null);
-      test2 = analyze(res, {}); 
+      test2 = analyze(res, {});
       done();
     });
   });
@@ -21,7 +21,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test3.js"), (err, res) => {
       expect(err).to.eql(null);
-      test3 = analyze(res, {}); 
+      test3 = analyze(res, {});
       done();
     });
   });
@@ -29,7 +29,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test4.js"), (err, res) => {
       expect(err).to.eql(null);
-      test4 = analyze(res, {}); 
+      test4 = analyze(res, {});
       done();
     });
   });
@@ -37,7 +37,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test5.js"), (err, res) => {
       expect(err).to.eql(null);
-      test5 = analyze(res, {}); 
+      test5 = analyze(res, {});
       done();
     });
   });
@@ -45,7 +45,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test6.js"), (err, res) => {
       expect(err).to.eql(null);
-      test6 = analyze(res, {}); 
+      test6 = analyze(res, {});
       done();
     });
   });
@@ -53,7 +53,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test7.js"), (err, res) => {
       expect(err).to.eql(null);
-      test7 = analyze(res, {}); 
+      test7 = analyze(res, {});
       done();
     });
   });
@@ -61,7 +61,7 @@ describe('analyze', function() {
   before(function(done) {
     jsdoc(path.join(__dirname, "../../fixtures/test8.js"), (err, res) => {
       expect(err).to.eql(null);
-      test8 = analyze(res, {}); 
+      test8 = analyze(res, {});
       done();
     });
   });
@@ -189,18 +189,18 @@ describe('analyze', function() {
         const params = test2.functions[0].params;
         const expected = [
           {
-            name:"a", 
-            nested:false,
-            description:"the first param",
-            type:{names:["String"]},
-            typesString:"String"
+            name: "a",
+            nested: false,
+            description: "the first param",
+            type: {names: ["String"]},
+            typesString: "String"
           },
           {
-            name:"b", 
-            description:"the second param",
-            nested:false,
-            type:{names:["String"]},
-            typesString:"String"
+            name: "b",
+            description: "the second param",
+            nested: false,
+            type: {names: ["String"]},
+            typesString: "String"
           }
         ];
         params.should.deepEqual(expected);
@@ -208,9 +208,9 @@ describe('analyze', function() {
       it('captures @returns on functions', () => {
         const returns = test2.functions[0].returns;
         const expected = [{
-          description:"the result",
-          type:{names:["String"]},
-          typesString:"String"
+          description: "the result",
+          type: {names: ["String"]},
+          typesString: "String"
         }];
         returns.should.deepEqual(expected);
       });
