@@ -2,32 +2,31 @@
 
 {{#description}}
 {{{description}}}
-
+<br>
 {{/description}}
 {{#deprecated}}
 Deprecated: {{{deprecated}}}
-
+<br>
 {{/deprecated}}
 {{#hasParams}}
 **Parameters**
-
+<br>
 {{/hasParams}}
 {{#params}}
 {{#nested}} - {{/nested}}**{{name}}**: {{#typesString}}`{{typesString}}`{{/typesString}}{{#description}}, {{{description}}}{{/description}}
-
+<br>
 {{/params}}
 {{#fires}}
 **Fires**: {{.}}
-
+<br>
 {{/fires}}
 {{#returns}}
 **Returns**: {{#typesString}}`{{typesString}}`{{/typesString}}{{#description}}, {{{description}}}{{/description}}
 {{/returns}}
-
+<br>
 {{#examples}}
 **Example**:
 ```js
 {{{examples}}}
 ```
-
 {{/examples}}
