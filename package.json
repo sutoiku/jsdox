@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "jsdoc3-parser": "^1.0.3",
-    "mustache": "^0.8.2",
+    "mustache": "^3.1.0",
     "optimist": "~0.3.4",
     "q": "^1.0.1"
   },
