@@ -36,7 +36,7 @@
     "jsdox": "./bin/jsdox"
   },
   "dependencies": {
-    "jsdoc3-parser": "^1.0.3",
+    "jsdoc3-parser": "^3.0.0",
     "mustache": "^0.8.2",
     "optimist": "~0.3.4",
     "q": "^1.0.1"
@@ -48,7 +48,6 @@
     "mocha": "^1.21.4",
     "sinon": "^1.10.3"
   },
-  "optionalDependencies": {},
   "engines": {
     "node": ">=0.8.4"
   },
